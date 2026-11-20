@@ -91,7 +91,7 @@ for PY_VERSION in ${PY_VERSION_LIST[@]} ; do
     BOOST_PACKAGE_BASENAME=boost_${BOOST_VERSION//./_}
 
     log "Retrieving boost."
-    wget "https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VERSION}/source/${BOOST_PACKAGE_BASENAME}.tar.gz" || true
+    wget "https://archives.boost.io/release/${BOOST_VERSION}/source/${BOOST_PACKAGE_BASENAME}.tar.gz" || true
     # try to use the backup boost we have in Jenkins
     if [[ ! -f "${BOOST_PACKAGE_BASENAME}.tar.gz" ]] ; then
       log "Using boost backup"
@@ -109,10 +109,10 @@ for PY_VERSION in ${PY_VERSION_LIST[@]} ; do
     BOOST_CFLAGS="-fPIC -std=c++14 -DBOOST_ERROR_CODE_HEADER_ONLY"
 
     py3="/usr/bin/env python${PY_VERSION}"
-    py3_root=`${py3} -c "import sys; print(sys.prefix)"`
+    py3_root=`${py3} -c "import sys; print(sys.base_prefix)"`
     pyv=`$py3 -c "import sys;x='{v[0]}.{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(x)";`
     ./bootstrap.sh \
-        --with-toolset=clang \
+        --with-toolset=gcc \
         --prefix=../boost-install \
         --with-libraries=python,filesystem,system,program_options \
         --with-python=${py3} --with-python-root=${py3_root}
@@ -123,8 +123,8 @@ for PY_VERSION in ${PY_VERSION_LIST[@]} ; do
       echo "using python : ${pyv} : ${py3_root}/bin/python${PY_VERSION} ;" > project-config.jam
     fi
 
-    ./b2 toolset="${BOOST_TOOLSET}" cxxflags="${BOOST_CFLAGS}" --prefix="../${BOOST_BASENAME}-install" -j ${CARLA_BUILD_CONCURRENCY} stage release
-    ./b2 toolset="${BOOST_TOOLSET}" cxxflags="${BOOST_CFLAGS}" --prefix="../${BOOST_BASENAME}-install" -j ${CARLA_BUILD_CONCURRENCY} install
+    ./b2 link=static toolset="${BOOST_TOOLSET}" cxxflags="${BOOST_CFLAGS}" --prefix="../${BOOST_BASENAME}-install" -j ${CARLA_BUILD_CONCURRENCY} stage release
+    ./b2 link=static toolset="${BOOST_TOOLSET}" cxxflags="${BOOST_CFLAGS}" --prefix="../${BOOST_BASENAME}-install" -j ${CARLA_BUILD_CONCURRENCY} install
 
     popd >/dev/null
 
@@ -339,7 +339,7 @@ unset RECAST_BASENAME
 # ==============================================================================
 
 LIBPNG_VERSION=1.6.37
-LIBPNG_REPO=https://sourceforge.net/projects/libpng/files/libpng16/${LIBPNG_VERSION}/libpng-${LIBPNG_VERSION}.tar.xz
+LIBPNG_REPO=https://github.com/pnggroup/libpng/archive/refs/tags/v${LIBPNG_VERSION}.tar.gz
 LIBPNG_BASENAME=libpng-${LIBPNG_VERSION}
 LIBPNG_INSTALL=${LIBPNG_BASENAME}-install
 
@@ -350,15 +350,15 @@ if [[ -d ${LIBPNG_INSTALL} ]] ; then
   log "Libpng already installed."
 else
   log "Retrieving libpng."
-  wget ${LIBPNG_REPO}
+  curl -fL -o libpng-${LIBPNG_VERSION}.tar.gz ${LIBPNG_REPO}
 
   log "Extracting libpng."
-  tar -xf libpng-${LIBPNG_VERSION}.tar.xz
+  tar -xf libpng-${LIBPNG_VERSION}.tar.gz
   mv ${LIBPNG_BASENAME} ${LIBPNG_BASENAME}-source
 
   pushd ${LIBPNG_BASENAME}-source >/dev/null
 
-  ./configure --prefix=${CARLA_BUILD_FOLDER}/${LIBPNG_INSTALL}
+  CFLAGS="-fPIC -O2" ./configure --disable-shared --enable-static --prefix=${CARLA_BUILD_FOLDER}/${LIBPNG_INSTALL}
   make install
 
   popd >/dev/null
@@ -573,7 +573,7 @@ if [[ -d ${SQLITE_INSTALL_DIR} ]] ; then
   log "Sqlite already installed."
 else
   log "Retrieving Sqlite3"
-  wget ${SQLITE_REPO}
+  curl -fL -o ${SQLITE_TAR} ${SQLITE_REPO}
 
   log "Extracting Sqlite3"
   tar -xzf ${SQLITE_TAR}
@@ -584,7 +584,7 @@ else
   pushd ${SQLITE_SOURCE_DIR} >/dev/null
 
   export CFLAGS="-fPIC -w"
-  ./configure --prefix=${PWD}/../sqlite-install/
+  ./configure --disable-shared --enable-static --prefix=${PWD}/../sqlite-install/
   make
   make install
 
@@ -625,13 +625,14 @@ else
   log "Extracting PROJ"
   tar -xzf ${PROJ_TAR}
   mv ${PROJ_VERSION} ${PROJ_SRC_DIR}
+  sed -i "1i#include <cstdint>" ${PROJ_SRC_DIR}/src/proj_json_streaming_writer.hpp
 
   mkdir -p ${PROJ_SRC_DIR}/build
   mkdir -p ${PROJ_INSTALL_DIR}
 
   pushd ${PROJ_SRC_DIR}/build >/dev/null
 
-  cmake -G "Ninja" .. \
+  cmake -G "Ninja" .. -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
       -DCMAKE_CXX_FLAGS="-std=c++14 -fPIC" \
       -DSQLITE3_INCLUDE_DIR=${SQLITE_INCLUDE_DIR} -DSQLITE3_LIBRARY=${SQLITE_LIB} \
       -DEXE_SQLITE3=${SQLITE_EXE} \
@@ -649,7 +650,7 @@ else
 
   pushd ${PROJ_SRC_DIR}/build >/dev/null
 
-  cmake -G "Ninja" .. \
+  cmake -G "Ninja" .. -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
       -DCMAKE_CXX_FLAGS="-std=c++14 -fPIC -stdlib=libc++ -I${LLVM_INCLUDE} -Wl,-L${LLVM_LIBPATH}"  \
       -DSQLITE3_INCLUDE_DIR=${SQLITE_INCLUDE_DIR} -DSQLITE3_LIBRARY=${SQLITE_LIB} \
       -DEXE_SQLITE3=${SQLITE_EXE} \

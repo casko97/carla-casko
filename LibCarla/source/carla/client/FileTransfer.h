@@ -8,6 +8,8 @@
 
 #include "carla/FileSystem.h"
 
+#include <cstdint>
+#include <vector>
 #include <fstream>
 #include <iostream>
 #include <string>
