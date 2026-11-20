@@ -39,3 +39,20 @@ Start a server off-screen on a free port:
 ```
 
 Once the server is ready, run `.venv/bin/python local/smoke_test.py --port 2200`. First startup compiles shaders and textures and can take a long time.
+
+## Packaged-launcher compatibility
+
+`CarlaUE4.sh` at the repository root is an executable adapter for tools that
+expect the packaged CARLA launcher, including Bench2Drive. It resolves this
+checkout's sibling engine (`../carla-casko-engine`) by default and forwards all
+arguments unchanged to `UE4Editor`. Set `UE4_ROOT` to override that location.
+
+For Bench2DriveZoo, point its configuration at this source checkout:
+
+```bash
+export CARLA_ROOT="$HOME/phd-code/carla-casko"
+```
+
+The evaluator's `-RenderOffScreen`, `-nosound`, RPC-port, and GPU flags are
+forwarded by the wrapper. It starts on Town01 only for initial server startup;
+the evaluator loads each route's requested town before running the scenario.
