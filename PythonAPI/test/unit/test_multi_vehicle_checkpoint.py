@@ -20,6 +20,44 @@ with patch.dict(sys.modules, {"carla": types.ModuleType("carla"), "vehicle_physi
 
 
 class MultiVehicleJournalTest(unittest.TestCase):
+    def test_tm_actor_controls_are_not_sent_as_manual_commands(self):
+        scenario = module.demo_scenario()
+        scenario["actors"][1]["controller"] = "traffic_manager"
+        for frame in scenario["frames"]:
+            del frame["second"]
+        self.assertEqual(module.validate_scenario(scenario, 40), ["first", "second"])
+        invalid = copy.deepcopy(scenario)
+        invalid["frames"][0]["second"] = {"throttle": 1.0}
+        with self.assertRaises(ValueError):
+            module.validate_scenario(invalid, 40)
+        calls = []
+        fake_carla = types.SimpleNamespace(command=types.SimpleNamespace(
+            ApplyVehicleControl=lambda actor_id, control: (actor_id, control)), VehicleControl=lambda **kw: kw)
+        client = types.SimpleNamespace(apply_batch_sync=lambda batch, due_tick: calls.append(batch) or
+                                       [types.SimpleNamespace(error="")])
+        actors = {"first": types.SimpleNamespace(id=11), "second": types.SimpleNamespace(id=22)}
+        world = types.SimpleNamespace(get_snapshot=lambda: types.SimpleNamespace(frame=5), tick=lambda: 6)
+        with patch.object(module, "carla", fake_carla), patch.object(single, "sample", side_effect=lambda w, a: {"id": a.id}):
+            result = module.step(client, world, actors, {"first": {"throttle": 0.5}})
+        self.assertEqual(calls, [[(11, {"throttle": 0.5})]])
+        self.assertEqual(result, {"first": {"id": 11}, "second": {"id": 22}})
+        with patch.object(module, "carla", fake_carla), patch.object(single, "sample", side_effect=lambda w, a: {"id": a.id}):
+            module.step(client, world, actors, {})
+        self.assertEqual(len(calls), 1)
+
+    def test_tm_checkpoint_retries_without_advancing_world(self):
+        attempts = iter([False, True])
+        tm = types.SimpleNamespace(save_checkpoint=lambda: next(attempts))
+        world = types.SimpleNamespace(get_snapshot=lambda: types.SimpleNamespace(frame=7))
+        with patch.object(module.time, "sleep") as sleep:
+            self.assertEqual(module.checkpoint_traffic_manager(world, tm), 7)
+        sleep.assert_called_once()
+        frames = iter([7, 8])
+        world = types.SimpleNamespace(get_snapshot=lambda: types.SimpleNamespace(frame=next(frames)))
+        tm = types.SimpleNamespace(restore_checkpoint=lambda: True)
+        with self.assertRaisesRegex(RuntimeError, "world advanced"):
+            module.checkpoint_traffic_manager(world, tm, restore=True)
+
     def test_weather_changes_are_validated_and_replayed_at_absolute_frame(self):
         scenario = module.demo_scenario()
         parameters = {field: float(index) for index, field in enumerate(module.WEATHER_FIELDS)}

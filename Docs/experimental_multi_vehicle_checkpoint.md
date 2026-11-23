@@ -2,8 +2,9 @@
 
 `PythonAPI/examples/multi_vehicle_physics_checkpoint.py` extends the first
 vehicle-only harness to a fixed set of independently controlled vehicles. The
-caller supplies every vehicle's control at every simulation frame; all controls
-are submitted in one acknowledged batch, followed by exactly one tick.
+caller supplies each manual vehicle's control at every simulation frame; those
+controls are submitted in one acknowledged batch, followed by exactly one tick.
+Optionally other vehicles are controlled by Traffic Manager.
 At a selected frame the harness saves each vehicle's in-memory slot while the
 world is stopped, records the uninterrupted suffix, repeatedly restores all
 slots and replays the suffix, and finally reloads the map and replays the entire
@@ -45,7 +46,7 @@ format is:
 Choose `--checkpoint-after 1` for this two-frame example. The value counts
 completed journal frames, so it must be at least one and leave at least one
 suffix frame. Controls use `carla.VehicleControl` field names; omitted fields
-take its defaults. Each frame must explicitly contain every actor, actor ids
+take its defaults. Each frame must explicitly contain every manual actor, actor ids
 must be unique, and each actor must use a vehicle blueprint and either a
 spawn-point index or an explicit CARLA transform. For example, an actor can use
 `"transform": {"x": 1, "y": 2, "z": 0.5, "pitch": 0, "yaw": 90, "roll": 0}`
@@ -67,7 +68,7 @@ preserves completed traces and the failing stage where possible.
 
 This step does **not** create a complete scenario checkpoint. It uses a fixed
 actor set, does not capture actor creation and deletion,
-Traffic Manager, ScenarioRunner, pedestrian controllers,
+ScenarioRunner, pedestrian controllers,
 sensors or their random states, and does not restore PhysX scene contact and
 solver caches. The actor snapshots compare kinematics; collision events are not
 recorded independently. The checkpoint slots exist only in the same episode,
@@ -75,6 +76,37 @@ and the prefix replay after a world reload is a reference, not a direct restore
 into a fresh process. See [the single-vehicle checkpoint guide](experimental_vehicle_physics_checkpoint.md)
 for further implementation constraints. Neither a full build nor a CARLA
 runtime test has been performed for this harness.
+
+With `--traffic-manager`, mark one or more actors with
+`"controller": "traffic_manager"` and omit them from every frame's control
+dictionary. Other actors default to `"manual"`. For example:
+
+```json
+{
+  "map": "Town03",
+  "actors": [
+    {"id": "ego", "blueprint": "vehicle.lincoln.mkz_2020", "spawn_index": 0},
+    {"id": "traffic", "blueprint": "vehicle.lincoln.mkz_2020", "spawn_index": 1,
+     "controller": "traffic_manager"}
+  ],
+  "frames": [{"ego": {"throttle": 0.2}}, {"ego": {"throttle": 0.2}}]
+}
+```
+
+Run this example with `--scenario journal.json --checkpoint-after 1
+--traffic-manager --report tm-report.json` on a dedicated server. The harness
+sets the TM to synchronous mode, seeds it with `--tm-seed` (default 0), and
+registers its actors on `--tm-port` (default 8000). Setting the TM seed also
+resets traffic lights. The harness saves and restores its same-episode TM slot
+alongside the vehicle slots; it retries a rejected TM operation for up to two
+seconds without ticking. It compares vehicle kinematics and the controls
+exposed by `vehicle.get_control()` after each tick; that public observation does
+not expose every command queued internally for the next tick. For scenarios
+where traffic-light evolution matters, add `--traffic-lights` and account for
+its map restrictions below. The TM and vehicle restores are sequential and not
+atomic. TM timer rebasing, pending server commands, vehicle light state and
+contact solver state can still cause differences. This path and the TM barrier
+have not been tested in a running simulator.
 
 With `--traffic-lights`, the harness additionally saves and restores the
 same-episode traffic-light groups, controller state, phase timings and individual
