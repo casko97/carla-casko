@@ -44,6 +44,12 @@ has not been achieved or shown to be achievable bit-for-bit.
    `RandomGenerator` in `LibCarla/source/carla/trafficmanager`; reapplying the
    initial seed at a later frame does not restore its sequence position. Include
    walker navigation, controllers and their random state separately.
+   `RandomGenerator::SerializeState` and `RestoreState` now provide a versioned
+   serialization building block for its engine and distribution. They require
+   the caller to stop concurrent draws and reseeding; they are not wired into
+   the Traffic Manager API or a worker barrier and do not capture any other TM
+   state. Treat the stream as tied to a compatible C++ library and build until
+   cross-build compatibility is explicitly established.
 5. Capture ScenarioRunner and agent state outside CARLA: behavior trees,
    criteria, timers, route progress, Python and other RNGs, policy recurrent
    state, and pending commands. Alternatively record all relevant external
