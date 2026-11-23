@@ -220,6 +220,10 @@ void UTaggedComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 FTaggedStaticMeshSceneProxy::FTaggedStaticMeshSceneProxy(UStaticMeshComponent * Component, bool bForceLODsShareStaticLighting, UMaterialInstance * MaterialInstance) :
   FStaticMeshSceneProxy(Component, bForceLODsShareStaticLighting)
 {
+  // Tag-only proxies do not cast shadows and are not recreated when the parent
+  // mesh distance field is rebuilt. Avoid retaining its replaceable data.
+  DistanceFieldData = nullptr;
+
   TaggedMaterialInstance = MaterialInstance;
 
   // Replace materials with tagged material
@@ -274,6 +278,10 @@ FTaggedInstancedStaticMeshSceneProxy::FTaggedInstancedStaticMeshSceneProxy(
     UInstancedStaticMeshComponent * Component, ERHIFeatureLevel::Type InFeatureLevel, UMaterialInstance * MaterialInstance)
   : FInstancedStaticMeshSceneProxy(Component, InFeatureLevel)
 {
+  // Tag-only proxies do not cast shadows and are not recreated when the parent
+  // mesh distance field is rebuilt. Avoid retaining its replaceable data.
+  DistanceFieldData = nullptr;
+
   TaggedMaterialInstance = MaterialInstance;
 
   // Replace materials with tagged material
@@ -301,6 +309,10 @@ FTaggedHierarchicalStaticMeshSceneProxy::FTaggedHierarchicalStaticMeshSceneProxy
     UHierarchicalInstancedStaticMeshComponent * Component, bool bInIsGrass, ERHIFeatureLevel::Type InFeatureLevel, UMaterialInstance * MaterialInstance)
   : FHierarchicalStaticMeshSceneProxy(bInIsGrass, Component, InFeatureLevel)
 {
+  // Tag-only proxies do not cast shadows and are not recreated when the parent
+  // mesh distance field is rebuilt. Avoid retaining its replaceable data.
+  DistanceFieldData = nullptr;
+
   TaggedMaterialInstance = MaterialInstance;
 
   // Replace materials with tagged material
