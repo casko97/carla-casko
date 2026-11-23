@@ -78,6 +78,19 @@ has not been achieved or shown to be achievable bit-for-bit.
    individual maps under locks does not make the aggregate snapshot atomic:
    all worker updates and external parameter setters must be excluded by the
    coordinator. Its actor handles remain tied to the current episode.
+   `TrafficManagerLocal` now offers internal aggregate capture and restore
+   methods for these snapshots, waypoint buffers, the tracker, simulation cache
+   and actor lifecycle. They validate episode, local map, settings, actor IDs,
+   registration state and saved random state, and rebase the component timers.
+   They are not exposed via the public Traffic Manager or Python APIs and are
+   not a world checkpoint. A caller must externally ensure that the synchronous
+   TM tick and its batch submission have finished, no other client ticks or
+   modifies actors, and no setters or registration calls run during the entire
+   operation. The registration lock and observed frame checks do not establish
+   those guarantees: the worker releases that lock before submitting its batch.
+   Restore is not transactional if a later allocation or external action fails.
+   Physical actors, vehicle light state and pending client/server side effects
+   still need separate restoration. No live CARLA validation has been performed.
 5. Capture ScenarioRunner and agent state outside CARLA: behavior trees,
    criteria, timers, route progress, Python and other RNGs, policy recurrent
    state, and pending commands. Alternatively record all relevant external

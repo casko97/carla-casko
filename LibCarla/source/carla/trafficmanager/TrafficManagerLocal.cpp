@@ -11,11 +11,94 @@
 #include "carla/client/detail/Simulator.h"
 
 #include "carla/trafficmanager/TrafficManagerLocal.h"
+#include "carla/trafficmanager/CheckpointTime.h"
 
 namespace carla {
 namespace traffic_manager {
 
 using namespace constants::FrameMemory;
+
+namespace {
+std::vector<ActorId> GetWorldActorIds(const cc::World &world) {
+  std::vector<ActorId> ids;
+  const auto actors = world.GetActors();
+  for (const auto &actor : *actors) ids.push_back(actor->GetId());
+  std::sort(ids.begin(), ids.end());
+  return ids;
+}
+}
+
+bool TrafficManagerLocal::CaptureCheckpointForCoordinator(Checkpoint &checkpoint) {
+  std::lock_guard<std::mutex> lock(registration_mutex);
+  const auto settings = world.GetSettings();
+  if (!parameters.GetSynchronousMode() || !settings.synchronous_mode ||
+      !settings.fixed_delta_seconds || step_begin.load() || step_end.load() || !local_map)
+    return false;
+  Checkpoint state;
+  state.episode_id = world.GetId();
+  state.map = local_map;
+  state.settings = settings;
+  state.timestamp = world.GetSnapshot().GetTimestamp();
+  state.world_actor_ids = GetWorldActorIds(world);
+  state.registered_actor_ids = registered_vehicles.GetIDList();
+  state.registered_state = registered_vehicles.GetState();
+  state.last_processed_registered_state = registered_vehicles_state;
+  state.vehicle_ids = vehicle_id_list;
+  state.buffers = buffer_map;
+  state.tracker = track_traffic;
+  state.simulation = simulation_state;
+  state.parameters = parameters.CaptureCheckpoint();
+  state.random_state = random_device.SerializeState();
+  state.seed = seed;
+  state.localization = localization_stage.CaptureCheckpoint();
+  state.collision = collision_stage.CaptureCheckpoint();
+  state.lights = traffic_light_stage.CaptureCheckpoint();
+  state.motion = motion_plan_stage.CaptureCheckpoint();
+  state.lifecycle = alsm.CaptureCheckpoint();
+  state.marked_for_removal = marked_for_removal;
+  if (world.GetSnapshot().GetTimestamp().frame != state.timestamp.frame) return false;
+  checkpoint = std::move(state);
+  return true;
+}
+
+bool TrafficManagerLocal::RestoreCheckpointForCoordinator(const Checkpoint &checkpoint) {
+  std::lock_guard<std::mutex> lock(registration_mutex);
+  const auto settings = world.GetSettings();
+  if (!parameters.GetSynchronousMode() || !settings.synchronous_mode ||
+      !settings.fixed_delta_seconds || settings != checkpoint.settings || !checkpoint.parameters.synchronous_mode ||
+      checkpoint.episode_id != world.GetId() || checkpoint.map.lock() != local_map ||
+      step_begin.load() || step_end.load() ||
+      registered_vehicles.GetState() != checkpoint.registered_state ||
+      registered_vehicles.GetIDList() != checkpoint.registered_actor_ids ||
+      GetWorldActorIds(world) != checkpoint.world_actor_ids)
+    return false;
+  const auto timestamp = world.GetSnapshot().GetTimestamp();
+  RandomGenerator random(0);
+  if (!random.RestoreState(checkpoint.random_state)) return false;
+  auto motion = checkpoint.motion;
+  auto lights = checkpoint.lights;
+  auto lifecycle = checkpoint.lifecycle;
+  if (!checkpoint_time::Rebase(motion, lights, lifecycle, checkpoint.timestamp, timestamp) ||
+      world.GetSnapshot().GetTimestamp().frame != timestamp.frame) return false;
+
+  // All preconditions are checked before mutation, but allocation failures or
+  // external activity can still leave a partial restore; there is no rollback.
+  registered_vehicles_state = checkpoint.last_processed_registered_state;
+  vehicle_id_list = checkpoint.vehicle_ids;
+  buffer_map = checkpoint.buffers;
+  track_traffic = checkpoint.tracker;
+  simulation_state = checkpoint.simulation;
+  parameters.RestoreCheckpoint(checkpoint.parameters);
+  random_device = random;
+  seed = checkpoint.seed;
+  localization_stage.RestoreCheckpoint(checkpoint.localization);
+  collision_stage.RestoreCheckpoint(checkpoint.collision);
+  traffic_light_stage.RestoreCheckpoint(lights);
+  motion_plan_stage.RestoreCheckpoint(motion);
+  alsm.RestoreCheckpoint(lifecycle);
+  marked_for_removal = checkpoint.marked_for_removal;
+  return true;
+}
 
 TrafficManagerLocal::TrafficManagerLocal(
   std::vector<float> longitudinal_PID_parameters,

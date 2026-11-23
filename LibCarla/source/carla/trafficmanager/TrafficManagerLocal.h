@@ -121,6 +121,38 @@ private:
   bool CheckAllFrozen(TLGroup tl_to_freeze);
 
 public:
+  // Research-only same-episode state. These methods require an external
+  // coordinator to stop all world ticks, wait for the synchronous TM tick and
+  // its command batch to complete, and exclude TM setters, registration and
+  // actor lifecycle changes throughout capture or restore. The registration
+  // mutex alone does not enforce that barrier. This is not a world checkpoint.
+  struct Checkpoint {
+    uint64_t episode_id;
+    std::weak_ptr<InMemoryMap> map;
+    rpc::EpisodeSettings settings;
+    cc::Timestamp timestamp;
+    std::vector<ActorId> world_actor_ids;
+    std::vector<ActorId> registered_actor_ids;
+    int registered_state;
+    int last_processed_registered_state;
+    std::vector<ActorId> vehicle_ids;
+    BufferMap buffers;
+    TrackTraffic tracker;
+    SimulationState simulation;
+    Parameters::Checkpoint parameters;
+    std::string random_state;
+    uint64_t seed;
+    LocalizationStage::Checkpoint localization;
+    CollisionStage::Checkpoint collision;
+    TrafficLightStage::Checkpoint lights;
+    MotionPlanStage::Checkpoint motion;
+    ALSM::Checkpoint lifecycle;
+    std::vector<ActorId> marked_for_removal;
+  };
+
+  bool CaptureCheckpointForCoordinator(Checkpoint &checkpoint);
+  bool RestoreCheckpointForCoordinator(const Checkpoint &checkpoint);
+
   /// Private constructor for singleton lifecycle management.
   TrafficManagerLocal(std::vector<float> longitudinal_PID_parameters,
                       std::vector<float> longitudinal_highway_PID_parameters,
