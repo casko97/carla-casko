@@ -145,6 +145,9 @@ namespace detail {
 
     uint64_t SetEpisodeSettings(const rpc::EpisodeSettings &settings);
 
+    bool SaveTrafficLightsCheckpoint();
+    bool RestoreTrafficLightsCheckpoint();
+
     rpc::WeatherParameters GetWeatherParameters();
 
     void SetWeatherParameters(const rpc::WeatherParameters &weather);

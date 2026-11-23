@@ -84,6 +84,10 @@ namespace client {
 
     rpc::EpisodeSettings GetSettings() const;
 
+    /// Experimental same-episode checkpoint for traffic light groups.
+    bool SaveTrafficLightsCheckpoint();
+    bool RestoreTrafficLightsCheckpoint();
+
     /// @return The id of the frame when the settings were applied.
     uint64_t ApplySettings(const rpc::EpisodeSettings &settings, time_duration timeout);
 

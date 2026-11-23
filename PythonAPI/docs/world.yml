@@ -647,6 +647,18 @@
       doc: >
         Freezes or unfreezes all traffic lights in the scene. Frozen traffic lights can be modified by the user but the time will not update them until unfrozen. 
     # --------------------------------------
+    - def_name: save_traffic_lights_checkpoint
+      return: bool
+      doc: >
+        Experimental: save the current traffic-light group and controller state in memory in a synchronous fixed-step episode. Returns false if the groups cannot be captured. A failed save invalidates the previous slot.
+      warning: This does not save actors, physics or other simulator state and cannot be used across world reloads.
+    # --------------------------------------
+    - def_name: restore_traffic_lights_checkpoint
+      return: bool
+      doc: >
+        Experimental: restore the saved traffic-light groups and controller phases in the same episode. Returns false when the slot, settings or group topology are incompatible.
+      warning: Restore can dispatch light-change callbacks; scenario and controller state outside the traffic-light subsystem is not restored.
+    # --------------------------------------
     - def_name: reset_all_traffic_lights
       doc: >
         Resets the cycle of all traffic lights in the map to the initial state.

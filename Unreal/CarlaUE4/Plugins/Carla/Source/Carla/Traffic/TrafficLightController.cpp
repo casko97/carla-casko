@@ -11,6 +11,57 @@ UTrafficLightController::UTrafficLightController()
 
 }
 
+bool UTrafficLightController::CaptureCheckpoint(FTrafficLightControllerCheckpoint &Checkpoint) const
+{
+  if (LightStates.Num() == 0 || !LightStates.IsValidIndex(CurrentState)) return false;
+  Checkpoint.CurrentState = CurrentState;
+  Checkpoint.Sequence = Sequence;
+  Checkpoint.ElapsedTime = ElapsedTime;
+  Checkpoint.CurrentLightState = CurrentLightState;
+  Checkpoint.LightStates = LightStates;
+  for (auto *Light : TrafficLights)
+  {
+    if (!IsValid(Light)) return false;
+    Checkpoint.Components.Add(Light);
+    Checkpoint.ComponentStates.Add(Light->GetLightState());
+  }
+  for (auto *Actor : TrafficLightCarlaActors)
+  {
+    if (!Actor || !Actor->IsAlive()) return false;
+    Checkpoint.ActorIds.Add(Actor->GetActorId());
+    Checkpoint.ActorStates.Add(Actor->GetTrafficLightState());
+  }
+  return true;
+}
+
+bool UTrafficLightController::ValidateCheckpoint(const FTrafficLightControllerCheckpoint &Checkpoint) const
+{
+  if (!Checkpoint.LightStates.IsValidIndex(Checkpoint.CurrentState) ||
+      TrafficLights.Num() != Checkpoint.Components.Num() ||
+      TrafficLights.Num() != Checkpoint.ComponentStates.Num() ||
+      TrafficLightCarlaActors.Num() != Checkpoint.ActorIds.Num() ||
+      TrafficLightCarlaActors.Num() != Checkpoint.ActorStates.Num()) return false;
+  for (int32 I = 0; I < TrafficLights.Num(); ++I)
+    if (!Checkpoint.Components[I].IsValid() || TrafficLights[I] != Checkpoint.Components[I].Get()) return false;
+  for (int32 I = 0; I < TrafficLightCarlaActors.Num(); ++I)
+    if (!TrafficLightCarlaActors[I] || !TrafficLightCarlaActors[I]->IsAlive() ||
+        TrafficLightCarlaActors[I]->GetActorId() != Checkpoint.ActorIds[I]) return false;
+  return true;
+}
+
+void UTrafficLightController::RestoreCheckpoint(const FTrafficLightControllerCheckpoint &Checkpoint)
+{
+  CurrentState = Checkpoint.CurrentState;
+  Sequence = Checkpoint.Sequence;
+  ElapsedTime = Checkpoint.ElapsedTime;
+  CurrentLightState = Checkpoint.CurrentLightState;
+  LightStates = Checkpoint.LightStates;
+  for (int32 I = 0; I < TrafficLights.Num(); ++I)
+    TrafficLights[I]->SetLightState(Checkpoint.ComponentStates[I]);
+  for (int32 I = 0; I < TrafficLightCarlaActors.Num(); ++I)
+    TrafficLightCarlaActors[I]->SetTrafficLightState(Checkpoint.ActorStates[I]);
+}
+
 void UTrafficLightController::SetStates(TArray<FTrafficLightStage> States)
 {
   LightStates = States;

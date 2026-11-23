@@ -15,6 +15,9 @@ For a dedicated test server built from this branch, once experiments are allowed
 ```sh
 python PythonAPI/examples/multi_vehicle_physics_checkpoint.py \
   --checkpoint-after 40 --repetitions 3 --report multi-vehicle-report.json
+
+python PythonAPI/examples/multi_vehicle_physics_checkpoint.py \
+  --checkpoint-after 40 --repetitions 3 --traffic-lights --report with-lights.json
 ```
 
 The default is a two-vehicle Town03 demonstration. Its spawn points and actions
@@ -53,7 +56,7 @@ preserves completed traces and the failing stage where possible.
 
 This step does **not** create a complete scenario checkpoint. It uses a fixed
 actor set from map spawn points, does not capture actor creation and deletion,
-traffic-light timing, Traffic Manager, ScenarioRunner, pedestrian controllers,
+Traffic Manager, ScenarioRunner, pedestrian controllers,
 sensors or their random states, and does not restore PhysX scene contact and
 solver caches. The actor snapshots compare kinematics; collision events are not
 recorded independently. The checkpoint slots exist only in the same episode,
@@ -61,3 +64,16 @@ and the prefix replay after a world reload is a reference, not a direct restore
 into a fresh process. See [the single-vehicle checkpoint guide](experimental_vehicle_physics_checkpoint.md)
 for further implementation constraints. Neither a full build nor a CARLA
 runtime test has been performed for this harness.
+
+With `--traffic-lights`, the harness additionally saves and restores the
+same-episode traffic-light groups, controller state, phase timings and individual
+light states. It compares each exposed light's state, elapsed time, durations
+and frozen flag after each tick, using unique non-empty OpenDRIVE IDs. It rejects
+maps whose exposed traffic lights lack such IDs or have duplicates. The server
+checkpoint also validates group/controller/light topology and the fixed timestep.
+The group slot is in memory and is invalid after a world reload. Saving or
+restoring the vehicles and traffic lights is sequential, not one world-wide
+transaction. Light restoration dispatches Unreal light-change callbacks and
+does not restore their external side effects, such as AI or scenario state. The
+public per-light comparison cannot prove that all internal traffic-light state
+or callback side effects were restored, and this path has not been run in CARLA.

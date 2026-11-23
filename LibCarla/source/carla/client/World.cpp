@@ -53,6 +53,14 @@ namespace client {
     return _episode.Lock()->GetEpisodeSettings();
   }
 
+  bool World::SaveTrafficLightsCheckpoint() {
+    return _episode.Lock()->SaveTrafficLightsCheckpoint();
+  }
+
+  bool World::RestoreTrafficLightsCheckpoint() {
+    return _episode.Lock()->RestoreTrafficLightsCheckpoint();
+  }
+
   uint64_t World::ApplySettings(const rpc::EpisodeSettings &settings, time_duration timeout) {
     rpc::EpisodeSettings new_settings = settings;
     uint64_t id = _episode.Lock()->SetEpisodeSettings(settings);

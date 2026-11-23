@@ -100,9 +100,40 @@ def step(client, world, actors, commands):
     return {label: single.sample(world, actors[label]) for label in labels}
 
 
-def run_frames(client, world, actors, frames, trace):
+def traffic_lights(world):
+    result = {}
+    for light in world.get_actors().filter("traffic.traffic_light"):
+        key = light.get_opendrive_id()
+        if not key or key in result:
+            raise RuntimeError("traffic lights must have unique non-empty OpenDRIVE IDs")
+        result[key] = light
+    if not result:
+        raise RuntimeError("no traffic lights found")
+    return result
+
+
+def sample_traffic_lights(lights):
+    return {key: {"state": str(light.get_state()), "elapsed": light.get_elapsed_time(),
+                  "green": light.get_green_time(), "yellow": light.get_yellow_time(),
+                  "red": light.get_red_time(), "frozen": light.is_frozen()}
+            for key, light in sorted(lights.items())}
+
+
+def compare_traffic_lights(reference, candidate):
+    if len(reference) != len(candidate):
+        raise ValueError("traffic-light traces have different lengths")
+    for index, (expected, actual) in enumerate(zip(reference, candidate), 1):
+        if expected != actual:
+            return {"exact": False, "first_difference": {"relative_frame": index,
+                    "expected": expected, "actual": actual}}
+    return {"exact": True, "first_difference": None}
+
+
+def run_frames(client, world, actors, frames, trace, lights=None, light_trace=None):
     for commands in frames:
         trace.append(step(client, world, actors, commands))
+        if lights is not None:
+            light_trace.append(sample_traffic_lights(lights))
 
 
 def compare_scene(reference, candidate, labels):
@@ -127,6 +158,17 @@ def checkpoint_actors(world, actors, restore=False):
     return before
 
 
+def checkpoint_traffic_lights(world, restore=False):
+    before = world.get_snapshot().frame
+    accepted = (world.restore_traffic_lights_checkpoint() if restore
+                else world.save_traffic_lights_checkpoint())
+    if not accepted:
+        raise RuntimeError("traffic-light {} rejected".format("restore" if restore else "checkpoint"))
+    if world.get_snapshot().frame != before:
+        raise RuntimeError("world advanced during traffic-light checkpoint operation")
+    return before
+
+
 def manifest(client, world, actors, actor_specs, build_id):
     return {label: single.collect_manifest(client, world, actors[label], spec["spawn_index"], build_id)
             for label, spec in ((spec["id"], spec) for spec in actor_specs)}
@@ -140,6 +182,7 @@ def main():
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=2000)
     parser.add_argument("--build-id", help="user-supplied server, engine and content build identifiers")
+    parser.add_argument("--traffic-lights", action="store_true", help="save and compare traffic-light group state")
     parser.add_argument("--report", required=True, help="write the journal, traces and results as JSON")
     args = parser.parse_args()
     if args.repetitions < 1:
@@ -155,8 +198,10 @@ def main():
         parser.error(str(error))
 
     traces = {"prefix": [], "baseline": [], "restores": [], "replay_prefix": [], "replay_suffix": []}
+    light_traces = {"prefix": [], "baseline": [], "restores": [], "replay_prefix": [], "replay_suffix": []}
     report = {"scenario": scenario, "checkpoint_after": args.checkpoint_after, "repetitions": args.repetitions,
-              "manifest": None, "replay_manifest": None, "traces": traces, "summary": None, "failure": None}
+              "traffic_lights_enabled": args.traffic_lights, "manifest": None, "replay_manifest": None,
+              "traces": traces, "light_traces": light_traces, "summary": None, "failure": None}
     client = carla.Client(args.host, args.port)
     client.set_timeout(30.0)
     original_settings = client.get_world().get_settings()
@@ -167,39 +212,61 @@ def main():
         world = single.load_world(client, scenario["map"])
         stage = "spawn"
         actors = spawn_actors(world, scenario["actors"])
+        stage = "find_traffic_lights"
+        lights = traffic_lights(world) if args.traffic_lights else None
         stage = "prefix"
-        run_frames(client, world, actors, scenario["frames"][:args.checkpoint_after], traces["prefix"])
+        run_frames(client, world, actors, scenario["frames"][:args.checkpoint_after], traces["prefix"], lights, light_traces["prefix"])
         report["manifest"] = manifest(client, world, actors, scenario["actors"], args.build_id)
         stage = "save_checkpoint"
         report["checkpoint_frame"] = checkpoint_actors(world, actors)
+        if args.traffic_lights:
+            stage = "save_traffic_lights"
+            if checkpoint_traffic_lights(world) != report["checkpoint_frame"]:
+                raise RuntimeError("world advanced during traffic-light checkpoint")
         suffix = scenario["frames"][args.checkpoint_after:]
         stage = "baseline"
-        run_frames(client, world, actors, suffix, traces["baseline"])
+        run_frames(client, world, actors, suffix, traces["baseline"], lights, light_traces["baseline"])
         restores = []
+        light_restores = []
         for index in range(args.repetitions):
             stage = "restore_{}".format(index)
-            checkpoint_actors(world, actors, restore=True)
+            restored_frame = checkpoint_actors(world, actors, restore=True)
+            if args.traffic_lights:
+                stage = "restore_traffic_lights_{}".format(index)
+                if checkpoint_traffic_lights(world, restore=True) != restored_frame:
+                    raise RuntimeError("world advanced between vehicle and traffic-light restores")
             traces["restores"].append([])
+            light_traces["restores"].append([])
             stage = "restore_suffix_{}".format(index)
-            run_frames(client, world, actors, suffix, traces["restores"][-1])
+            run_frames(client, world, actors, suffix, traces["restores"][-1], lights, light_traces["restores"][-1])
             restores.append(compare_scene(traces["baseline"], traces["restores"][-1], labels))
+            if args.traffic_lights:
+                light_restores.append(compare_traffic_lights(light_traces["baseline"], light_traces["restores"][-1]))
         stage = "replay_load_world"
         world = single.load_world(client, scenario["map"])
         actors = {}
         stage = "replay_spawn"
         actors = spawn_actors(world, scenario["actors"])
+        stage = "replay_find_traffic_lights"
+        lights = traffic_lights(world) if args.traffic_lights else None
         stage = "replay_prefix"
-        run_frames(client, world, actors, scenario["frames"][:args.checkpoint_after], traces["replay_prefix"])
+        run_frames(client, world, actors, scenario["frames"][:args.checkpoint_after], traces["replay_prefix"], lights, light_traces["replay_prefix"])
         report["replay_manifest"] = manifest(client, world, actors, scenario["actors"], args.build_id)
         stage = "replay_suffix"
-        run_frames(client, world, actors, suffix, traces["replay_suffix"])
+        run_frames(client, world, actors, suffix, traces["replay_suffix"], lights, light_traces["replay_suffix"])
         stage = "compare"
         summary = {"restores": restores, "prefix_replay": compare_scene(traces["prefix"], traces["replay_prefix"], labels),
                    "suffix_replay": compare_scene(traces["baseline"], traces["replay_suffix"], labels),
                    "manifest_matches_replay": report["manifest"] == report["replay_manifest"]}
+        if args.traffic_lights:
+            summary["traffic_lights"] = {"restores": light_restores,
+                "prefix_replay": compare_traffic_lights(light_traces["prefix"], light_traces["replay_prefix"]),
+                "suffix_replay": compare_traffic_lights(light_traces["baseline"], light_traces["replay_suffix"])}
         report["summary"] = summary
         print(json.dumps(summary, indent=2, sort_keys=True))
-        return 0 if all(item["exact"] for item in restores) and summary["prefix_replay"]["exact"] and summary["suffix_replay"]["exact"] and summary["manifest_matches_replay"] else 1
+        lights_match = not args.traffic_lights or (all(item["exact"] for item in light_restores) and
+            summary["traffic_lights"]["prefix_replay"]["exact"] and summary["traffic_lights"]["suffix_replay"]["exact"])
+        return 0 if all(item["exact"] for item in restores) and summary["prefix_replay"]["exact"] and summary["suffix_replay"]["exact"] and summary["manifest_matches_replay"] and lights_match else 1
     except Exception as error:
         report["failure"] = {"stage": stage, "type": type(error).__name__, "message": str(error)}
         raise

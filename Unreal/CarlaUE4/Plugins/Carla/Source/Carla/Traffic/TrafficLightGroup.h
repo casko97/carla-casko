@@ -13,7 +13,7 @@
 #include "TrafficLightController.h"
 #include "TrafficLightGroup.generated.h"
 
-class ATrafficLightManager;
+class ATrafficLightManager; struct FTrafficLightGroupCheckpoint;
 
 /// Class which implements the state changing of traffic lights
 UCLASS()
@@ -24,6 +24,10 @@ class CARLA_API ATrafficLightGroup : public AActor
 public:
   // Sets default values for this actor's properties
   ATrafficLightGroup();
+
+  bool SaveCheckpoint();
+  bool ValidateCheckpoint() const;
+  void RestoreCheckpoint();
 
   UFUNCTION(Category = "Traffic Group", BlueprintPure)
   TArray<UTrafficLightController*>& GetControllers()
@@ -53,6 +57,8 @@ protected:
 private:
 
   friend ATrafficLightManager;
+
+  TSharedPtr<FTrafficLightGroupCheckpoint> TrafficLightCheckpoint;
 
   UPROPERTY(Category = "Traffic Group", VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
   USceneComponent *SceneComponent;

@@ -20,6 +20,35 @@ with patch.dict(sys.modules, {"carla": types.ModuleType("carla"), "vehicle_physi
 
 
 class MultiVehicleJournalTest(unittest.TestCase):
+    def test_traffic_lights_use_unique_ids_and_detect_first_difference(self):
+        def light(identifier, state):
+            return types.SimpleNamespace(get_opendrive_id=lambda: identifier, get_state=lambda: state,
+                get_elapsed_time=lambda: 1.0, get_green_time=lambda: 10.0, get_yellow_time=lambda: 3.0,
+                get_red_time=lambda: 2.0, is_frozen=lambda: False)
+        lights = [light("A", "Green"), light("B", "Red")]
+        world = types.SimpleNamespace(get_actors=lambda: types.SimpleNamespace(filter=lambda pattern: lights))
+        selected = module.traffic_lights(world)
+        baseline = module.sample_traffic_lights(selected)
+        changed = copy.deepcopy(baseline)
+        changed["A"]["elapsed"] = 2.0
+        result = module.compare_traffic_lights([baseline], [changed])
+        self.assertEqual(result["first_difference"]["relative_frame"], 1)
+        self.assertFalse(result["exact"])
+        lights.append(light("A", "Yellow"))
+        with self.assertRaisesRegex(RuntimeError, "unique"):
+            module.traffic_lights(world)
+
+    def test_traffic_light_checkpoint_rejects_failed_or_extra_tick(self):
+        world = types.SimpleNamespace(get_snapshot=lambda: types.SimpleNamespace(frame=8),
+                                      save_traffic_lights_checkpoint=lambda: False)
+        with self.assertRaisesRegex(RuntimeError, "checkpoint rejected"):
+            module.checkpoint_traffic_lights(world)
+        frames = iter([8, 9])
+        world = types.SimpleNamespace(get_snapshot=lambda: types.SimpleNamespace(frame=next(frames)),
+                                      restore_traffic_lights_checkpoint=lambda: True)
+        with self.assertRaisesRegex(RuntimeError, "world advanced"):
+            module.checkpoint_traffic_lights(world, restore=True)
+
     def test_scenario_rejects_missing_actor_commands_and_invalid_control(self):
         scenario = module.demo_scenario()
         self.assertEqual(module.validate_scenario(scenario, 40), ["first", "second"])

@@ -278,6 +278,14 @@ namespace detail {
     return _pimpl->CallAndWait<carla::rpc::VehiclePhysicsControl>("get_physics_control", vehicle);
   }
 
+  bool Client::SaveTrafficLightsCheckpoint() {
+    return _pimpl->CallAndWait<bool>("save_traffic_lights_checkpoint");
+  }
+
+  bool Client::RestoreTrafficLightsCheckpoint() {
+    return _pimpl->CallAndWait<bool>("restore_traffic_lights_checkpoint");
+  }
+
   bool Client::SaveVehiclePhysicsCheckpoint(rpc::ActorId vehicle) {
     return _pimpl->CallAndWait<bool>("save_vehicle_physics_checkpoint", vehicle);
   }

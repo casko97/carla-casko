@@ -125,6 +125,12 @@ public:
 
   std::atomic_size_t TickCuesReceived { 0u };
 
+  bool bTrafficLightsCheckpointValid = false;
+  uint64 TrafficLightsCheckpointEpisode = 0;
+  double TrafficLightsCheckpointDelta = 0.0;
+  bool bTrafficLightsCheckpointManagerFrozen = false;
+  TArray<TWeakObjectPtr<ATrafficLightGroup>> TrafficLightsCheckpointGroups;
+
 private:
 
   void BindActions();
@@ -2127,6 +2133,54 @@ BIND_SYNC(is_sensor_enabled_for_ros) << [this](carla::streaming::detail::stream_
           " Actor Id: " + FString::FromInt(ActorId));
     }
     return R<void>::Success();
+  };
+
+  BIND_SYNC(save_traffic_lights_checkpoint) << [this]() -> R<bool>
+  {
+    REQUIRE_CARLA_EPISODE();
+    bTrafficLightsCheckpointValid = false;
+    if (!Episode->GetSettings().bSynchronousMode || !Episode->GetSettings().FixedDeltaSeconds.IsSet()) return false;
+    auto *GameMode = UCarlaStatics::GetGameMode(Episode->GetWorld());
+    if (!GameMode) return false;
+    auto *Manager = GameMode->GetTrafficLightManager();
+    if (!Manager) return false;
+    TArray<TWeakObjectPtr<ATrafficLightGroup>> Groups;
+    for (TActorIterator<ATrafficLightGroup> It(Episode->GetWorld()); It; ++It)
+    {
+      if (!IsValid(*It) || !It->SaveCheckpoint()) return false;
+      Groups.Add(*It);
+    }
+    TrafficLightsCheckpointEpisode = Episode->GetId();
+    TrafficLightsCheckpointDelta = Episode->GetSettings().FixedDeltaSeconds.GetValue();
+    bTrafficLightsCheckpointManagerFrozen = Manager->GetFrozen();
+    TrafficLightsCheckpointGroups = MoveTemp(Groups);
+    bTrafficLightsCheckpointValid = true;
+    return true;
+  };
+
+  BIND_SYNC(restore_traffic_lights_checkpoint) << [this]() -> R<bool>
+  {
+    REQUIRE_CARLA_EPISODE();
+    if (!bTrafficLightsCheckpointValid || Episode->GetId() != TrafficLightsCheckpointEpisode ||
+        !Episode->GetSettings().bSynchronousMode || !Episode->GetSettings().FixedDeltaSeconds.IsSet() ||
+        Episode->GetSettings().FixedDeltaSeconds.GetValue() != TrafficLightsCheckpointDelta) return false;
+    auto *GameMode = UCarlaStatics::GetGameMode(Episode->GetWorld());
+    if (!GameMode) return false;
+    auto *Manager = GameMode->GetTrafficLightManager();
+    if (!Manager) return false;
+    int32 Count = 0;
+    for (TActorIterator<ATrafficLightGroup> It(Episode->GetWorld()); It; ++It)
+    {
+      if (!TrafficLightsCheckpointGroups.Contains(*It)) return false;
+      ++Count;
+    }
+    if (Count != TrafficLightsCheckpointGroups.Num()) return false;
+    for (const auto &Group : TrafficLightsCheckpointGroups)
+      if (!Group.IsValid() || !Group->ValidateCheckpoint()) return false;
+    Manager->SetFrozen(bTrafficLightsCheckpointManagerFrozen);
+    for (const auto &Group : TrafficLightsCheckpointGroups)
+      Group->RestoreCheckpoint();
+    return true;
   };
 
   BIND_SYNC(reset_all_traffic_lights) << [this]() -> R<void>

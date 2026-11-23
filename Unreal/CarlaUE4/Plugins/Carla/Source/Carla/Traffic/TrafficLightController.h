@@ -14,7 +14,7 @@
 #include "Carla/Actor/CarlaActor.h"
 #include "TrafficLightController.generated.h"
 
-class ATrafficLightGroup;
+class ATrafficLightGroup; struct FTrafficLightControllerCheckpoint;
 
 /// Defines a stage of a semaphor with a State and
 /// the time this state lasts
@@ -40,6 +40,10 @@ class CARLA_API UTrafficLightController : public UObject
 public:
 
   UTrafficLightController();
+
+  bool CaptureCheckpoint(FTrafficLightControllerCheckpoint &Checkpoint) const;
+  bool ValidateCheckpoint(const FTrafficLightControllerCheckpoint &Checkpoint) const;
+  void RestoreCheckpoint(const FTrafficLightControllerCheckpoint &Checkpoint);
 
   UFUNCTION(Category = "Traffic Controller", BlueprintCallable)
   void SetStates(TArray<FTrafficLightStage> States);
@@ -170,4 +174,19 @@ private:
   float ElapsedTime = 0;
 
   ETrafficLightState CurrentLightState = ETrafficLightState::Green;
+};
+
+// Same-episode checkpoint data; actor IDs and weak component references are
+// validated before any state is restored.
+struct FTrafficLightControllerCheckpoint
+{
+  int CurrentState;
+  int Sequence;
+  float ElapsedTime;
+  ETrafficLightState CurrentLightState;
+  TArray<FTrafficLightStage> LightStates;
+  TArray<TWeakObjectPtr<UTrafficLightComponent>> Components;
+  TArray<ETrafficLightState> ComponentStates;
+  TArray<uint32> ActorIds;
+  TArray<ETrafficLightState> ActorStates;
 };

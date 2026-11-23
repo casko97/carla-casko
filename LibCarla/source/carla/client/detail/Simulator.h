@@ -251,6 +251,14 @@ namespace detail {
 
     uint64_t SetEpisodeSettings(const rpc::EpisodeSettings &settings);
 
+    bool SaveTrafficLightsCheckpoint() {
+      return _client.SaveTrafficLightsCheckpoint();
+    }
+
+    bool RestoreTrafficLightsCheckpoint() {
+      return _client.RestoreTrafficLightsCheckpoint();
+    }
+
     rpc::WeatherParameters GetWeatherParameters() {
       return _client.GetWeatherParameters();
     }

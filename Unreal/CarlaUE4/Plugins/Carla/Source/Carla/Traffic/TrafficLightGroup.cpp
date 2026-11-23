@@ -8,6 +8,53 @@
 #include "Carla/Game/CarlaStatics.h"
 #include "TrafficLightGroup.h"
 
+struct FTrafficLightGroupCheckpoint
+{
+  int CurrentController;
+  bool bIsFrozen;
+  TArray<TWeakObjectPtr<UTrafficLightController>> Controllers;
+  TArray<FTrafficLightControllerCheckpoint> ControllerStates;
+};
+
+bool ATrafficLightGroup::SaveCheckpoint()
+{
+  if (!Controllers.IsValidIndex(CurrentController)) return false;
+  auto Snapshot = MakeShared<FTrafficLightGroupCheckpoint>();
+  Snapshot->CurrentController = CurrentController;
+  Snapshot->bIsFrozen = bIsFrozen;
+  for (auto *Controller : Controllers)
+  {
+    if (!IsValid(Controller)) return false;
+    FTrafficLightControllerCheckpoint State;
+    if (!Controller->CaptureCheckpoint(State)) return false;
+    Snapshot->Controllers.Add(Controller);
+    Snapshot->ControllerStates.Add(MoveTemp(State));
+  }
+  TrafficLightCheckpoint = MoveTemp(Snapshot);
+  return true;
+}
+
+bool ATrafficLightGroup::ValidateCheckpoint() const
+{
+  if (!TrafficLightCheckpoint || !Controllers.IsValidIndex(TrafficLightCheckpoint->CurrentController) ||
+      Controllers.Num() != TrafficLightCheckpoint->Controllers.Num() ||
+      Controllers.Num() != TrafficLightCheckpoint->ControllerStates.Num()) return false;
+  for (int32 I = 0; I < Controllers.Num(); ++I)
+    if (!TrafficLightCheckpoint->Controllers[I].IsValid() ||
+        Controllers[I] != TrafficLightCheckpoint->Controllers[I].Get() ||
+        !Controllers[I]->ValidateCheckpoint(TrafficLightCheckpoint->ControllerStates[I])) return false;
+  return true;
+}
+
+void ATrafficLightGroup::RestoreCheckpoint()
+{
+  check(ValidateCheckpoint());
+  CurrentController = TrafficLightCheckpoint->CurrentController;
+  bIsFrozen = TrafficLightCheckpoint->bIsFrozen;
+  for (int32 I = 0; I < Controllers.Num(); ++I)
+    Controllers[I]->RestoreCheckpoint(TrafficLightCheckpoint->ControllerStates[I]);
+}
+
 
 // Sets default values
 ATrafficLightGroup::ATrafficLightGroup()
