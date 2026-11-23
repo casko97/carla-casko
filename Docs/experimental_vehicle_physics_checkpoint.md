@@ -91,6 +91,11 @@ using Python's JSON extensions so they remain visible for diagnosis.
 Client and server versions, vehicle attributes and physics settings are included,
 but version strings do not establish binary identity. Supply an externally
 computed build and asset identifier using `--build-id`.
+With `--build-id ID --export-checkpoint vehicle.msgpack`, the harness also writes
+the saved vehicle slot as a versioned, pointer-free MessagePack value record.
+The build identifier is supplied by the caller and is not verified by CARLA.
+This is export only: no import or fresh-episode restore is implemented yet, and
+the file omits scene contact and solver state, other actors and sensors.
 The manifest also records the active PhysX scene's raw flag bitmask and selected
 decoded PhysX 3.4 flags via a synchronous server query. In this engine's headers, enhanced
 determinism is bit 20, GPU dynamics bit 19, stabilization bit 14, disabled

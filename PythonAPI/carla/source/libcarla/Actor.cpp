@@ -9,6 +9,8 @@
 #include <carla/client/Vehicle.h>
 #include <carla/client/Walker.h>
 #include <carla/client/WalkerAIController.h>
+#include <carla/PythonUtil.h>
+#include <carla/MsgPack.h>
 #include <carla/rpc/TrafficLightState.h>
 #include <carla/trafficmanager/TrafficManager.h>
 
@@ -42,6 +44,17 @@ boost::python::list StdVectorToPyList(const std::vector<T> &vec) {
 static boost::python::list GetSemanticTags(const carla::client::Actor &self) {
   const std::vector<uint8_t> &tags = self.GetSemanticTags();
   return StdVectorToPyList(tags);
+}
+
+static boost::python::object ExportPhysicsCheckpoint(const carla::client::Vehicle &self, const std::string &build_id) {
+  auto data = [&]() {
+    carla::PythonUtil::ReleaseGIL unlock;
+    return self.ExportPhysicsCheckpoint(build_id);
+  }();
+  auto packed = carla::MsgPack::Pack(data);
+  PyObject *bytes = PyBytes_FromStringAndSize(reinterpret_cast<const char *>(packed.data()), packed.size());
+  if (!bytes) boost::python::throw_error_already_set();
+  return boost::python::object(boost::python::handle<>(bytes));
 }
 
 static void AddActorImpulse(carla::client::Actor &self,
@@ -185,6 +198,7 @@ void export_actor() {
       .def("get_physics_control", CONST_CALL_WITHOUT_GIL(cc::Vehicle, GetPhysicsControl))
       .def("save_physics_checkpoint", CALL_WITHOUT_GIL(cc::Vehicle, SavePhysicsCheckpoint))
       .def("restore_physics_checkpoint", CALL_WITHOUT_GIL(cc::Vehicle, RestorePhysicsCheckpoint))
+      .def("export_physics_checkpoint", &ExportPhysicsCheckpoint, (arg("build_id")))
       .def("apply_ackermann_controller_settings", &cc::Vehicle::ApplyAckermannControllerSettings, (arg("settings")))
       .def("get_ackermann_controller_settings", CONST_CALL_WITHOUT_GIL(cc::Vehicle, GetAckermannControllerSettings))
       .def("set_autopilot", CALL_WITHOUT_GIL_2(cc::Vehicle, SetAutopilot, bool, uint16_t), (arg("enabled") = true, arg("tm_port") = ctm::TM_DEFAULT_PORT))

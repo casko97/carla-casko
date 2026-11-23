@@ -14,6 +14,7 @@
 #include "carla/rpc/VehicleDoor.h"
 #include "carla/rpc/VehicleLightState.h"
 #include "carla/rpc/VehiclePhysicsControl.h"
+#include "carla/rpc/PortableVehicleCheckpoint.h"
 #include "carla/rpc/VehicleWheels.h"
 #include "carla/trafficmanager/TrafficManager.h"
 
@@ -97,6 +98,7 @@ namespace client {
     /// Experimental checkpoint, valid only for this vehicle in the same episode.
     bool SavePhysicsCheckpoint();
     bool RestorePhysicsCheckpoint();
+    rpc::PortableVehicleCheckpoint ExportPhysicsCheckpoint(const std::string &build_id) const;
 
     /// Return the current open lights (LightState) of this vehicle.
     ///

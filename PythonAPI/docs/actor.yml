@@ -324,6 +324,16 @@
         Experimental: save one in-memory physics checkpoint for this vehicle in the current synchronous, fixed-step episode. Returns false when the vehicle or settings are unsupported. See [the checkpoint guide](experimental_vehicle_physics_checkpoint.md) for required conditions and limitations.
       warning: This is not a complete world checkpoint; it cannot be persisted or used across episodes.
     # --------------------------------------
+    - def_name: export_physics_checkpoint
+      params:
+      - param_name: build_id
+        type: str
+        doc: Caller-supplied identifier for the server, engine and content build.
+      return: bytes
+      doc: >
+        Experimental: export the current saved vehicle physics slot as a versioned MessagePack value record. A non-empty build identifier is required but is not verified by the simulator.
+      warning: This is an export only; import and fresh-episode restore are not implemented. It omits scene contacts, solver state, other actors and sensors.
+    # --------------------------------------
     - def_name: restore_physics_checkpoint
       return: bool
       doc: >

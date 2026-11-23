@@ -114,6 +114,10 @@ namespace client {
     return true;
   }
 
+  rpc::PortableVehicleCheckpoint Vehicle::ExportPhysicsCheckpoint(const std::string &build_id) const {
+    return GetEpisode().Lock()->ExportVehiclePhysicsCheckpoint(*this, build_id);
+  }
+
   Vehicle::LightState Vehicle::GetLightState() const {
     return GetEpisode().Lock()->GetVehicleLightState(*this).GetLightStateEnum();
   }

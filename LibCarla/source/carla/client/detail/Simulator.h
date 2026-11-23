@@ -299,6 +299,10 @@ namespace detail {
       return _client.GetPhysXSceneFlags();
     }
 
+    rpc::PortableVehicleCheckpoint ExportVehiclePhysicsCheckpoint(const Vehicle &vehicle, const std::string &build_id) {
+      return _client.ExportVehiclePhysicsCheckpoint(vehicle.GetId(), build_id);
+    }
+
     void BeginCollisionCheckpointLog(ActorId sensor) {
       _client.BeginCollisionCheckpointLog(sensor);
     }

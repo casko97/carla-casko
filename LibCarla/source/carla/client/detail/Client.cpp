@@ -306,6 +306,10 @@ namespace detail {
     return _pimpl->CallAndWait<bool>("restore_vehicle_physics_checkpoint", vehicle);
   }
 
+  rpc::PortableVehicleCheckpoint Client::ExportVehiclePhysicsCheckpoint(rpc::ActorId vehicle, const std::string &build_id) {
+    return _pimpl->CallAndWait<rpc::PortableVehicleCheckpoint>("export_vehicle_physics_checkpoint", vehicle, build_id);
+  }
+
   uint32_t Client::GetPhysXSceneFlags() const {
     return _pimpl->CallAndWait<uint32_t>("get_physx_scene_flags");
   }

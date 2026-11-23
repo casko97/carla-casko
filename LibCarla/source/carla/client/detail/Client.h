@@ -20,6 +20,7 @@
 #include "carla/rpc/EpisodeInfo.h"
 #include "carla/rpc/EpisodeSettings.h"
 #include "carla/rpc/CollisionCheckpointLog.h"
+#include "carla/rpc/PortableVehicleCheckpoint.h"
 #include "carla/rpc/LabelledPoint.h"
 #include "carla/rpc/LightState.h"
 #include "carla/rpc/MapInfo.h"
@@ -163,6 +164,7 @@ namespace detail {
 
     bool SaveVehiclePhysicsCheckpoint(rpc::ActorId vehicle);
     bool RestoreVehiclePhysicsCheckpoint(rpc::ActorId vehicle);
+    rpc::PortableVehicleCheckpoint ExportVehiclePhysicsCheckpoint(rpc::ActorId vehicle, const std::string &build_id);
     uint32_t GetPhysXSceneFlags() const;
     void BeginCollisionCheckpointLog(rpc::ActorId sensor);
     rpc::CollisionCheckpointLog DrainCollisionCheckpointLog(rpc::ActorId sensor);

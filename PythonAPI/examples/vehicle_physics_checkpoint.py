@@ -18,6 +18,13 @@ def vector(value):
     return [value.x, value.y, value.z]
 
 
+def export_checkpoint(vehicle, build_id, path):
+    data = vehicle.export_physics_checkpoint(build_id)
+    with open(path, "wb") as output:
+        output.write(data)
+    return {"path": str(path), "bytes": len(data)}
+
+
 def make_journal(warmup_steps, prefix_steps, suffix_steps, profile):
     """Return explicit, frame-indexed commands independent of the CARLA API."""
     warmup = [{"brake": 1.0} for _ in range(warmup_steps)]
@@ -179,9 +186,12 @@ def main():
     parser.add_argument("--profile", choices=("straight", "maneuver"), default="straight")
     parser.add_argument("--report", help="write the complete manifest, command journal and traces as JSON")
     parser.add_argument("--build-id", help="user-supplied server, engine and content build identifiers")
+    parser.add_argument("--export-checkpoint", help="write the saved vehicle values as MessagePack bytes")
     args = parser.parse_args()
     if min(args.warmup, args.prefix_steps) < 0 or min(args.suffix_steps, args.repetitions) < 1:
         parser.error("warmup and prefix must be non-negative; suffix and repetitions must be positive")
+    if args.export_checkpoint and not args.build_id:
+        parser.error("--export-checkpoint requires --build-id")
     try:
         journal = make_journal(args.warmup, args.prefix_steps, args.suffix_steps, args.profile)
     except ValueError as error:
@@ -195,7 +205,8 @@ def main():
     traces = {"warmup": [], "prefix": [], "baseline_suffix": [], "restore_suffixes": [],
               "replay_warmup": [], "replay_prefix": [], "replay_suffix": []}
     report = {"summary": None, "manifest": None, "replay_manifest": None,
-              "command_journal": journal, "traces": traces, "failure": None}
+              "command_journal": journal, "traces": traces, "failure": None,
+              "exported_checkpoint": None}
     stage = "load_world"
     try:
         world = load_world(client, args.map)
@@ -212,6 +223,9 @@ def main():
         stage = "save_checkpoint"
         if not vehicle.save_physics_checkpoint():
             raise RuntimeError("checkpoint rejected by server (unsupported vehicle or settings)")
+        if args.export_checkpoint:
+            stage = "export_checkpoint"
+            report["exported_checkpoint"] = export_checkpoint(vehicle, args.build_id, args.export_checkpoint)
         stage = "baseline_suffix"
         baseline = run_journal(client, world, vehicle, journal["suffix"], traces["baseline_suffix"])
         comparisons = []

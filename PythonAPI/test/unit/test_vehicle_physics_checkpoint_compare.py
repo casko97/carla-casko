@@ -18,6 +18,16 @@ with patch.dict(sys.modules, {"carla": types.ModuleType("carla")}):
 
 
 class CompareRolloutsTest(unittest.TestCase):
+    def test_export_writes_the_server_bytes_with_build_id(self):
+        seen = []
+        vehicle = types.SimpleNamespace(export_physics_checkpoint=lambda build_id: seen.append(build_id) or b"checkpoint")
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "vehicle.msgpack"
+            result = module.export_checkpoint(vehicle, "build-1", target)
+            self.assertEqual(target.read_bytes(), b"checkpoint")
+        self.assertEqual(seen, ["build-1"])
+        self.assertEqual(result["bytes"], 10)
+
     def test_manifest_captures_actual_settings_and_vehicle_configuration(self):
         pos = types.SimpleNamespace(x=1.0, y=2.0, z=3.0)
         rot = types.SimpleNamespace(pitch=4.0, yaw=5.0, roll=6.0)

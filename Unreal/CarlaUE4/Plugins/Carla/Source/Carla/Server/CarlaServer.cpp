@@ -61,6 +61,7 @@
 #include <carla/rpc/VehicleAckermannControl.h>
 #include <carla/rpc/VehicleControl.h>
 #include <carla/rpc/VehiclePhysicsControl.h>
+#include <carla/rpc/PortableVehicleCheckpoint.h>
 #include <carla/rpc/VehicleLightState.h>
 #include <carla/rpc/VehicleLightStateList.h>
 #include <carla/rpc/WalkerBoneControlIn.h>
@@ -1380,6 +1381,23 @@ BIND_SYNC(is_sensor_enabled_for_ros) << [this](carla::streaming::detail::stream_
     for (const auto &Event : Log.Events)
       Result.events.push_back({Event.Frame, Event.OtherActorId, TCHAR_TO_UTF8(*Event.OtherActorType),
         cr::Vector3D{Event.NormalImpulse.X, Event.NormalImpulse.Y, Event.NormalImpulse.Z}});
+    return Result;
+  };
+
+  BIND_SYNC(export_vehicle_physics_checkpoint) << [this](
+      cr::ActorId ActorId, const std::string &BuildId) -> R<cr::PortableVehicleCheckpoint>
+  {
+    REQUIRE_CARLA_EPISODE();
+    auto *Actor = Episode->FindCarlaActor(ActorId);
+    auto *Vehicle = Actor && Actor->IsActive() ? Cast<ACarlaWheeledVehicle>(Actor->GetActor()) : nullptr;
+    if (!Vehicle || BuildId.empty() || BuildId.size() > 256u)
+      RESPOND_ERROR("checkpoint export requires an active vehicle and a non-empty build identifier");
+    cr::PortableVehicleCheckpoint Result;
+    if (!Vehicle->ExportPhysicsCheckpoint(Result))
+      RESPOND_ERROR("vehicle has no exportable physics checkpoint");
+    Result.blueprint = Episode->SerializeActor(Actor).description.id;
+    Result.map = TCHAR_TO_UTF8(*Episode->GetWorld()->GetMapName());
+    Result.build_id = BuildId;
     return Result;
   };
 
