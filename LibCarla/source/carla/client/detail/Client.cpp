@@ -306,6 +306,14 @@ namespace detail {
     return _pimpl->CallAndWait<bool>("restore_vehicle_physics_checkpoint", vehicle);
   }
 
+  void Client::BeginCollisionCheckpointLog(rpc::ActorId sensor) {
+    _pimpl->CallAndWait<void>("begin_collision_checkpoint_log", sensor);
+  }
+
+  rpc::CollisionCheckpointLog Client::DrainCollisionCheckpointLog(rpc::ActorId sensor) {
+    return _pimpl->CallAndWait<rpc::CollisionCheckpointLog>("drain_collision_checkpoint_log", sensor);
+  }
+
   rpc::VehicleLightState Client::GetVehicleLightState(
       rpc::ActorId vehicle) const {
     return _pimpl->CallAndWait<carla::rpc::VehicleLightState>("get_vehicle_light_state", vehicle);

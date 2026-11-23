@@ -103,6 +103,14 @@ namespace client {
     return _episode.Lock()->RestoreWeatherCheckpoint();
   }
 
+  void World::BeginCollisionCheckpointLog(ActorId sensor) {
+    _episode.Lock()->BeginCollisionCheckpointLog(sensor);
+  }
+
+  rpc::CollisionCheckpointLog World::DrainCollisionCheckpointLog(ActorId sensor) {
+    return _episode.Lock()->DrainCollisionCheckpointLog(sensor);
+  }
+
   void World::SetWeather(const rpc::WeatherParameters &weather) {
     _episode.Lock()->SetWeatherParameters(weather);
   }

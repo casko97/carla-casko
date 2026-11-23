@@ -761,6 +761,25 @@
       doc: >
         Retrieves an object containing weather parameters currently active in the simulation, mainly cloudiness, precipitation, wind and sun position.
     # --------------------------------------
+    - def_name: begin_collision_checkpoint_log
+      params:
+      - param_name: sensor_id
+        type: int
+        doc: Actor ID of an active collision sensor.
+      doc: >
+        Experimental: enable and clear a bounded server-side log of the sensor's de-duplicated collision events.
+      warning: This does not restore sensor state or record every PhysX contact.
+    # --------------------------------------
+    - def_name: drain_collision_checkpoint_log
+      params:
+      - param_name: sensor_id
+        type: int
+        doc: Actor ID of an enabled collision sensor.
+      return: dict
+      doc: >
+        Experimental: synchronously retrieve and clear logged events and an overflow flag. Each event includes a frame, other actor ID and type, and normal impulse.
+      warning: Frame completion and collision callback ordering are unverified in a live simulator. An empty log does not prove that no physical contact occurred.
+    # --------------------------------------
     - def_name: set_weather
       params: 
       - param_name: weather

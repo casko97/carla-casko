@@ -19,6 +19,7 @@
 #include "carla/rpc/EnvironmentObject.h"
 #include "carla/rpc/EpisodeInfo.h"
 #include "carla/rpc/EpisodeSettings.h"
+#include "carla/rpc/CollisionCheckpointLog.h"
 #include "carla/rpc/LabelledPoint.h"
 #include "carla/rpc/LightState.h"
 #include "carla/rpc/MapInfo.h"
@@ -162,6 +163,8 @@ namespace detail {
 
     bool SaveVehiclePhysicsCheckpoint(rpc::ActorId vehicle);
     bool RestoreVehiclePhysicsCheckpoint(rpc::ActorId vehicle);
+    void BeginCollisionCheckpointLog(rpc::ActorId sensor);
+    rpc::CollisionCheckpointLog DrainCollisionCheckpointLog(rpc::ActorId sensor);
 
     rpc::VehicleLightState GetVehicleLightState(rpc::ActorId vehicle) const;
 

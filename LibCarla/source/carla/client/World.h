@@ -20,6 +20,7 @@
 #include "carla/rpc/Actor.h"
 #include "carla/rpc/AttachmentType.h"
 #include "carla/rpc/EpisodeSettings.h"
+#include "carla/rpc/CollisionCheckpointLog.h"
 #include "carla/rpc/EnvironmentObject.h"
 #include "carla/rpc/LabelledPoint.h"
 #include "carla/rpc/MapLayer.h"
@@ -83,6 +84,9 @@ namespace client {
     SharedPtr<Actor> GetSpectator() const;
 
     rpc::EpisodeSettings GetSettings() const;
+
+    void BeginCollisionCheckpointLog(ActorId sensor);
+    rpc::CollisionCheckpointLog DrainCollisionCheckpointLog(ActorId sensor);
 
     /// Experimental same-episode checkpoint for traffic light groups.
     bool SaveTrafficLightsCheckpoint();

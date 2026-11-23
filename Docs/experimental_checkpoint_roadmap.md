@@ -114,8 +114,8 @@ has not been achieved or shown to be achievable bit-for-bit.
    across fixed builds. Continue comparing a full prefix replay separately.
 
 The collision sensor now has an opt-in bounded server-side diagnostic log of
-its de-duplicated hit events. It is not yet exposed through RPC or the harness,
-and does not capture every PhysX contact. Event timing and the game-thread
+its de-duplicated hit events, exposed through synchronous world RPCs. It is not
+yet used by the harness and does not capture every PhysX contact. Event timing and the game-thread
 ordering must be validated in a live simulator before treating a drain as a
 complete per-frame record.
 

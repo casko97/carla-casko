@@ -91,6 +91,27 @@ static auto GetVehiclesLightStates(carla::client::World &self) {
   return dict;
 }
 
+static boost::python::dict DrainCollisionCheckpointLog(carla::client::World &self, carla::ActorId sensor_id) {
+  auto log = [&]() {
+    carla::PythonUtil::ReleaseGIL unlock;
+    return self.DrainCollisionCheckpointLog(sensor_id);
+  }();
+  boost::python::list events;
+  for (const auto &event : log.events) {
+    boost::python::dict item;
+    item["frame"] = event.frame;
+    item["other_actor_id"] = event.other_actor_id;
+    item["other_actor_type"] = event.other_actor_type;
+    item["normal_impulse"] = boost::python::make_tuple(
+        event.normal_impulse.x, event.normal_impulse.y, event.normal_impulse.z);
+    events.append(item);
+  }
+  boost::python::dict result;
+  result["events"] = events;
+  result["overflow"] = log.overflow;
+  return result;
+}
+
 static auto GetLevelBBs(const carla::client::World &self, uint8_t queried_tag) {
   boost::python::list result;
   for (const auto &bb : self.GetLevelBBs(queried_tag)) {
@@ -318,6 +339,8 @@ void export_world() {
     .def("restore_traffic_lights_checkpoint", CALL_WITHOUT_GIL(cc::World, RestoreTrafficLightsCheckpoint))
     .def("apply_settings", &ApplySettings, (arg("settings"), arg("seconds")=0.0))
     .def("get_weather", CONST_CALL_WITHOUT_GIL(cc::World, GetWeather))
+    .def("begin_collision_checkpoint_log", CALL_WITHOUT_GIL_1(cc::World, BeginCollisionCheckpointLog, carla::ActorId), (arg("sensor_id")))
+    .def("drain_collision_checkpoint_log", &DrainCollisionCheckpointLog, (arg("sensor_id")))
     .def("save_weather_checkpoint", CALL_WITHOUT_GIL(cc::World, SaveWeatherCheckpoint))
     .def("restore_weather_checkpoint", CALL_WITHOUT_GIL(cc::World, RestoreWeatherCheckpoint))
     .def("set_weather", &cc::World::SetWeather)

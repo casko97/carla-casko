@@ -42,6 +42,7 @@ public:
   // These do not restore sensor state or establish a world-wide barrier.
   void BeginCheckpointLog();
   FCollisionCheckpointLog DrainCheckpointLog();
+  bool IsCheckpointLogEnabled() const { return bCheckpointLogEnabled; }
 
 private:
   /// Registry that saves all collisions. Used to avoid sending the same collision more than once per frame,

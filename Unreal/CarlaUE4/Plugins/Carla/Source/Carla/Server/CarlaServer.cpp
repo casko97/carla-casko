@@ -15,6 +15,7 @@
 #include "Carla/Util/NavigationMesh.h"
 #include "Carla/Util/RayTracer.h"
 #include "Carla/Vehicle/CarlaWheeledVehicle.h"
+#include "Carla/Sensor/CollisionSensor.h"
 #include "Carla/Walker/WalkerController.h"
 #include "Carla/Walker/WalkerBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -39,6 +40,7 @@
 #include <carla/rpc/BoneTransformDataIn.h>
 #include <carla/rpc/Command.h>
 #include <carla/rpc/CommandResponse.h>
+#include <carla/rpc/CollisionCheckpointLog.h>
 #include <carla/rpc/DebugShape.h>
 #include <carla/rpc/EnvironmentObject.h>
 #include <carla/rpc/EpisodeInfo.h>
@@ -1337,6 +1339,33 @@ BIND_SYNC(is_sensor_enabled_for_ros) << [this](carla::streaming::detail::stream_
       return false;
     auto *Vehicle = Cast<ACarlaWheeledVehicle>(Actor->GetActor());
     return Vehicle && Vehicle->RestorePhysicsCheckpoint(Episode->GetSettings());
+  };
+
+  BIND_SYNC(begin_collision_checkpoint_log) << [this](cr::ActorId ActorId) -> R<void>
+  {
+    REQUIRE_CARLA_EPISODE();
+    auto *Actor = Episode->FindCarlaActor(ActorId);
+    auto *Sensor = Actor && Actor->IsActive() ? Cast<ACollisionSensor>(Actor->GetActor()) : nullptr;
+    if (!Sensor) RESPOND_ERROR("collision checkpoint log requires an active collision sensor");
+    Sensor->BeginCheckpointLog();
+    return R<void>::Success();
+  };
+
+  BIND_SYNC(drain_collision_checkpoint_log) << [this](cr::ActorId ActorId) -> R<cr::CollisionCheckpointLog>
+  {
+    REQUIRE_CARLA_EPISODE();
+    auto *Actor = Episode->FindCarlaActor(ActorId);
+    auto *Sensor = Actor && Actor->IsActive() ? Cast<ACollisionSensor>(Actor->GetActor()) : nullptr;
+    if (!Sensor || !Sensor->IsCheckpointLogEnabled())
+      RESPOND_ERROR("collision checkpoint log is not enabled on an active collision sensor");
+    auto Log = Sensor->DrainCheckpointLog();
+    cr::CollisionCheckpointLog Result;
+    Result.overflow = Log.bOverflow;
+    Result.events.reserve(Log.Events.size());
+    for (const auto &Event : Log.Events)
+      Result.events.push_back({Event.Frame, Event.OtherActorId, TCHAR_TO_UTF8(*Event.OtherActorType),
+        cr::Vector3D{Event.NormalImpulse.X, Event.NormalImpulse.Y, Event.NormalImpulse.Z}});
+    return Result;
   };
 
   BIND_SYNC(get_physics_control) << [this](
