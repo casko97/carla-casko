@@ -125,6 +125,7 @@ namespace rpc {
 
     bool operator!=(const VehiclePhysicsControl &rhs) const {
       return
+        torque_curve != rhs.torque_curve ||
         max_rpm != rhs.max_rpm ||
         moi != rhs.moi ||
         damping_rate_full_throttle != rhs.damping_rate_full_throttle ||
