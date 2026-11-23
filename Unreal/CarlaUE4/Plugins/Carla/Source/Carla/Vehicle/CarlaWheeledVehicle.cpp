@@ -27,6 +27,7 @@ static_assert(PX_PHYSICS_VERSION_MAJOR == 3 && PX_PHYSICS_VERSION_MINOR == 4,
 
 #include "Carla.h"
 #include "Carla/Game/CarlaHUD.h"
+#include "Carla/Game/CarlaEngine.h"
 #include "Carla/Game/CarlaStatics.h"
 #include "Carla/Settings/EpisodeSettings.h"
 #include "Carla/Trigger/FrictionTrigger.h"
@@ -38,6 +39,8 @@ static_assert(PX_PHYSICS_VERSION_MAJOR == 3 && PX_PHYSICS_VERSION_MINOR == 4,
 
 #include <compiler/disable-ue4-macros.h>
 #include <carla/rpc/VehiclePhysicsControl.h>
+#include <carla/rpc/PortableVehicleCheckpoint.h>
+#include <carla/rpc/VehicleLightState.h>
 #include <compiler/enable-ue4-macros.h>
 
 // This is deliberately a same-actor, same-episode prototype. In particular,
@@ -75,6 +78,8 @@ struct FVehiclePhysicsCheckpoint
   double MaxSubstepDeltaTime;
   int MaxSubsteps;
   bool bSubstepping;
+  uint64 CapturedFrame;
+  uint32 PhysXSceneFlags;
   const physx::PxVehicleDrive *DriveIdentity;
   physx::PxVehicleDriveDynData Drive;
   TArray<FCheckpointWheelState> Wheels;
@@ -177,6 +182,7 @@ bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Setting
   State->MaxSubsteps = Settings.MaxSubsteps;
   State->bSubstepping = Settings.bSubstepping;
   State->DriveIdentity = Movement->PVehicleDrive;
+  State->CapturedFrame = FCarlaEngine::GetFrameCounter();
   for (const TCHAR *Name : CheckpointFloatFields)
     State->MovementFloats.Add(FindFProperty<FFloatProperty>(Movement->GetClass(), Name)->GetPropertyValue_InContainer(Movement));
   for (const TCHAR *Name : CheckpointBoolFields)
@@ -191,6 +197,9 @@ bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Setting
     auto *RigidActor = FPhysicsInterface::GetPxRigidActor_AssumesLocked(Actor);
     auto *BodyActor = RigidActor ? RigidActor->is<physx::PxRigidDynamic>() : nullptr;
     if (!BodyActor || Drive->getRigidDynamicActor() != BodyActor) return;
+    auto *Scene = BodyActor->getScene();
+    if (!Scene) return;
+    State->PhysXSceneFlags = static_cast<uint32>(Scene->getFlags());
     State->bAwake = !BodyActor->isSleeping();
     State->WakeCounter = BodyActor->getWakeCounter();
     State->Drive = Drive->mDriveDynData;
@@ -209,6 +218,63 @@ bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Setting
   });
   if (!Captured) return false;
   PhysicsCheckpoint = MoveTemp(State);
+  return true;
+#endif
+}
+
+bool ACarlaWheeledVehicle::ExportPhysicsCheckpoint(carla::rpc::PortableVehicleCheckpoint &Out) const
+{
+#if !CARLA_CHECKPOINT_PHYSX_WHEEL_INTERNALS
+  return false;
+#else
+  if (!PhysicsCheckpoint) return false;
+  const auto &State = *PhysicsCheckpoint;
+  carla::rpc::PortableVehicleCheckpoint Data;
+  Data.capture_frame = State.CapturedFrame;
+  Data.physx_scene_flags = State.PhysXSceneFlags;
+  Data.fixed_delta_seconds = State.FixedDeltaSeconds;
+  Data.max_substep_delta_time = State.MaxSubstepDeltaTime;
+  Data.max_substeps = State.MaxSubsteps;
+  Data.substepping = State.bSubstepping;
+  Data.physics_configuration = State.PhysicsConfiguration;
+  const auto &Position = State.Transform.GetLocation();
+  const auto &Rotation = State.Transform.GetRotation();
+  const auto &Scale = State.Transform.GetScale3D();
+  Data.position_cm = {Position.X, Position.Y, Position.Z};
+  Data.rotation_quaternion = {Rotation.X, Rotation.Y, Rotation.Z, Rotation.W};
+  Data.scale = {Scale.X, Scale.Y, Scale.Z};
+  Data.linear_velocity_cm_s = {State.LinearVelocity.X, State.LinearVelocity.Y, State.LinearVelocity.Z};
+  Data.angular_velocity_rad_s = {State.AngularVelocity.X, State.AngularVelocity.Y, State.AngularVelocity.Z};
+  Data.awake = State.bAwake;
+  Data.wake_counter = State.WakeCounter;
+  Data.input_control = carla::rpc::VehicleControl(State.InputControl);
+  Data.last_control = carla::rpc::VehicleControl(State.LastControl);
+  Data.input_priority = static_cast<uint32>(State.InputPriority);
+  Data.light_state = carla::rpc::VehicleLightState(State.LightState).GetLightStateAsValue();
+  Data.rollover_tracker = State.RolloverTracker;
+  Data.failure_state = static_cast<uint32>(State.FailureState);
+  Data.rollover_timer_exists = State.bRolloverTimerExists;
+  Data.rollover_timer_paused = State.bRolloverTimerPaused;
+  Data.rollover_timer_remaining = State.RolloverTimerRemaining;
+  Data.rollover_timer_rate = State.RolloverTimerRate;
+  const auto &Drive = State.Drive;
+  Data.drive.analog_inputs.assign(Drive.mControlAnalogVals,
+                                  Drive.mControlAnalogVals + physx::PxVehicleDriveDynData::eMAX_NB_ANALOG_INPUTS);
+  Data.drive.use_auto_gears = Drive.mUseAutoGears;
+  Data.drive.gear_up = Drive.mGearUpPressed;
+  Data.drive.gear_down = Drive.mGearDownPressed;
+  Data.drive.current_gear = Drive.mCurrentGear;
+  Data.drive.target_gear = Drive.mTargetGear;
+  Data.drive.engine_speed = Drive.mEnginespeed;
+  Data.drive.gear_switch_time = Drive.mGearSwitchTime;
+  Data.drive.auto_box_switch_time = Drive.mAutoBoxSwitchTime;
+  for (const auto &Wheel : State.Wheels)
+    Data.wheels.push_back({Wheel.Speed, Wheel.CorrectedSpeed, Wheel.Angle,
+        Wheel.LowForwardSpeedTimer, Wheel.LowSideSpeedTimer, Wheel.Jounce});
+  for (float Value : State.MovementFloats) Data.movement_floats.push_back(Value);
+  for (bool Value : State.MovementBools) Data.movement_bools.push_back(Value ? 1u : 0u);
+  if (!Data.HasValidShape()) return false;
+  Out = std::move(Data);
   return true;
 #endif
 }

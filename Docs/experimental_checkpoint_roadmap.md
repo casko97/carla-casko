@@ -31,7 +31,9 @@ has not been achieved or shown to be achievable bit-for-bit.
    destruction and external commands after the checkpoint in the journal.
    `PortableVehicleCheckpoint` defines a versioned, pointer-free representation
    of the current vehicle slot with explicit native units and structural checks.
-   It is not yet connected to export, import or a fresh-episode restore. An
+   The native vehicle can now export its current in-memory slot into that value
+   representation, including the capture frame and active PhysX flags. It is not
+   yet exposed to clients, connected to import or a fresh-episode restore. An
    importer must validate all numeric ranges and build, map, blueprint and actor
    compatibility before changing the simulator; the schema alone is not proof of
    reproducibility or cross-build compatibility.

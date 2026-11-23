@@ -38,7 +38,7 @@
 #include "carla/rpc/VehicleFailureState.h"
 #include "CarlaWheeledVehicle.generated.h"
 
-class UBoxComponent; struct FVehiclePhysicsCheckpoint; struct FEpisodeSettings;
+class UBoxComponent; struct FVehiclePhysicsCheckpoint; struct FEpisodeSettings; namespace carla { namespace rpc { struct PortableVehicleCheckpoint; } }
 
 UENUM()
 enum class EVehicleWheelLocation : uint8 {
@@ -480,4 +480,7 @@ public:
 
   UFUNCTION(Category = "CARLA Wheeled Vehicle", BlueprintCallable)
   void SetRotationAnim(float Rotation) { RotationAnim = Rotation; }
+
+  // Export values from the existing same-actor slot. Import is not implemented.
+  bool ExportPhysicsCheckpoint(carla::rpc::PortableVehicleCheckpoint &Out) const;
 };
