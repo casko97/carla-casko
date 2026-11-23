@@ -191,6 +191,50 @@ def sample_vehicle_lights(world, actors):
     return result
 
 
+def setup_collision_logs(world, actors):
+    blueprint = world.get_blueprint_library().find("sensor.other.collision")
+    sensors = {}
+    try:
+        for label, actor in actors.items():
+            sensor = world.spawn_actor(blueprint, carla.Transform(), attach_to=actor)
+            sensors[label] = sensor
+        for sensor in sensors.values():
+            world.begin_collision_checkpoint_log(sensor.id)
+    except Exception:
+        for sensor in sensors.values():
+            sensor.destroy()
+        raise
+    return sensors
+
+
+def drain_collision_logs(world, sensors, actors, expected_frame):
+    if world.get_snapshot().frame != expected_frame:
+        raise RuntimeError("world advanced before collision log drain")
+    labels_by_id = {actor.id: label for label, actor in actors.items()}
+    result = {}
+    for label, sensor in sensors.items():
+        log = world.drain_collision_checkpoint_log(sensor.id)
+        if log["overflow"]:
+            raise RuntimeError("collision log overflow for {}".format(label))
+        events = []
+        for event in log["events"]:
+            if event["frame"] != expected_frame:
+                raise RuntimeError("collision log has an unexpected frame for {}".format(label))
+            other_id = event["other_actor_id"]
+            other_type = event["other_actor_type"]
+            other = labels_by_id.get(other_id)
+            if other is None:
+                other = "static:{}".format(other_type) if other_id == 0 else "untracked:{}:{}".format(other_type, other_id)
+            impulse = list(event["normal_impulse"])
+            if len(impulse) != 3 or any(not math.isfinite(value) for value in impulse):
+                raise RuntimeError("invalid collision impulse for {}".format(label))
+            events.append({"other": other, "normal_impulse": impulse})
+        result[label] = sorted(events, key=lambda item: (item["other"], item["normal_impulse"]))
+    if world.get_snapshot().frame != expected_frame:
+        raise RuntimeError("world advanced during collision log drain")
+    return result
+
+
 def checkpoint_traffic_manager(world, tm, restore=False, timeout=2.0):
     before = world.get_snapshot().frame
     deadline = time.monotonic() + timeout
@@ -240,7 +284,8 @@ def compare_component_traces(reference, candidate):
 
 
 def run_frames(client, world, actors, frames, trace, lights=None, light_trace=None, weather_trace=None,
-               weather_changes=None, start_frame=0, tm_labels=(), tm_trace=None, vehicle_light_trace=None):
+               weather_changes=None, start_frame=0, tm_labels=(), tm_trace=None, vehicle_light_trace=None,
+               collision_sensors=None, collision_trace=None):
     weather_changes = weather_changes or {}
     for frame_index, commands in enumerate(frames, start_frame):
         if frame_index in weather_changes:
@@ -248,7 +293,10 @@ def run_frames(client, world, actors, frames, trace, lights=None, light_trace=No
             world.set_weather_synchronously(carla.WeatherParameters(**weather_changes[frame_index]))
             if world.get_snapshot().frame != before:
                 raise RuntimeError("world advanced during weather change")
+        previous_frame = world.get_snapshot().frame if collision_sensors is not None else None
         trace.append(step(client, world, actors, commands))
+        if collision_sensors is not None:
+            collision_trace.append(drain_collision_logs(world, collision_sensors, actors, previous_frame + 1))
         if tm_trace is not None:
             tm_trace.append(sample_tm_controls(actors, tm_labels))
         if vehicle_light_trace is not None:
@@ -318,6 +366,7 @@ def main():
     parser.add_argument("--build-id", help="user-supplied server, engine and content build identifiers")
     parser.add_argument("--traffic-lights", action="store_true", help="save and compare traffic-light group state")
     parser.add_argument("--vehicle-lights", action="store_true", help="compare saved vehicle light states")
+    parser.add_argument("--collision-events", action="store_true", help="record diagnostic collision sensor hits")
     parser.add_argument("--weather", action="store_true", help="save and compare weather parameters")
     parser.add_argument("--traffic-manager", action="store_true", help="save and restore Traffic Manager state")
     parser.add_argument("--tm-port", type=int, default=8000)
@@ -349,6 +398,7 @@ def main():
     weather_traces = {"prefix": [], "baseline": [], "restores": [], "replay_prefix": [], "replay_suffix": []}
     tm_traces = {"prefix": [], "baseline": [], "restores": [], "replay_prefix": [], "replay_suffix": []}
     vehicle_light_traces = {"prefix": [], "baseline": [], "restores": [], "replay_prefix": [], "replay_suffix": []}
+    collision_traces = {"prefix": [], "baseline": [], "restores": [], "replay_prefix": [], "replay_suffix": []}
     report = {"scenario": scenario, "checkpoint_after": args.checkpoint_after, "repetitions": args.repetitions,
               "traffic_lights_enabled": args.traffic_lights, "manifest": None, "replay_manifest": None,
               "weather_enabled": args.weather, "traces": traces, "light_traces": light_traces,
@@ -358,25 +408,30 @@ def main():
               "tm_seed": args.tm_seed if args.traffic_manager else None,
               "tm_control_traces": tm_traces, "vehicle_lights_enabled": args.vehicle_lights,
               "vehicle_light_traces": vehicle_light_traces, "vehicle_lights_checkpoint": None,
-              "vehicle_lights_after_restores": [], "summary": None, "failure": None}
+              "vehicle_lights_after_restores": [], "collision_events_enabled": args.collision_events,
+              "collision_traces": collision_traces, "summary": None, "failure": None}
     client = carla.Client(args.host, args.port)
     client.set_timeout(30.0)
     original_settings = client.get_world().get_settings()
     world = None
     actors = {}
+    collision_sensors = {}
     tm = None
     stage = "load_world"
     try:
         world = single.load_world(client, scenario["map"])
         stage = "spawn"
         actors = spawn_actors(world, scenario["actors"])
+        if args.collision_events:
+            stage = "setup_collision_logs"
+            collision_sensors = setup_collision_logs(world, actors)
         if args.traffic_manager:
             stage = "setup_traffic_manager"
             tm = setup_traffic_manager(client, actors, scenario["actors"], args.tm_port, args.tm_seed)
         stage = "find_traffic_lights"
         lights = traffic_lights(world) if args.traffic_lights else None
         stage = "prefix"
-        run_frames(client, world, actors, scenario["frames"][:args.checkpoint_after], traces["prefix"], lights, light_traces["prefix"], weather_traces["prefix"] if args.weather else None, weather_changes, tm_labels=tm_labels, tm_trace=tm_traces["prefix"] if tm else None, vehicle_light_trace=vehicle_light_traces["prefix"] if args.vehicle_lights else None)
+        run_frames(client, world, actors, scenario["frames"][:args.checkpoint_after], traces["prefix"], lights, light_traces["prefix"], weather_traces["prefix"] if args.weather else None, weather_changes, tm_labels=tm_labels, tm_trace=tm_traces["prefix"] if tm else None, vehicle_light_trace=vehicle_light_traces["prefix"] if args.vehicle_lights else None, collision_sensors=collision_sensors if args.collision_events else None, collision_trace=collision_traces["prefix"])
         report["manifest"] = manifest(client, world, actors, scenario["actors"], args.build_id)
         stage = "save_checkpoint"
         report["checkpoint_frame"] = checkpoint_actors(world, actors)
@@ -397,12 +452,13 @@ def main():
                 raise RuntimeError("world advanced during Traffic Manager checkpoint")
         suffix = scenario["frames"][args.checkpoint_after:]
         stage = "baseline"
-        run_frames(client, world, actors, suffix, traces["baseline"], lights, light_traces["baseline"], weather_traces["baseline"] if args.weather else None, weather_changes, args.checkpoint_after, tm_labels, tm_traces["baseline"] if tm else None, vehicle_light_traces["baseline"] if args.vehicle_lights else None)
+        run_frames(client, world, actors, suffix, traces["baseline"], lights, light_traces["baseline"], weather_traces["baseline"] if args.weather else None, weather_changes, args.checkpoint_after, tm_labels, tm_traces["baseline"] if tm else None, vehicle_light_traces["baseline"] if args.vehicle_lights else None, collision_sensors if args.collision_events else None, collision_traces["baseline"])
         restores = []
         light_restores = []
         weather_restores = []
         tm_restores = []
         vehicle_light_restores = []
+        collision_restores = []
         for index in range(args.repetitions):
             stage = "restore_{}".format(index)
             restored_frame = checkpoint_actors(world, actors, restore=True)
@@ -426,8 +482,9 @@ def main():
             weather_traces["restores"].append([])
             tm_traces["restores"].append([])
             vehicle_light_traces["restores"].append([])
+            collision_traces["restores"].append([])
             stage = "restore_suffix_{}".format(index)
-            run_frames(client, world, actors, suffix, traces["restores"][-1], lights, light_traces["restores"][-1], weather_traces["restores"][-1] if args.weather else None, weather_changes, args.checkpoint_after, tm_labels, tm_traces["restores"][-1] if tm else None, vehicle_light_traces["restores"][-1] if args.vehicle_lights else None)
+            run_frames(client, world, actors, suffix, traces["restores"][-1], lights, light_traces["restores"][-1], weather_traces["restores"][-1] if args.weather else None, weather_changes, args.checkpoint_after, tm_labels, tm_traces["restores"][-1] if tm else None, vehicle_light_traces["restores"][-1] if args.vehicle_lights else None, collision_sensors if args.collision_events else None, collision_traces["restores"][-1])
             restores.append(compare_scene(traces["baseline"], traces["restores"][-1], labels))
             if args.traffic_lights:
                 light_restores.append(compare_component_traces(light_traces["baseline"], light_traces["restores"][-1]))
@@ -437,21 +494,27 @@ def main():
                 tm_restores.append(compare_component_traces(tm_traces["baseline"], tm_traces["restores"][-1]))
             if args.vehicle_lights:
                 vehicle_light_restores.append(compare_component_traces(vehicle_light_traces["baseline"], vehicle_light_traces["restores"][-1]))
+            if args.collision_events:
+                collision_restores.append(compare_component_traces(collision_traces["baseline"], collision_traces["restores"][-1]))
         stage = "replay_load_world"
         world = single.load_world(client, scenario["map"])
         actors = {}
+        collision_sensors = {}
         stage = "replay_spawn"
         actors = spawn_actors(world, scenario["actors"])
+        if args.collision_events:
+            stage = "replay_setup_collision_logs"
+            collision_sensors = setup_collision_logs(world, actors)
         if args.traffic_manager:
             stage = "replay_setup_traffic_manager"
             tm = setup_traffic_manager(client, actors, scenario["actors"], args.tm_port, args.tm_seed)
         stage = "replay_find_traffic_lights"
         lights = traffic_lights(world) if args.traffic_lights else None
         stage = "replay_prefix"
-        run_frames(client, world, actors, scenario["frames"][:args.checkpoint_after], traces["replay_prefix"], lights, light_traces["replay_prefix"], weather_traces["replay_prefix"] if args.weather else None, weather_changes, tm_labels=tm_labels, tm_trace=tm_traces["replay_prefix"] if tm else None, vehicle_light_trace=vehicle_light_traces["replay_prefix"] if args.vehicle_lights else None)
+        run_frames(client, world, actors, scenario["frames"][:args.checkpoint_after], traces["replay_prefix"], lights, light_traces["replay_prefix"], weather_traces["replay_prefix"] if args.weather else None, weather_changes, tm_labels=tm_labels, tm_trace=tm_traces["replay_prefix"] if tm else None, vehicle_light_trace=vehicle_light_traces["replay_prefix"] if args.vehicle_lights else None, collision_sensors=collision_sensors if args.collision_events else None, collision_trace=collision_traces["replay_prefix"])
         report["replay_manifest"] = manifest(client, world, actors, scenario["actors"], args.build_id)
         stage = "replay_suffix"
-        run_frames(client, world, actors, suffix, traces["replay_suffix"], lights, light_traces["replay_suffix"], weather_traces["replay_suffix"] if args.weather else None, weather_changes, args.checkpoint_after, tm_labels, tm_traces["replay_suffix"] if tm else None, vehicle_light_traces["replay_suffix"] if args.vehicle_lights else None)
+        run_frames(client, world, actors, suffix, traces["replay_suffix"], lights, light_traces["replay_suffix"], weather_traces["replay_suffix"] if args.weather else None, weather_changes, args.checkpoint_after, tm_labels, tm_traces["replay_suffix"] if tm else None, vehicle_light_traces["replay_suffix"] if args.vehicle_lights else None, collision_sensors if args.collision_events else None, collision_traces["replay_suffix"])
         stage = "compare"
         summary = {"restores": restores, "prefix_replay": compare_scene(traces["prefix"], traces["replay_prefix"], labels),
                    "suffix_replay": compare_scene(traces["baseline"], traces["replay_suffix"], labels),
@@ -476,6 +539,10 @@ def main():
                                                  for item in report["vehicle_lights_after_restores"]),
                 "prefix_replay": compare_component_traces(vehicle_light_traces["prefix"], vehicle_light_traces["replay_prefix"]),
                 "suffix_replay": compare_component_traces(vehicle_light_traces["baseline"], vehicle_light_traces["replay_suffix"])}
+        if args.collision_events:
+            summary["collision_events"] = {"diagnostic_only": True, "restores": collision_restores,
+                "prefix_replay": compare_component_traces(collision_traces["prefix"], collision_traces["replay_prefix"]),
+                "suffix_replay": compare_component_traces(collision_traces["baseline"], collision_traces["replay_suffix"])}
         report["summary"] = summary
         print(json.dumps(summary, indent=2, sort_keys=True))
         lights_match = not args.traffic_lights or (all(item["exact"] for item in light_restores) and
@@ -488,7 +555,9 @@ def main():
         vehicle_lights_match = not args.vehicle_lights or (summary["vehicle_lights"]["checkpoint_restores_match"] and
             all(item["exact"] for item in vehicle_light_restores) and summary["vehicle_lights"]["prefix_replay"]["exact"] and
             summary["vehicle_lights"]["suffix_replay"]["exact"])
-        return 0 if all(item["exact"] for item in restores) and summary["prefix_replay"]["exact"] and summary["suffix_replay"]["exact"] and summary["manifest_matches_replay"] and lights_match and weather_match and tm_match and vehicle_lights_match else 1
+        collisions_match = not args.collision_events or (all(item["exact"] for item in collision_restores) and
+            summary["collision_events"]["prefix_replay"]["exact"] and summary["collision_events"]["suffix_replay"]["exact"])
+        return 0 if all(item["exact"] for item in restores) and summary["prefix_replay"]["exact"] and summary["suffix_replay"]["exact"] and summary["manifest_matches_replay"] and lights_match and weather_match and tm_match and vehicle_lights_match and collisions_match else 1
     except Exception as error:
         report["failure"] = {"stage": stage, "type": type(error).__name__, "message": str(error)}
         raise
@@ -506,6 +575,8 @@ def main():
                     cleanup(lambda actor=actors[label]: actor.set_autopilot(False, args.tm_port),
                             "unregister {}".format(label))
             cleanup(lambda: tm.set_synchronous_mode(False), "disable Traffic Manager synchronous mode")
+        for label, sensor in collision_sensors.items():
+            cleanup(sensor.destroy, "destroy collision sensor {}".format(label))
         for label, actor in actors.items():
             cleanup(actor.destroy, "destroy {}".format(label))
         if world is not None:

@@ -70,8 +70,8 @@ This step does **not** create a complete scenario checkpoint. It uses a fixed
 actor set, does not capture actor creation and deletion,
 ScenarioRunner, pedestrian controllers,
 sensors or their random states, and does not restore PhysX scene contact and
-solver caches. The actor snapshots compare kinematics; collision events are not
-recorded independently. The checkpoint slots exist only in the same episode,
+solver caches. The actor snapshots compare kinematics. Collision events can be
+recorded as a diagnostic using the option below. The checkpoint slots exist only in the same episode,
 and the prefix replay after a world reload is a reference, not a direct restore
 into a fresh process. See [the single-vehicle checkpoint guide](experimental_vehicle_physics_checkpoint.md)
 for further implementation constraints. Neither a full build nor a CARLA
@@ -113,6 +113,17 @@ The vehicle physics slot also saves the vehicle's light bitmask. Add
 restore and after every tick. A changed state triggers the vehicle's Blueprint
 light-refresh callback; Blueprint and rendering history are not captured. This
 path has not been tested in CARLA.
+
+With `--collision-events`, the harness attaches a collision sensor to each
+vehicle and synchronously drains its bounded server-side event buffer after
+each tick. It compares observed hit partners and normal impulses for each
+relative frame and rejects buffer overflow or events tagged with another frame.
+Controlled vehicle IDs are normalized to scenario labels; untracked dynamic
+actor IDs may differ after map reload, and static actors are identified only by
+their reported type. The output is marked diagnostic: CARLA de-duplicates hit
+events, an empty result does not prove there were no contacts, and callback
+ordering relative to the tick and drain has not been verified in a running
+simulator. Sensor state and PhysX contact/solver caches are not checkpointed.
 
 With `--traffic-lights`, the harness additionally saves and restores the
 same-episode traffic-light groups, controller state, phase timings and individual

@@ -20,6 +20,28 @@ with patch.dict(sys.modules, {"carla": types.ModuleType("carla"), "vehicle_physi
 
 
 class MultiVehicleJournalTest(unittest.TestCase):
+    def test_collision_log_normalizes_ids_and_rejects_incomplete_frames(self):
+        actors = {"ego": types.SimpleNamespace(id=11), "other": types.SimpleNamespace(id=22)}
+        sensors = {"ego": types.SimpleNamespace(id=55)}
+        event = {"frame": 7, "other_actor_id": 22, "other_actor_type": "vehicle.other",
+                 "normal_impulse": (1.0, 2.0, 3.0)}
+        log = {"overflow": False, "events": [event]}
+        world = types.SimpleNamespace(get_snapshot=lambda: types.SimpleNamespace(frame=7),
+                                      drain_collision_checkpoint_log=lambda _: log)
+        result = module.drain_collision_logs(world, sensors, actors, 7)
+        self.assertEqual(result, {"ego": [{"other": "other", "normal_impulse": [1.0, 2.0, 3.0]}]})
+        log["overflow"] = True
+        with self.assertRaisesRegex(RuntimeError, "overflow"):
+            module.drain_collision_logs(world, sensors, actors, 7)
+        log["overflow"] = False
+        event["frame"] = 6
+        with self.assertRaisesRegex(RuntimeError, "unexpected frame"):
+            module.drain_collision_logs(world, sensors, actors, 7)
+        event["frame"] = 7
+        event["normal_impulse"] = (float("nan"), 0.0, 0.0)
+        with self.assertRaisesRegex(RuntimeError, "invalid collision impulse"):
+            module.drain_collision_logs(world, sensors, actors, 7)
+
     def test_vehicle_light_traces_detect_changes(self):
         values = {"a": 1, "b": 2}
         actors = {label: types.SimpleNamespace(get_light_state=lambda key=label: values[key]) for label in values}
