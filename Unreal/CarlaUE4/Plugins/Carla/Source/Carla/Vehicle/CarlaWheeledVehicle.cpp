@@ -11,6 +11,7 @@
 #include "Rendering/SkeletalMeshRenderData.h"
 #include "UObject/UObjectGlobals.h"
 #include "UObject/UnrealType.h"
+#include "TimerManager.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -60,6 +61,10 @@ struct FVehiclePhysicsCheckpoint
   EVehicleInputPriority InputPriority;
   int32 RolloverTracker;
   carla::rpc::VehicleFailureState FailureState;
+  bool bRolloverTimerExists;
+  bool bRolloverTimerPaused;
+  float RolloverTimerRemaining;
+  float RolloverTimerRate;
   uint32 SetupTag;
   double FixedDeltaSeconds;
   double MaxSubstepDeltaTime;
@@ -141,6 +146,16 @@ bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Setting
   State->LightState = GetVehicleLightState();
   State->RolloverTracker = RolloverBehaviorTracker;
   State->FailureState = FailureState;
+  if (!GetWorld()) return false;
+  const auto &Timers = GetWorld()->GetTimerManager();
+  State->bRolloverTimerExists = Timers.TimerExists(TimerHandler);
+  State->bRolloverTimerPaused = State->bRolloverTimerExists && Timers.IsTimerPaused(TimerHandler);
+  State->RolloverTimerRemaining = State->bRolloverTimerExists ? Timers.GetTimerRemaining(TimerHandler) : 0.0f;
+  State->RolloverTimerRate = State->bRolloverTimerExists ? Timers.GetTimerRate(TimerHandler) : 0.0f;
+  if (State->bRolloverTimerExists &&
+      (!FMath::IsFinite(State->RolloverTimerRemaining) || State->RolloverTimerRemaining < 0.0f ||
+       !FMath::IsFinite(State->RolloverTimerRate) || State->RolloverTimerRate <= 0.0f))
+    return false;
   State->SetupTag = Movement->VehicleSetupTag;
   State->FixedDeltaSeconds = Settings.FixedDeltaSeconds.GetValue();
   State->MaxSubstepDeltaTime = Settings.MaxSubstepDeltaTime;
@@ -195,7 +210,7 @@ bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Sett
       Settings.MaxSubstepDeltaTime != PhysicsCheckpoint->MaxSubstepDeltaTime ||
       Settings.MaxSubsteps != PhysicsCheckpoint->MaxSubsteps ||
       Settings.bSubstepping != PhysicsCheckpoint->bSubstepping ||
-      !Movement || !Root || !Root->IsSimulatingPhysics() ||
+      !Movement || !Root || !GetWorld() || !Root->IsSimulatingPhysics() ||
       !Movement->PVehicleDrive || !Movement->PVehicle ||
       Movement->PVehicleDrive != PhysicsCheckpoint->DriveIdentity ||
       Movement->VehicleSetupTag != PhysicsCheckpoint->SetupTag ||
@@ -270,7 +285,17 @@ bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Sett
     Restored = true;
   });
   if (Restored)
+  {
+    auto &Timers = GetWorld()->GetTimerManager();
+    Timers.ClearTimer(TimerHandler);
+    if (PhysicsCheckpoint->bRolloverTimerExists)
+    {
+      Timers.SetTimer(TimerHandler, this, &ACarlaWheeledVehicle::SetRolloverFlag,
+                      PhysicsCheckpoint->RolloverTimerRate, false, PhysicsCheckpoint->RolloverTimerRemaining);
+      if (PhysicsCheckpoint->bRolloverTimerPaused) Timers.PauseTimer(TimerHandler);
+    }
     SetVehicleLightState(PhysicsCheckpoint->LightState);
+  }
   return Restored;
 #endif
 }
