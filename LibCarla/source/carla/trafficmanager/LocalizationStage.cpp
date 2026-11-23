@@ -319,6 +319,16 @@ void LocalizationStage::ExtendAndFindSafeSpace(const ActorId actor_id,
   }
 }
 
+LocalizationStage::Checkpoint LocalizationStage::CaptureCheckpoint() const {
+  return {last_lane_change_swpt, vehicles_at_junction, vehicles_at_junction_entrance};
+}
+
+void LocalizationStage::RestoreCheckpoint(const Checkpoint &checkpoint) {
+  last_lane_change_swpt = checkpoint.last_lane_change_swpt;
+  vehicles_at_junction = checkpoint.vehicles_at_junction;
+  vehicles_at_junction_entrance = checkpoint.vehicles_at_junction_entrance;
+}
+
 void LocalizationStage::RemoveActor(ActorId actor_id) {
     last_lane_change_swpt.erase(actor_id);
     vehicles_at_junction.erase(actor_id);

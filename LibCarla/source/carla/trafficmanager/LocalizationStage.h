@@ -66,6 +66,18 @@ private:
                   const float horizon_square);
 
 public:
+  // Waypoint pointers are valid only for the same local map instance. The
+  // caller must quiesce the worker and preserve actor IDs and map lifetime.
+  // The separately owned waypoint buffers and traffic tracker are not included.
+  struct Checkpoint {
+    LaneChangeSWptMap last_lane_change_swpt;
+    ActorIdSet vehicles_at_junction;
+    std::unordered_map<ActorId, std::pair<SimpleWaypointPtr, SimpleWaypointPtr>> vehicles_at_junction_entrance;
+  };
+
+  Checkpoint CaptureCheckpoint() const;
+  void RestoreCheckpoint(const Checkpoint &checkpoint);
+
   LocalizationStage(const std::vector<ActorId> &vehicle_id_list,
                     BufferMap &buffer_map,
                     const SimulationState &simulation_state,

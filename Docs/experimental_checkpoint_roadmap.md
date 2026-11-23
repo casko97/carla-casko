@@ -59,6 +59,9 @@ has not been achieved or shown to be achievable bit-for-bit.
    `TrafficLightStage` separately captures junction arrival queues, actor-to-
    junction associations and stop timestamps under the same restrictions;
    this is distinct from the server's traffic-light controller checkpoint.
+   `LocalizationStage` can copy its lane-change and junction history, but the
+   snapshot contains waypoint pointers valid only for the same local map. It
+   does not contain the separately owned route buffers and traffic tracker.
 5. Capture ScenarioRunner and agent state outside CARLA: behavior trees,
    criteria, timers, route progress, Python and other RNGs, policy recurrent
    state, and pending commands. Alternatively record all relevant external
