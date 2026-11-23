@@ -29,10 +29,12 @@ std::vector<ActorId> GetWorldActorIds(const cc::World &world) {
 }
 
 bool TrafficManagerLocal::CaptureCheckpointForCoordinator(Checkpoint &checkpoint) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   std::lock_guard<std::mutex> lock(registration_mutex);
   const auto settings = world.GetSettings();
   if (!parameters.GetSynchronousMode() || !settings.synchronous_mode ||
-      !settings.fixed_delta_seconds || step_begin.load() || step_end.load() || !local_map)
+      !settings.fixed_delta_seconds || step_begin.load() || step_end.load() ||
+      !worker_waiting_synchronously.load() || !local_map)
     return false;
   Checkpoint state;
   state.episode_id = world.GetId();
@@ -62,12 +64,13 @@ bool TrafficManagerLocal::CaptureCheckpointForCoordinator(Checkpoint &checkpoint
 }
 
 bool TrafficManagerLocal::RestoreCheckpointForCoordinator(const Checkpoint &checkpoint) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   std::lock_guard<std::mutex> lock(registration_mutex);
   const auto settings = world.GetSettings();
   if (!parameters.GetSynchronousMode() || !settings.synchronous_mode ||
       !settings.fixed_delta_seconds || settings != checkpoint.settings || !checkpoint.parameters.synchronous_mode ||
       checkpoint.episode_id != world.GetId() || checkpoint.map.lock() != local_map ||
-      step_begin.load() || step_end.load() ||
+      step_begin.load() || step_end.load() || !worker_waiting_synchronously.load() ||
       registered_vehicles.GetState() != checkpoint.registered_state ||
       registered_vehicles.GetIDList() != checkpoint.registered_actor_ids ||
       GetWorldActorIds(world) != checkpoint.world_actor_ids)
@@ -197,6 +200,7 @@ TrafficManagerLocal::~TrafficManagerLocal() {
 }
 
 void TrafficManagerLocal::SetupLocalMap() {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   const carla::SharedPtr<const cc::Map> world_map = world.GetMap();
   local_map = std::make_shared<InMemoryMap>(world_map);
 
@@ -231,15 +235,22 @@ void TrafficManagerLocal::Run() {
   size_t last_frame = 0;
   while (run_traffic_manger.load()) {
 
-    bool synchronous_mode = parameters.GetSynchronousMode();
-    bool hybrid_physics_mode = parameters.GetHybridPhysicsMode();
-    parameters.SetMaxBoundaries(20.0f, episode_proxy.Lock()->GetEpisodeSettings().actor_active_distance);
+    bool synchronous_mode;
+    bool hybrid_physics_mode;
+    {
+      std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
+      synchronous_mode = parameters.GetSynchronousMode();
+      hybrid_physics_mode = parameters.GetHybridPhysicsMode();
+    }
 
     // Wait for external trigger to initiate cycle in synchronous mode.
     if (synchronous_mode) {
       std::unique_lock<std::mutex> lock(step_execution_mutex);
+      worker_waiting_synchronously.store(true);
       step_begin_trigger.wait(lock, [this]() {return step_begin.load() || !run_traffic_manger.load();});
+      worker_waiting_synchronously.store(false);
       step_begin.store(false);
+      if (!run_traffic_manger.load()) break;
     }
 
     // Skipping velocity update if elapsed time is less than 0.05s in asynchronous, hybrid mode.
@@ -262,6 +273,8 @@ void TrafficManagerLocal::Run() {
       last_frame = timestamp.frame;
     }
 
+    std::unique_lock<std::mutex> checkpoint_lock(checkpoint_mutex);
+    parameters.SetMaxBoundaries(20.0f, episode_proxy.Lock()->GetEpisodeSettings().actor_active_distance);
     std::unique_lock<std::mutex> registration_lock(registration_mutex);
     // Updating simulation state, actor life cycle and performing necessary cleanup.
     alsm.Update();
@@ -332,14 +345,15 @@ void TrafficManagerLocal::Run() {
 }
 
 bool TrafficManagerLocal::SynchronousTick() {
-  if (parameters.GetSynchronousMode()) {
+  {
+    std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
+    if (!parameters.GetSynchronousMode()) return true;
     step_begin.store(true);
     step_begin_trigger.notify_one();
-
-    std::unique_lock<std::mutex> lock(step_execution_mutex);
-    step_end_trigger.wait(lock, [this]() { return step_end.load(); });
-    step_end.store(false);
   }
+  std::unique_lock<std::mutex> lock(step_execution_mutex);
+  step_end_trigger.wait(lock, [this]() { return step_end.load(); });
+  step_end.store(false);
   return true;
 }
 
@@ -397,11 +411,13 @@ void TrafficManagerLocal::Reset() {
 }
 
 void TrafficManagerLocal::RegisterVehicles(const std::vector<ActorPtr> &vehicle_list) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   std::lock_guard<std::mutex> registration_lock(registration_mutex);
   registered_vehicles.Insert(vehicle_list);
 }
 
 void TrafficManagerLocal::UnregisterVehicles(const std::vector<ActorPtr> &actor_list) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   std::lock_guard<std::mutex> registration_lock(registration_mutex);
   std::vector<ActorId> actor_id_list;
   for (auto &actor : actor_list) {
@@ -410,131 +426,163 @@ void TrafficManagerLocal::UnregisterVehicles(const std::vector<ActorPtr> &actor_
 }
 
 void TrafficManagerLocal::SetPercentageSpeedDifference(const ActorPtr &actor, const float percentage) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetPercentageSpeedDifference(actor, percentage);
 }
 
 void TrafficManagerLocal::SetGlobalPercentageSpeedDifference(const float percentage) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetGlobalPercentageSpeedDifference(percentage);
 }
 
 void TrafficManagerLocal::SetLaneOffset(const ActorPtr &actor, const float offset) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetLaneOffset(actor, offset);
 }
 
 void TrafficManagerLocal::SetGlobalLaneOffset(const float offset) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetGlobalLaneOffset(offset);
 }
 
 void TrafficManagerLocal::SetDesiredSpeed(const ActorPtr &actor, const float value) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetDesiredSpeed(actor, value);
 }
 
 /// Method to set the automatic management of the vehicle lights
 void TrafficManagerLocal::SetUpdateVehicleLights(const ActorPtr &actor, const bool do_update) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetUpdateVehicleLights(actor, do_update);
 }
 
 void TrafficManagerLocal::SetCollisionDetection(const ActorPtr &reference_actor, const ActorPtr &other_actor, const bool detect_collision) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetCollisionDetection(reference_actor, other_actor, detect_collision);
 }
 
 void TrafficManagerLocal::SetForceLaneChange(const ActorPtr &actor, const bool direction) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetForceLaneChange(actor, direction);
 }
 
 void TrafficManagerLocal::SetAutoLaneChange(const ActorPtr &actor, const bool enable) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetAutoLaneChange(actor, enable);
 }
 
 void TrafficManagerLocal::SetDistanceToLeadingVehicle(const ActorPtr &actor, const float distance) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetDistanceToLeadingVehicle(actor, distance);
 }
 
 void TrafficManagerLocal::SetGlobalDistanceToLeadingVehicle(const float distance) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetGlobalDistanceToLeadingVehicle(distance);
 }
 
 void TrafficManagerLocal::SetPercentageIgnoreWalkers(const ActorPtr &actor, const float perc) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetPercentageIgnoreWalkers(actor, perc);
 }
 
 void TrafficManagerLocal::SetPercentageIgnoreVehicles(const ActorPtr &actor, const float perc) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetPercentageIgnoreVehicles(actor, perc);
 }
 
 void TrafficManagerLocal::SetPercentageRunningLight(const ActorPtr &actor, const float perc) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetPercentageRunningLight(actor, perc);
 }
 
 void TrafficManagerLocal::SetPercentageRunningSign(const ActorPtr &actor, const float perc) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetPercentageRunningSign(actor, perc);
 }
 
 void TrafficManagerLocal::SetKeepRightPercentage(const ActorPtr &actor, const float percentage) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetKeepRightPercentage(actor, percentage);
 }
 
 void TrafficManagerLocal::SetRandomLeftLaneChangePercentage(const ActorPtr &actor, const float percentage) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetRandomLeftLaneChangePercentage(actor, percentage);
 }
 
 void TrafficManagerLocal::SetRandomRightLaneChangePercentage(const ActorPtr &actor, const float percentage) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetRandomRightLaneChangePercentage(actor, percentage);
 }
 
 void TrafficManagerLocal::SetHybridPhysicsMode(const bool mode_switch) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetHybridPhysicsMode(mode_switch);
 }
 
 void TrafficManagerLocal::SetHybridPhysicsRadius(const float radius) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetHybridPhysicsRadius(radius);
 }
 
 void TrafficManagerLocal::SetOSMMode(const bool mode_switch) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetOSMMode(mode_switch);
 }
 
 void TrafficManagerLocal::SetCustomPath(const ActorPtr &actor, const Path path, const bool empty_buffer) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetCustomPath(actor, path, empty_buffer);
 }
 
 void TrafficManagerLocal::RemoveUploadPath(const ActorId &actor_id, const bool remove_path) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.RemoveUploadPath(actor_id, remove_path);
 }
 
 void TrafficManagerLocal::UpdateUploadPath(const ActorId &actor_id, const Path path) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.UpdateUploadPath(actor_id, path);
 }
 
 void TrafficManagerLocal::SetImportedRoute(const ActorPtr &actor, const Route route, const bool empty_buffer) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetImportedRoute(actor, route, empty_buffer);
 }
 
 void TrafficManagerLocal::RemoveImportedRoute(const ActorId &actor_id, const bool remove_path) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.RemoveImportedRoute(actor_id, remove_path);
 }
 
 void TrafficManagerLocal::UpdateImportedRoute(const ActorId &actor_id, const Route route) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.UpdateImportedRoute(actor_id, route);
 }
 
 void TrafficManagerLocal::SetRespawnDormantVehicles(const bool mode_switch) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetRespawnDormantVehicles(mode_switch);
 }
 
 void TrafficManagerLocal::SetBoundariesRespawnDormantVehicles(const float lower_bound, const float upper_bound) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetBoundariesRespawnDormantVehicles(lower_bound, upper_bound);
 }
 
 void TrafficManagerLocal::SetMaxBoundaries(const float lower, const float upper) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetMaxBoundaries(lower, upper);
 }
 
 Action TrafficManagerLocal::GetNextAction(const ActorId &actor_id) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   return localization_stage.ComputeNextAction(actor_id);
 }
 
 ActionBuffer TrafficManagerLocal::GetActionBuffer(const ActorId &actor_id) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   return localization_stage.ComputeActionBuffer(actor_id);
 }
 
@@ -548,6 +596,7 @@ bool TrafficManagerLocal::CheckAllFrozen(TLGroup tl_to_freeze) {
 }
 
 void TrafficManagerLocal::SetSynchronousMode(bool mode) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   const bool previous_mode = parameters.GetSynchronousMode();
   parameters.SetSynchronousMode(mode);
   if (previous_mode && !mode) {
@@ -557,6 +606,7 @@ void TrafficManagerLocal::SetSynchronousMode(bool mode) {
 }
 
 void TrafficManagerLocal::SetSynchronousModeTimeOutInMiliSecond(double time) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   parameters.SetSynchronousModeTimeOutInMiliSecond(time);
 }
 
@@ -565,10 +615,12 @@ carla::client::detail::EpisodeProxy &TrafficManagerLocal::GetEpisodeProxy() {
 }
 
 std::vector<ActorId> TrafficManagerLocal::GetRegisteredVehiclesIDs() {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   return registered_vehicles.GetIDList();
 }
 
 void TrafficManagerLocal::SetRandomDeviceSeed(const uint64_t _seed) {
+  std::lock_guard<std::mutex> checkpoint_lock(checkpoint_mutex);
   seed = _seed;
   random_device = RandomGenerator(seed);
   world.ResetAllTrafficLights();

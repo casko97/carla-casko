@@ -102,6 +102,11 @@ private:
   /// Flags to signal step begin and end.
   std::atomic<bool> step_begin{false};
   std::atomic<bool> step_end{false};
+  // Serializes a complete worker cycle (including batch submission), TM
+  // setters/registration and checkpoint operations. It does not fence world
+  // ticks or external actor changes.
+  std::mutex checkpoint_mutex;
+  std::atomic<bool> worker_waiting_synchronously{false};
   /// Mutex for progressing synchronous execution.
   std::mutex step_execution_mutex;
   /// Condition variables for progressing synchronous execution.
@@ -123,9 +128,8 @@ private:
 public:
   // Research-only same-episode state. These methods require an external
   // coordinator to stop all world ticks, wait for the synchronous TM tick and
-  // its command batch to complete, and exclude TM setters, registration and
-  // actor lifecycle changes throughout capture or restore. The registration
-  // mutex alone does not enforce that barrier. This is not a world checkpoint.
+  // its command batch to complete, and exclude actor lifecycle changes and TM
+  // start/stop/reset throughout capture or restore. This is not a world checkpoint.
   struct Checkpoint {
     uint64_t episode_id;
     std::weak_ptr<InMemoryMap> map;
