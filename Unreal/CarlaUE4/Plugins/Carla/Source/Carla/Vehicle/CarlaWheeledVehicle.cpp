@@ -208,6 +208,17 @@ bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Sett
   for (const auto &Door : ConstraintDoor)
     if (Door.Value && Door.Value->IsSimulatingPhysics()) return false;
 
+  // Check the physics actor before applying the transform and input state.
+  // Recheck under the write lock below: this preflight is not a transaction.
+  bool BodyMatchesDrive = false;
+  FPhysicsCommand::ExecuteRead(Root->GetBodyInstance()->ActorHandle, [&](const FPhysicsActorHandle &Actor)
+  {
+    auto *RigidActor = FPhysicsInterface::GetPxRigidActor_AssumesLocked(Actor);
+    auto *BodyActor = RigidActor ? RigidActor->is<physx::PxRigidDynamic>() : nullptr;
+    BodyMatchesDrive = BodyActor && Movement->PVehicleDrive->getRigidDynamicActor() == BodyActor;
+  });
+  if (!BodyMatchesDrive) return false;
+
   if (!SetActorTransform(PhysicsCheckpoint->Transform, false, nullptr, ETeleportType::TeleportPhysics))
     return false;
   Root->SetPhysicsLinearVelocity(PhysicsCheckpoint->LinearVelocity);

@@ -16,8 +16,8 @@ restore is always sent, so the handle's sticky-control cache cannot suppress
 that command. Other handles' caches are not synchronized. The most recent
 successful save replaces the previous slot. A failed save does not invalidate
 a previous successful save.
-Restore validates preconditions before changing the vehicle, but is not a
-transaction: if a physics write fails after the transform is applied, it can
+Restore checks that the physics body matches the vehicle drive before changing
+the vehicle, but is not a transaction: if a physics write fails after the transform is applied, it can
 return false after partially changing the vehicle. Treat a failed restore as
 invalidating the current run and reload the world.
 
