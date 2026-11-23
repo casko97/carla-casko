@@ -153,6 +153,9 @@ namespace detail {
 
     rpc::VehiclePhysicsControl GetVehiclePhysicsControl(rpc::ActorId vehicle) const;
 
+    bool SaveVehiclePhysicsCheckpoint(rpc::ActorId vehicle);
+    bool RestoreVehiclePhysicsCheckpoint(rpc::ActorId vehicle);
+
     rpc::VehicleLightState GetVehicleLightState(rpc::ActorId vehicle) const;
 
     void ApplyPhysicsControlToVehicle(

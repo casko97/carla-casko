@@ -38,7 +38,7 @@
 #include "carla/rpc/VehicleFailureState.h"
 #include "CarlaWheeledVehicle.generated.h"
 
-class UBoxComponent;
+class UBoxComponent; struct FVehiclePhysicsCheckpoint; struct FEpisodeSettings;
 
 UENUM()
 enum class EVehicleWheelLocation : uint8 {
@@ -177,6 +177,10 @@ public:
   FVehicleLightState GetVehicleLightState() const;
 
   void ApplyVehiclePhysicsControl(const FVehiclePhysicsControl &PhysicsControl);
+
+  // Experimental, same-actor in-memory checkpoint. See the checkpoint guide.
+  bool SavePhysicsCheckpoint(const FEpisodeSettings &Settings);
+  bool RestorePhysicsCheckpoint(const FEpisodeSettings &Settings);
 
   void ApplyAckermannControllerSettings(const FAckermannControllerSettings &AckermannControllerSettings) {
     return AckermannController.ApplySettings(AckermannControllerSettings);
@@ -342,6 +346,7 @@ private:
   InputControl;
 
   FVehicleControl LastAppliedControl;
+  TSharedPtr<FVehiclePhysicsCheckpoint> PhysicsCheckpoint;
   FVehicleAckermannControl LastAppliedAckermannControl;
   FVehiclePhysicsControl LastPhysicsControl;
 

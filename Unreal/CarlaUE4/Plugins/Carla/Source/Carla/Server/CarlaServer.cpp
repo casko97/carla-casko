@@ -1274,6 +1274,30 @@ BIND_SYNC(is_sensor_enabled_for_ros) << [this](carla::streaming::detail::stream_
     return R<void>::Success();
   };
 
+  // These execute on the game thread while the synchronous world is waiting
+  // for its next tick. Callers must ensure there is only one tick owner.
+  BIND_SYNC(save_vehicle_physics_checkpoint) << [this](cr::ActorId ActorId) -> R<bool>
+  {
+    REQUIRE_CARLA_EPISODE();
+    FCarlaActor *Actor = Episode->FindCarlaActor(ActorId);
+    if (!Episode->GetSettings().bSynchronousMode ||
+        !Episode->GetSettings().FixedDeltaSeconds.IsSet() || !Actor || !Actor->IsActive())
+      return false;
+    auto *Vehicle = Cast<ACarlaWheeledVehicle>(Actor->GetActor());
+    return Vehicle && Vehicle->SavePhysicsCheckpoint(Episode->GetSettings());
+  };
+
+  BIND_SYNC(restore_vehicle_physics_checkpoint) << [this](cr::ActorId ActorId) -> R<bool>
+  {
+    REQUIRE_CARLA_EPISODE();
+    FCarlaActor *Actor = Episode->FindCarlaActor(ActorId);
+    if (!Episode->GetSettings().bSynchronousMode ||
+        !Episode->GetSettings().FixedDeltaSeconds.IsSet() || !Actor || !Actor->IsActive())
+      return false;
+    auto *Vehicle = Cast<ACarlaWheeledVehicle>(Actor->GetActor());
+    return Vehicle && Vehicle->RestorePhysicsCheckpoint(Episode->GetSettings());
+  };
+
   BIND_SYNC(get_physics_control) << [this](
       cr::ActorId ActorId) -> R<cr::VehiclePhysicsControl>
   {

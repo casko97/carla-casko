@@ -10,23 +10,87 @@
 #include "MovementComponents/DefaultMovementComponent.h"
 #include "Rendering/SkeletalMeshRenderData.h"
 #include "UObject/UObjectGlobals.h"
+#include "UObject/UnrealType.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 #include "PhysXPublic.h"
 #include "PhysXVehicleManager.h"
+#if CARLA_CHECKPOINT_PHYSX_WHEEL_INTERNALS
+#include "PxVehicleSuspWheelTire4.h"
+static_assert(PX_PHYSICS_VERSION_MAJOR == 3 && PX_PHYSICS_VERSION_MINOR == 4,
+              "Checkpoint wheel state requires an audit for this PhysX version");
+#endif
 #include "TireConfig.h"
 #include "VehicleWheel.h"
 
 #include "Carla.h"
 #include "Carla/Game/CarlaHUD.h"
 #include "Carla/Game/CarlaStatics.h"
+#include "Carla/Settings/EpisodeSettings.h"
 #include "Carla/Trigger/FrictionTrigger.h"
 #include "Carla/Util/ActorAttacher.h"
 #include "Carla/Util/EmptyActor.h"
 #include "Carla/Util/BoundingBoxCalculator.h"
 #include "Carla/Vegetation/VegetationManager.h"
 #include "Carla/Vehicle/CarlaWheeledVehicle.h"
+
+// This is deliberately a same-actor, same-episode prototype. In particular,
+// wheel raycast caches and the PhysX scene's solver/contact state are not saved.
+struct FCheckpointWheelState
+{
+  float Speed;
+  float CorrectedSpeed;
+  float Angle;
+  float LowForwardSpeedTimer;
+  float LowSideSpeedTimer;
+  float Jounce;
+};
+
+struct FVehiclePhysicsCheckpoint
+{
+  FTransform Transform;
+  FVector LinearVelocity;
+  FVector AngularVelocity;
+  bool bAwake;
+  float WakeCounter;
+  FVehicleControl InputControl;
+  FVehicleControl LastControl;
+  EVehicleInputPriority InputPriority;
+  int32 RolloverTracker;
+  carla::rpc::VehicleFailureState FailureState;
+  uint32 SetupTag;
+  double FixedDeltaSeconds;
+  double MaxSubstepDeltaTime;
+  int MaxSubsteps;
+  bool bSubstepping;
+  const physx::PxVehicleDrive *DriveIdentity;
+  physx::PxVehicleDriveDynData Drive;
+  TArray<FCheckpointWheelState> Wheels;
+  TArray<float> MovementFloats;
+  TArray<bool> MovementBools;
+};
+
+namespace
+{
+// These UPROPERTY fields are protected by the engine movement component.
+// Preserving both raw and interpolated values matters for the next input tick.
+const TCHAR *CheckpointFloatFields[] = {
+  TEXT("RawSteeringInput"), TEXT("RawThrottleInput"), TEXT("RawBrakeInput"),
+  TEXT("SteeringInput"), TEXT("ThrottleInput"), TEXT("BrakeInput"),
+  TEXT("HandbrakeInput")};
+const TCHAR *CheckpointBoolFields[] = {
+  TEXT("bRawHandbrakeInput"), TEXT("bRawGearUpInput"), TEXT("bRawGearDownInput")};
+
+bool CheckpointPropertiesExist(UWheeledVehicleMovementComponent *Movement)
+{
+  for (const TCHAR *Name : CheckpointFloatFields)
+    if (!FindFProperty<FFloatProperty>(Movement->GetClass(), Name)) return false;
+  for (const TCHAR *Name : CheckpointBoolFields)
+    if (!FindFProperty<FBoolProperty>(Movement->GetClass(), Name)) return false;
+  return true;
+}
+}
 
 // =============================================================================
 // -- Constructor and destructor -----------------------------------------------
@@ -48,6 +112,153 @@ ACarlaWheeledVehicle::ACarlaWheeledVehicle(const FObjectInitializer& ObjectIniti
 }
 
 ACarlaWheeledVehicle::~ACarlaWheeledVehicle() {}
+
+bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Settings)
+{
+#if !CARLA_CHECKPOINT_PHYSX_WHEEL_INTERNALS
+  return false;
+#else
+  auto *Movement = GetVehicleMovementComponent();
+  auto *Root = Cast<UPrimitiveComponent>(GetRootComponent());
+  if (!Settings.bSynchronousMode || !Settings.FixedDeltaSeconds.IsSet() ||
+      !Movement || !Root || !Root->IsSimulatingPhysics() ||
+      !Movement->PVehicleDrive || !Movement->PVehicle ||
+      !Cast<UDefaultMovementComponent>(BaseMovementComponent) ||
+      bAckermannControlActive || VelocityControl->IsActive() ||
+      Movement->bUseRVOAvoidance || !CheckpointPropertiesExist(Movement))
+    return false;
+  for (const auto &Door : ConstraintDoor)
+    if (Door.Value && Door.Value->IsSimulatingPhysics()) return false;
+
+  auto State = MakeShared<FVehiclePhysicsCheckpoint>();
+  State->Transform = GetActorTransform();
+  State->LinearVelocity = Root->GetPhysicsLinearVelocity();
+  State->AngularVelocity = Root->GetPhysicsAngularVelocityInRadians();
+  State->InputControl = InputControl.Control;
+  State->InputPriority = InputControl.Priority;
+  State->LastControl = LastAppliedControl;
+  State->RolloverTracker = RolloverBehaviorTracker;
+  State->FailureState = FailureState;
+  State->SetupTag = Movement->VehicleSetupTag;
+  State->FixedDeltaSeconds = Settings.FixedDeltaSeconds.GetValue();
+  State->MaxSubstepDeltaTime = Settings.MaxSubstepDeltaTime;
+  State->MaxSubsteps = Settings.MaxSubsteps;
+  State->bSubstepping = Settings.bSubstepping;
+  State->DriveIdentity = Movement->PVehicleDrive;
+  for (const TCHAR *Name : CheckpointFloatFields)
+    State->MovementFloats.Add(FindFProperty<FFloatProperty>(Movement->GetClass(), Name)->GetPropertyValue_InContainer(Movement));
+  for (const TCHAR *Name : CheckpointBoolFields)
+    State->MovementBools.Add(FindFProperty<FBoolProperty>(Movement->GetClass(), Name)->GetPropertyValue_InContainer(Movement));
+
+  FBodyInstance *Body = Root->GetBodyInstance();
+  if (!Body || !Body->IsValidBodyInstance()) return false;
+  bool Captured = false;
+  FPhysicsCommand::ExecuteRead(Body->ActorHandle, [&](const FPhysicsActorHandle &Actor)
+  {
+    auto *Drive = Movement->PVehicleDrive;
+    auto *RigidActor = FPhysicsInterface::GetPxRigidActor_AssumesLocked(Actor);
+    auto *BodyActor = RigidActor ? RigidActor->is<physx::PxRigidDynamic>() : nullptr;
+    if (!BodyActor || Drive->getRigidDynamicActor() != BodyActor) return;
+    State->bAwake = !BodyActor->isSleeping();
+    State->WakeCounter = BodyActor->getWakeCounter();
+    State->Drive = Drive->mDriveDynData;
+    auto &Wheels = Movement->PVehicle->mWheelsDynData;
+    const auto *WheelBlocks = Wheels.getWheel4DynData();
+    if (!WheelBlocks) return;
+    for (physx::PxU32 I = 0; I < Wheels.getNbWheelRotationSpeed(); ++I)
+    {
+      const auto &Block = WheelBlocks[I / 4];
+      const auto Slot = I % 4;
+      State->Wheels.Add({Block.mWheelSpeeds[Slot], Block.mCorrectedWheelSpeeds[Slot],
+                         Block.mWheelRotationAngles[Slot], Block.mTireLowForwardSpeedTimers[Slot],
+                         Block.mTireLowSideSpeedTimers[Slot], Block.mJounces[Slot]});
+    }
+    Captured = true;
+  });
+  if (!Captured) return false;
+  PhysicsCheckpoint = MoveTemp(State);
+  return true;
+#endif
+}
+
+bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Settings)
+{
+#if !CARLA_CHECKPOINT_PHYSX_WHEEL_INTERNALS
+  return false;
+#else
+  auto *Movement = GetVehicleMovementComponent();
+  auto *Root = Cast<UPrimitiveComponent>(GetRootComponent());
+  if (!PhysicsCheckpoint || !Settings.bSynchronousMode || !Settings.FixedDeltaSeconds.IsSet() ||
+      Settings.FixedDeltaSeconds.GetValue() != PhysicsCheckpoint->FixedDeltaSeconds ||
+      Settings.MaxSubstepDeltaTime != PhysicsCheckpoint->MaxSubstepDeltaTime ||
+      Settings.MaxSubsteps != PhysicsCheckpoint->MaxSubsteps ||
+      Settings.bSubstepping != PhysicsCheckpoint->bSubstepping ||
+      !Movement || !Root || !Root->IsSimulatingPhysics() ||
+      !Movement->PVehicleDrive || !Movement->PVehicle ||
+      Movement->PVehicleDrive != PhysicsCheckpoint->DriveIdentity ||
+      Movement->VehicleSetupTag != PhysicsCheckpoint->SetupTag ||
+      Movement->PVehicle->mWheelsDynData.getNbWheelRotationSpeed() !=
+        static_cast<physx::PxU32>(PhysicsCheckpoint->Wheels.Num()) ||
+      !Movement->PVehicle->mWheelsDynData.getWheel4DynData() ||
+      !Cast<UDefaultMovementComponent>(BaseMovementComponent) ||
+      bAckermannControlActive || VelocityControl->IsActive() ||
+      Movement->bUseRVOAvoidance || !CheckpointPropertiesExist(Movement) ||
+      !Root->GetBodyInstance() || !Root->GetBodyInstance()->IsValidBodyInstance())
+    return false;
+  for (const auto &Door : ConstraintDoor)
+    if (Door.Value && Door.Value->IsSimulatingPhysics()) return false;
+
+  if (!SetActorTransform(PhysicsCheckpoint->Transform, false, nullptr, ETeleportType::TeleportPhysics))
+    return false;
+  Root->SetPhysicsLinearVelocity(PhysicsCheckpoint->LinearVelocity);
+  Root->SetPhysicsAngularVelocityInRadians(PhysicsCheckpoint->AngularVelocity);
+  InputControl.Control = PhysicsCheckpoint->InputControl;
+  InputControl.Priority = PhysicsCheckpoint->InputPriority;
+  LastAppliedControl = PhysicsCheckpoint->LastControl;
+  RolloverBehaviorTracker = PhysicsCheckpoint->RolloverTracker;
+  FailureState = PhysicsCheckpoint->FailureState;
+  int32 Index = 0;
+  for (const TCHAR *Name : CheckpointFloatFields)
+    FindFProperty<FFloatProperty>(Movement->GetClass(), Name)->SetPropertyValue_InContainer(Movement, PhysicsCheckpoint->MovementFloats[Index++]);
+  Index = 0;
+  for (const TCHAR *Name : CheckpointBoolFields)
+    FindFProperty<FBoolProperty>(Movement->GetClass(), Name)->SetPropertyValue_InContainer(Movement, PhysicsCheckpoint->MovementBools[Index++]);
+
+  bool Restored = false;
+  FPhysicsCommand::ExecuteWrite(Root->GetBodyInstance()->ActorHandle, [&](const FPhysicsActorHandle &Actor)
+  {
+    auto *RigidActor = FPhysicsInterface::GetPxRigidActor_AssumesLocked(Actor);
+    auto *BodyActor = RigidActor ? RigidActor->is<physx::PxRigidDynamic>() : nullptr;
+    if (!BodyActor || Movement->PVehicleDrive->getRigidDynamicActor() != BodyActor) return;
+    Movement->PVehicleDrive->mDriveDynData = PhysicsCheckpoint->Drive;
+    auto &Wheels = Movement->PVehicle->mWheelsDynData;
+    auto *WheelBlocks = Wheels.getWheel4DynData();
+    for (int32 I = 0; I < PhysicsCheckpoint->Wheels.Num(); ++I)
+    {
+      auto &Block = WheelBlocks[I / 4];
+      const int32 Slot = I % 4;
+      const auto &Saved = PhysicsCheckpoint->Wheels[I];
+      Block.mWheelSpeeds[Slot] = Saved.Speed;
+      Block.mCorrectedWheelSpeeds[Slot] = Saved.CorrectedSpeed;
+      Block.mWheelRotationAngles[Slot] = Saved.Angle;
+      Block.mTireLowForwardSpeedTimers[Slot] = Saved.LowForwardSpeedTimer;
+      Block.mTireLowSideSpeedTimers[Slot] = Saved.LowSideSpeedTimer;
+      Block.mJounces[Slot] = Saved.Jounce;
+    }
+    if (PhysicsCheckpoint->bAwake)
+    {
+      BodyActor->wakeUp();
+      BodyActor->setWakeCounter(PhysicsCheckpoint->WakeCounter);
+    }
+    else
+    {
+      BodyActor->putToSleep();
+    }
+    Restored = true;
+  });
+  return Restored;
+#endif
+}
 
 void ACarlaWheeledVehicle::SetWheelCollision(UWheeledVehicleMovementComponent4W *Vehicle4W,
     const FVehiclePhysicsControl &PhysicsControl ) {
@@ -384,6 +595,7 @@ TArray<float> ACarlaWheeledVehicle::GetWheelsFrictionScale()
 
 void ACarlaWheeledVehicle::SetWheelsFrictionScale(TArray<float> &WheelsFrictionScale)
 {
+  PhysicsCheckpoint.Reset();
 
   UWheeledVehicleMovementComponent* Movement = GetVehicleMovement();
   if (Movement)
@@ -573,6 +785,7 @@ void ACarlaWheeledVehicle::RestoreVehiclePhysicsControl()
 
 void ACarlaWheeledVehicle::ApplyVehiclePhysicsControl(const FVehiclePhysicsControl &PhysicsControl)
 {
+  PhysicsCheckpoint.Reset();
   LastPhysicsControl = PhysicsControl;
   if (!bIsNWVehicle) {
     UWheeledVehicleMovementComponent4W *Vehicle4W = Cast<UWheeledVehicleMovementComponent4W>(
@@ -851,6 +1064,7 @@ void ACarlaWheeledVehicle::SetFailureState(const carla::rpc::VehicleFailureState
 
 void ACarlaWheeledVehicle::SetCarlaMovementComponent(UBaseCarlaMovementComponent* MovementComponent)
 {
+  PhysicsCheckpoint.Reset();
   if (BaseMovementComponent)
   {
     BaseMovementComponent->DestroyComponent();
@@ -903,6 +1117,8 @@ void ACarlaWheeledVehicle::SetSimulatePhysics(bool enabled) {
 
     if(bPhysicsEnabled == enabled)
       return;
+
+    PhysicsCheckpoint.Reset();
 
     SetActorEnableCollision(true);
     auto RootComponent = Cast<UPrimitiveComponent>(GetRootComponent());
@@ -992,6 +1208,7 @@ void ACarlaWheeledVehicle::CloseDoor(const EVehicleDoor DoorIdx) {
 
 void ACarlaWheeledVehicle::OpenDoorPhys(const EVehicleDoor DoorIdx)
 {
+  PhysicsCheckpoint.Reset();
   UPhysicsConstraintComponent* Constraint = ConstraintsComponents[static_cast<int>(DoorIdx)];
   UPrimitiveComponent* DoorComponent = ConstraintDoor[Constraint];
   DoorComponent->DetachFromComponent(
@@ -1023,6 +1240,7 @@ void ACarlaWheeledVehicle::OpenDoorPhys(const EVehicleDoor DoorIdx)
 
 void ACarlaWheeledVehicle::CloseDoorPhys(const EVehicleDoor DoorIdx)
 {
+  PhysicsCheckpoint.Reset();
   UPhysicsConstraintComponent* Constraint = ConstraintsComponents[static_cast<int>(DoorIdx)];
   UPrimitiveComponent* DoorComponent = ConstraintDoor[Constraint];
   FTransform DoorInitialTransform =

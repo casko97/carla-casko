@@ -94,6 +94,10 @@ namespace client {
     /// @warning This function does call the simulator.
     PhysicsControl GetPhysicsControl() const;
 
+    /// Experimental checkpoint, valid only for this vehicle in the same episode.
+    bool SavePhysicsCheckpoint();
+    bool RestorePhysicsCheckpoint();
+
     /// Return the current open lights (LightState) of this vehicle.
     ///
     /// @note This function does not call the simulator, it returns the data
@@ -145,6 +149,8 @@ namespace client {
     const bool _is_control_sticky;
 
     Control _control;
+    bool _has_physics_checkpoint = false;
+    bool _force_next_control = false;
   };
 
 } // namespace client

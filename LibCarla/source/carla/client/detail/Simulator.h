@@ -263,6 +263,14 @@ namespace detail {
       return _client.GetVehiclePhysicsControl(vehicle.GetId());
     }
 
+    bool SaveVehiclePhysicsCheckpoint(const Vehicle &vehicle) {
+      return _client.SaveVehiclePhysicsCheckpoint(vehicle.GetId());
+    }
+
+    bool RestoreVehiclePhysicsCheckpoint(const Vehicle &vehicle) {
+      return _client.RestoreVehiclePhysicsCheckpoint(vehicle.GetId());
+    }
+
     rpc::VehicleLightState GetVehicleLightState(const Vehicle &vehicle) const {
       return _client.GetVehicleLightState(vehicle.GetId());
     }

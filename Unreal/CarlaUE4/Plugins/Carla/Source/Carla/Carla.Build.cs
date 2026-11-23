@@ -19,6 +19,22 @@ public class Carla : ModuleRules
   {
     PrivatePCHHeaderFile = "Carla.h";
 
+    // The experimental checkpoint uses wheel dynamics not exposed by PhysX's
+    // public API. Do not silently use an incomplete wheel checkpoint when an
+    // engine installation does not include the matching PhysX 3.4 source.
+    string PhysXVehicleSource = Path.Combine(EngineDirectory,
+      "Source/ThirdParty/PhysX3/PhysX_3.4/Source/PhysXVehicle/src");
+    bool HasCheckpointWheelInternals = File.Exists(Path.Combine(
+      PhysXVehicleSource, "PxVehicleSuspWheelTire4.h"));
+    PrivateDefinitions.Add("CARLA_CHECKPOINT_PHYSX_WHEEL_INTERNALS=" +
+      (HasCheckpointWheelInternals ? "1" : "0"));
+    if (HasCheckpointWheelInternals)
+    {
+      PrivateIncludePaths.Add(PhysXVehicleSource);
+      PrivateIncludePaths.Add(Path.Combine(EngineDirectory,
+        "Source/ThirdParty/PhysX3/PhysX_3.4/Include/vehicle"));
+    }
+
     if (IsWindows(Target))
     {
       bEnableExceptions = true;

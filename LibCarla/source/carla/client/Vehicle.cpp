@@ -49,9 +49,10 @@ namespace client {
   }
 
   void Vehicle::ApplyControl(const Control &control) {
-    if (!_is_control_sticky || (control != _control)) {
+    if (!_is_control_sticky || _force_next_control || (control != _control)) {
       GetEpisode().Lock()->ApplyControlToVehicle(*this, control);
       _control = control;
+      _force_next_control = false;
     }
   }
 
@@ -97,6 +98,20 @@ namespace client {
 
   Vehicle::PhysicsControl Vehicle::GetPhysicsControl() const {
     return GetEpisode().Lock()->GetVehiclePhysicsControl(*this);
+  }
+
+  bool Vehicle::SavePhysicsCheckpoint() {
+    if (!GetEpisode().Lock()->SaveVehiclePhysicsCheckpoint(*this)) return false;
+    _has_physics_checkpoint = true;
+    return true;
+  }
+
+  bool Vehicle::RestorePhysicsCheckpoint() {
+    if (!_has_physics_checkpoint || !GetEpisode().Lock()->RestoreVehiclePhysicsCheckpoint(*this)) return false;
+    // Batch commands bypass this handle's sticky-control cache. Force the next
+    // direct command through even when it equals the last cached command.
+    _force_next_control = true;
+    return true;
   }
 
   Vehicle::LightState Vehicle::GetLightState() const {

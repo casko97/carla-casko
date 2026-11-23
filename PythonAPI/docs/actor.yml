@@ -318,6 +318,18 @@
         The simulator returns the last physics control applied to this vehicle.
       warning: This method does call the simulator to retrieve the value.
     # --------------------------------------
+    - def_name: save_physics_checkpoint
+      return: bool
+      doc: >
+        Experimental: save one in-memory physics checkpoint for this vehicle in the current synchronous, fixed-step episode. Returns false when the vehicle or settings are unsupported. See [the checkpoint guide](experimental_vehicle_physics_checkpoint.md) for required conditions and limitations.
+      warning: This is not a complete world checkpoint; it cannot be persisted or used across episodes.
+    # --------------------------------------
+    - def_name: restore_physics_checkpoint
+      return: bool
+      doc: >
+        Experimental: restore the most recently saved vehicle checkpoint using the same Python vehicle handle. Returns false if no valid checkpoint is available or the current state is unsupported. This does not advance or rewind world time.
+      warning: A successful restore does not establish deterministic continuation; physics and world state remain incomplete.
+    # --------------------------------------
     - def_name: get_speed_limit
       return: float
       return_units: km/h
