@@ -20,6 +20,7 @@
 #include "carla/trafficmanager/RandomGenerator.h"
 #include "carla/trafficmanager/SimulationState.h"
 #include "carla/trafficmanager/Stage.h"
+#include "carla/trafficmanager/TrackTraffic.h"
 
 namespace carla {
 namespace traffic_manager {
@@ -91,6 +92,17 @@ private:
   void DrawBoundary(const LocationVector &boundary);
 
 public:
+  // Internal state only: capture and restore require a quiescent worker and
+  // matching actor identities. Scene physics and other TM state are separate.
+  struct Checkpoint {
+    CollisionLockMap collision_locks;
+    GeometryComparisonMap geometry_cache;
+    GeodesicBoundaryMap geodesic_boundary_map;
+  };
+
+  Checkpoint CaptureCheckpoint() const;
+  void RestoreCheckpoint(const Checkpoint &checkpoint);
+
   CollisionStage(const std::vector<ActorId> &vehicle_id_list,
                  const SimulationState &simulation_state,
                  const BufferMap &buffer_map,

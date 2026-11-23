@@ -109,6 +109,16 @@ void CollisionStage::Update(const unsigned long index) {
   output_element.available_distance_margin = available_distance_margin;
 }
 
+CollisionStage::Checkpoint CollisionStage::CaptureCheckpoint() const {
+  return {collision_locks, geometry_cache, geodesic_boundary_map};
+}
+
+void CollisionStage::RestoreCheckpoint(const Checkpoint &checkpoint) {
+  collision_locks = checkpoint.collision_locks;
+  geometry_cache = checkpoint.geometry_cache;
+  geodesic_boundary_map = checkpoint.geodesic_boundary_map;
+}
+
 void CollisionStage::RemoveActor(const ActorId actor_id) {
   collision_locks.erase(actor_id);
 }

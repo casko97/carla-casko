@@ -62,6 +62,8 @@ has not been achieved or shown to be achievable bit-for-bit.
    `LocalizationStage` can copy its lane-change and junction history, but the
    snapshot contains waypoint pointers valid only for the same local map. It
    does not contain the separately owned route buffers and traffic tracker.
+   `CollisionStage` can copy collision locks and its per-cycle geometry caches;
+   this is traffic-decision state, not the PhysX scene's contact or solver state.
 5. Capture ScenarioRunner and agent state outside CARLA: behavior trees,
    criteria, timers, route progress, Python and other RNGs, policy recurrent
    state, and pending commands. Alternatively record all relevant external
