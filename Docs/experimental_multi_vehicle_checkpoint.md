@@ -104,9 +104,15 @@ exposed by `vehicle.get_control()` after each tick; that public observation does
 not expose every command queued internally for the next tick. For scenarios
 where traffic-light evolution matters, add `--traffic-lights` and account for
 its map restrictions below. The TM and vehicle restores are sequential and not
-atomic. TM timer rebasing, pending server commands, vehicle light state and
+atomic. TM timer rebasing, pending server commands, light Blueprint state and
 contact solver state can still cause differences. This path and the TM barrier
 have not been tested in a running simulator.
+
+The vehicle physics slot also saves the vehicle's light bitmask. Add
+`--vehicle-lights` to compare each vehicle's light state immediately after
+restore and after every tick. A changed state triggers the vehicle's Blueprint
+light-refresh callback; Blueprint and rendering history are not captured. This
+path has not been tested in CARLA.
 
 With `--traffic-lights`, the harness additionally saves and restores the
 same-episode traffic-light groups, controller state, phase timings and individual

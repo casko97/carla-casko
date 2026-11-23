@@ -56,6 +56,7 @@ struct FVehiclePhysicsCheckpoint
   float WakeCounter;
   FVehicleControl InputControl;
   FVehicleControl LastControl;
+  FVehicleLightState LightState;
   EVehicleInputPriority InputPriority;
   int32 RolloverTracker;
   carla::rpc::VehicleFailureState FailureState;
@@ -137,6 +138,7 @@ bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Setting
   State->InputControl = InputControl.Control;
   State->InputPriority = InputControl.Priority;
   State->LastControl = LastAppliedControl;
+  State->LightState = GetVehicleLightState();
   State->RolloverTracker = RolloverBehaviorTracker;
   State->FailureState = FailureState;
   State->SetupTag = Movement->VehicleSetupTag;
@@ -267,6 +269,8 @@ bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Sett
     }
     Restored = true;
   });
+  if (Restored)
+    SetVehicleLightState(PhysicsCheckpoint->LightState);
   return Restored;
 #endif
 }

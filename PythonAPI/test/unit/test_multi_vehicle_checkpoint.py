@@ -20,6 +20,20 @@ with patch.dict(sys.modules, {"carla": types.ModuleType("carla"), "vehicle_physi
 
 
 class MultiVehicleJournalTest(unittest.TestCase):
+    def test_vehicle_light_traces_detect_changes(self):
+        values = {"a": 1, "b": 2}
+        actors = {label: types.SimpleNamespace(get_light_state=lambda key=label: values[key]) for label in values}
+        world = types.SimpleNamespace(get_snapshot=lambda: types.SimpleNamespace(frame=7))
+        expected = module.sample_vehicle_lights(world, actors)
+        values["b"] = 4
+        actual = module.sample_vehicle_lights(world, actors)
+        self.assertEqual(expected, {"a": 1, "b": 2})
+        self.assertFalse(module.compare_component_traces([expected], [actual])["exact"])
+        frames = iter([7, 8])
+        world = types.SimpleNamespace(get_snapshot=lambda: types.SimpleNamespace(frame=next(frames)))
+        with self.assertRaisesRegex(RuntimeError, "world advanced"):
+            module.sample_vehicle_lights(world, actors)
+
     def test_tm_actor_controls_are_not_sent_as_manual_commands(self):
         scenario = module.demo_scenario()
         scenario["actors"][1]["controller"] = "traffic_manager"

@@ -37,10 +37,12 @@ a door currently simulating physics. Other changes can still escape detection.
 
 The slot currently captures the actor transform, linear and angular velocity and
 awake/asleep flag and PhysX wake counter,
-CARLA input and previous control, failure/rollover state, PhysX drive dynamic
+CARLA input and previous control, vehicle light state, failure/rollover state, PhysX drive dynamic
 data (including analog inputs, engine, gearbox and gear-change timers), wheel
 rotation speeds and angles, corrected wheel speeds, tire low-speed timers,
 previous suspension jounce, and Unreal raw and smoothed control inputs.
+Restoring light state invokes the vehicle's Blueprint refresh callback if the
+state differs; arbitrary Blueprint or rendering side effects are not saved.
 It does not restore simulation time or the PhysX scene's contact manifolds,
 solver caches, broadphase state, outstanding forces or
 suspension-query history. It does

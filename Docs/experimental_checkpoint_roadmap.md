@@ -93,7 +93,7 @@ has not been achieved or shown to be achievable bit-for-bit.
    checks alone do not fence the server or other clients. The worker-lock
    changes require live concurrency and deadlock testing before production use.
    Restore is not transactional if a later allocation or external action fails.
-   Physical actors, vehicle light state and pending client/server side effects
+   Physical actors and pending client/server side effects
    still need separate restoration. No live CARLA validation has been performed.
 5. Capture ScenarioRunner and agent state outside CARLA: behavior trees,
    criteria, timers, route progress, Python and other RNGs, policy recurrent
