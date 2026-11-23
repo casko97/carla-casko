@@ -166,6 +166,17 @@ JunctionID TrafficLightStage::GetAffectedJunctionId(const ActorId ego_actor_id) 
     }
 }
 
+TrafficLightStage::Checkpoint TrafficLightStage::CaptureCheckpoint() const {
+  return {entering_vehicles_map, vehicle_last_junction, vehicle_stop_time, current_timestamp};
+}
+
+void TrafficLightStage::RestoreCheckpoint(const Checkpoint &checkpoint) {
+  entering_vehicles_map = checkpoint.entering_vehicles_map;
+  vehicle_last_junction = checkpoint.vehicle_last_junction;
+  vehicle_stop_time = checkpoint.vehicle_stop_time;
+  current_timestamp = checkpoint.current_timestamp;
+}
+
 void TrafficLightStage::RemoveActor(const ActorId actor_id) {
   if (vehicle_last_junction.find(actor_id) != vehicle_last_junction.end()) {
     auto junction_id = vehicle_last_junction.at(actor_id);

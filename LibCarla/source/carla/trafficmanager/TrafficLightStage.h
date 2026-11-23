@@ -45,6 +45,18 @@ private:
   JunctionID GetAffectedJunctionId(const ActorId ego_actor_id);
 
 public:
+  // Internal same-process state. The caller must quiesce the worker and
+  // preserve actor identities and simulation time; this is not a TM checkpoint.
+  struct Checkpoint {
+    std::unordered_map<JunctionID, std::deque<ActorId>> entering_vehicles_map;
+    std::unordered_map<ActorId, JunctionID> vehicle_last_junction;
+    std::unordered_map<ActorId, cc::Timestamp> vehicle_stop_time;
+    cc::Timestamp current_timestamp;
+  };
+
+  Checkpoint CaptureCheckpoint() const;
+  void RestoreCheckpoint(const Checkpoint &checkpoint);
+
   TrafficLightStage(const std::vector<ActorId> &vehicle_id_list,
                     const SimulationState &Simulation_state,
                     const BufferMap &buffer_map,

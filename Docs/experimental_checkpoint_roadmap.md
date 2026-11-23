@@ -56,6 +56,9 @@ has not been achieved or shown to be achievable bit-for-bit.
    coordinator must provide worker quiescence, stable actor identities and a
    matching or correctly rebased simulation clock. No such clock restore is
    currently implemented, and other Traffic Manager state is still missing.
+   `TrafficLightStage` separately captures junction arrival queues, actor-to-
+   junction associations and stop timestamps under the same restrictions;
+   this is distinct from the server's traffic-light controller checkpoint.
 5. Capture ScenarioRunner and agent state outside CARLA: behavior trees,
    criteria, timers, route progress, Python and other RNGs, policy recurrent
    state, and pending commands. Alternatively record all relevant external
