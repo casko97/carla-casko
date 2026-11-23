@@ -68,6 +68,11 @@ has not been achieved or shown to be achievable bit-for-bit.
    handles, idle timers, last destruction time and physics flags. Those handles
    cannot be transferred across episodes. Its referenced actor registration,
    waypoint buffers, tracker and other stage state must be handled separately.
+   `checkpoint_time::Rebase` can shift saved motion, junction and lifecycle
+   timestamps to a later same-episode frame while preserving their elapsed ages.
+   It rejects invalid or future history without modifying the supplied snapshots.
+   It is not wired into a coordinator, does not restore the simulator clock,
+   and floating-point rebasing is not guaranteed to preserve bitwise results.
    `Parameters` can copy its configuration, pending lane changes and custom
    route/path commands, with a deep copy of collision-ignore sets. Capturing
    individual maps under locks does not make the aggregate snapshot atomic:
