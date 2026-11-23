@@ -29,6 +29,12 @@ has not been achieved or shown to be achievable bit-for-bit.
    held by controllers. Make vehicle/light/weather state serializable without
    raw pointers and reconstruct it in a fresh episode. Capture actor creation,
    destruction and external commands after the checkpoint in the journal.
+   `PortableVehicleCheckpoint` defines a versioned, pointer-free representation
+   of the current vehicle slot with explicit native units and structural checks.
+   It is not yet connected to export, import or a fresh-episode restore. An
+   importer must validate all numeric ranges and build, map, blueprint and actor
+   compatibility before changing the simulator; the schema alone is not proof of
+   reproducibility or cross-build compatibility.
 3. Complete and validate physics scene restoration. The present vehicle slot
    saves selected vehicle and rigid-body dynamics but not PhysX contact
    manifolds, constraint/solver warm-start state, broadphase and ordering, or
