@@ -68,6 +68,18 @@ private:
                                   cg::Location last_location);
 
 public:
+  // Same-process building block only. A coordinator must quiesce the worker,
+  // preserve actor IDs and align the simulation clock before using this state.
+  // This does not include parameters, route buffers, RNG or other stages.
+  struct Checkpoint {
+    std::unordered_map<ActorId, StateEntry> pid_state_map;
+    std::unordered_map<ActorId, cc::Timestamp> teleportation_instance;
+    cc::Timestamp current_timestamp;
+  };
+
+  Checkpoint CaptureCheckpoint() const;
+  void RestoreCheckpoint(const Checkpoint &checkpoint);
+
   MotionPlanStage(const std::vector<ActorId> &vehicle_id_list,
                   SimulationState &simulation_state,
                   const Parameters &parameters,

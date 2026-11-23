@@ -465,6 +465,16 @@ float MotionPlanStage::GetThreePointCircleRadius(cg::Location first_location,
   return std::sqrt(h * h + k * k - c);
 }
 
+MotionPlanStage::Checkpoint MotionPlanStage::CaptureCheckpoint() const {
+  return {pid_state_map, teleportation_instance, current_timestamp};
+}
+
+void MotionPlanStage::RestoreCheckpoint(const Checkpoint &checkpoint) {
+  pid_state_map = checkpoint.pid_state_map;
+  teleportation_instance = checkpoint.teleportation_instance;
+  current_timestamp = checkpoint.current_timestamp;
+}
+
 void MotionPlanStage::RemoveActor(const ActorId actor_id) {
   pid_state_map.erase(actor_id);
   teleportation_instance.erase(actor_id);

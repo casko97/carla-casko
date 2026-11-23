@@ -50,6 +50,12 @@ has not been achieved or shown to be achievable bit-for-bit.
    the Traffic Manager API or a worker barrier and do not capture any other TM
    state. Treat the stream as tied to a compatible C++ library and build until
    cross-build compatibility is explicitly established.
+   `MotionPlanStage::CaptureCheckpoint` / `RestoreCheckpoint` copy PID history,
+   teleportation timestamps and the stage's current timestamp. These are
+   same-process building blocks, not exposed through Traffic Manager; a future
+   coordinator must provide worker quiescence, stable actor identities and a
+   matching or correctly rebased simulation clock. No such clock restore is
+   currently implemented, and other Traffic Manager state is still missing.
 5. Capture ScenarioRunner and agent state outside CARLA: behavior trees,
    criteria, timers, route progress, Python and other RNGs, policy recurrent
    state, and pending commands. Alternatively record all relevant external
