@@ -24,6 +24,16 @@ namespace traffic_manager {
 
     AtomicMap() {}
 
+    std::unordered_map<Key, Value> CaptureState() const {
+      std::lock_guard<std::mutex> lock(map_mutex);
+      return map;
+    }
+
+    void RestoreState(const std::unordered_map<Key, Value> &state) {
+      std::lock_guard<std::mutex> lock(map_mutex);
+      map = state;
+    }
+
     void AddEntry(const std::pair<Key, Value> &entry) {
 
       std::lock_guard<std::mutex> lock(map_mutex);

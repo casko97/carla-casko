@@ -84,9 +84,9 @@ private:
   /// Maximum distance to respawn vehicles with respect to the hero vehicle.
   std::atomic<float> respawn_upper_bound{1000.0};
   /// Minimum possible distance to respawn vehicles with respect to the hero vehicle.
-  float min_lower_bound;
+  float min_lower_bound = 20.0f;
   /// Maximum possible distance to respawn vehicles with respect to the hero vehicle.
-  float max_upper_bound;
+  float max_upper_bound = 1000.0f;
   /// Hybrid physics radius.
   std::atomic<float> hybrid_physics_radius {70.0};
   /// Parameter specifying Open Street Map mode.
@@ -101,6 +101,47 @@ private:
   AtomicMap<ActorId, Route> custom_route;
 
 public:
+  // Internal same-episode snapshot. The caller must exclude all concurrent
+  // setters and worker updates for the entire capture or restore. Actor
+  // handles in ignore_collision belong to the current episode.
+  struct Checkpoint {
+    std::unordered_map<ActorId, float> percentage_difference_from_speed_limit;
+    std::unordered_map<ActorId, float> lane_offset;
+    std::unordered_map<ActorId, float> exact_desired_speed;
+    std::unordered_map<ActorId, float> distance_to_leading_vehicle;
+    std::unordered_map<ActorId, ChangeLaneInfo> force_lane_change;
+    std::unordered_map<ActorId, bool> auto_lane_change;
+    std::unordered_map<ActorId, float> perc_run_traffic_light;
+    std::unordered_map<ActorId, float> perc_run_traffic_sign;
+    std::unordered_map<ActorId, float> perc_ignore_walkers;
+    std::unordered_map<ActorId, float> perc_ignore_vehicles;
+    std::unordered_map<ActorId, float> perc_keep_right;
+    std::unordered_map<ActorId, float> perc_random_left;
+    std::unordered_map<ActorId, float> perc_random_right;
+    std::unordered_map<ActorId, bool> auto_update_vehicle_lights;
+    std::unordered_map<ActorId, bool> upload_path;
+    std::unordered_map<ActorId, Path> custom_path;
+    std::unordered_map<ActorId, bool> upload_route;
+    std::unordered_map<ActorId, Route> custom_route;
+    float global_percentage_difference_from_limit;
+    float global_lane_offset;
+    bool synchronous_mode;
+    float distance_margin;
+    bool hybrid_physics_mode;
+    bool respawn_dormant_vehicles;
+    float respawn_lower_bound;
+    float respawn_upper_bound;
+    float min_lower_bound;
+    float max_upper_bound;
+    float hybrid_physics_radius;
+    bool osm_mode;
+    std::unordered_map<ActorId, std::vector<ActorPtr>> ignore_collision;
+    std::chrono::duration<double, std::milli> synchronous_time_out;
+  };
+
+  Checkpoint CaptureCheckpoint() const;
+  void RestoreCheckpoint(const Checkpoint &state);
+
   Parameters();
   ~Parameters();
 

@@ -18,6 +18,86 @@ Parameters::Parameters() {
 
 Parameters::~Parameters() {}
 
+Parameters::Checkpoint Parameters::CaptureCheckpoint() const {
+  Checkpoint result;
+  result.percentage_difference_from_speed_limit = percentage_difference_from_speed_limit.CaptureState();
+  result.lane_offset = lane_offset.CaptureState();
+  result.exact_desired_speed = exact_desired_speed.CaptureState();
+  result.distance_to_leading_vehicle = distance_to_leading_vehicle.CaptureState();
+  result.force_lane_change = force_lane_change.CaptureState();
+  result.auto_lane_change = auto_lane_change.CaptureState();
+  result.perc_run_traffic_light = perc_run_traffic_light.CaptureState();
+  result.perc_run_traffic_sign = perc_run_traffic_sign.CaptureState();
+  result.perc_ignore_walkers = perc_ignore_walkers.CaptureState();
+  result.perc_ignore_vehicles = perc_ignore_vehicles.CaptureState();
+  result.perc_keep_right = perc_keep_right.CaptureState();
+  result.perc_random_left = perc_random_left.CaptureState();
+  result.perc_random_right = perc_random_right.CaptureState();
+  result.auto_update_vehicle_lights = auto_update_vehicle_lights.CaptureState();
+  result.upload_path = upload_path.CaptureState();
+  result.custom_path = custom_path.CaptureState();
+  result.upload_route = upload_route.CaptureState();
+  result.custom_route = custom_route.CaptureState();
+  result.global_percentage_difference_from_limit = global_percentage_difference_from_limit;
+  result.global_lane_offset = global_lane_offset;
+  result.synchronous_mode = synchronous_mode.load();
+  result.distance_margin = distance_margin.load();
+  result.hybrid_physics_mode = hybrid_physics_mode.load();
+  result.respawn_dormant_vehicles = respawn_dormant_vehicles.load();
+  result.respawn_lower_bound = respawn_lower_bound.load();
+  result.respawn_upper_bound = respawn_upper_bound.load();
+  result.min_lower_bound = min_lower_bound;
+  result.max_upper_bound = max_upper_bound;
+  result.hybrid_physics_radius = hybrid_physics_radius.load();
+  result.osm_mode = osm_mode.load();
+  result.synchronous_time_out = synchronous_time_out;
+  for (const auto &entry : ignore_collision.CaptureState()) {
+    result.ignore_collision.emplace(entry.first, entry.second->GetList());
+  }
+  return result;
+}
+
+void Parameters::RestoreCheckpoint(const Checkpoint &state) {
+  percentage_difference_from_speed_limit.RestoreState(state.percentage_difference_from_speed_limit);
+  lane_offset.RestoreState(state.lane_offset);
+  exact_desired_speed.RestoreState(state.exact_desired_speed);
+  distance_to_leading_vehicle.RestoreState(state.distance_to_leading_vehicle);
+  force_lane_change.RestoreState(state.force_lane_change);
+  auto_lane_change.RestoreState(state.auto_lane_change);
+  perc_run_traffic_light.RestoreState(state.perc_run_traffic_light);
+  perc_run_traffic_sign.RestoreState(state.perc_run_traffic_sign);
+  perc_ignore_walkers.RestoreState(state.perc_ignore_walkers);
+  perc_ignore_vehicles.RestoreState(state.perc_ignore_vehicles);
+  perc_keep_right.RestoreState(state.perc_keep_right);
+  perc_random_left.RestoreState(state.perc_random_left);
+  perc_random_right.RestoreState(state.perc_random_right);
+  auto_update_vehicle_lights.RestoreState(state.auto_update_vehicle_lights);
+  upload_path.RestoreState(state.upload_path);
+  custom_path.RestoreState(state.custom_path);
+  upload_route.RestoreState(state.upload_route);
+  custom_route.RestoreState(state.custom_route);
+  global_percentage_difference_from_limit = state.global_percentage_difference_from_limit;
+  global_lane_offset = state.global_lane_offset;
+  synchronous_mode.store(state.synchronous_mode);
+  distance_margin.store(state.distance_margin);
+  hybrid_physics_mode.store(state.hybrid_physics_mode);
+  respawn_dormant_vehicles.store(state.respawn_dormant_vehicles);
+  respawn_lower_bound.store(state.respawn_lower_bound);
+  respawn_upper_bound.store(state.respawn_upper_bound);
+  min_lower_bound = state.min_lower_bound;
+  max_upper_bound = state.max_upper_bound;
+  hybrid_physics_radius.store(state.hybrid_physics_radius);
+  osm_mode.store(state.osm_mode);
+  synchronous_time_out = state.synchronous_time_out;
+  std::unordered_map<ActorId, std::shared_ptr<AtomicActorSet>> ignored;
+  for (const auto &entry : state.ignore_collision) {
+    auto actors = std::make_shared<AtomicActorSet>();
+    actors->Insert(entry.second);
+    ignored.emplace(entry.first, std::move(actors));
+  }
+  ignore_collision.RestoreState(ignored);
+}
+
 //////////////////////////////////// SETTERS //////////////////////////////////
 
 void Parameters::SetHybridPhysicsMode(const bool mode_switch) {

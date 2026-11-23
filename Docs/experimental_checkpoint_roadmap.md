@@ -68,6 +68,11 @@ has not been achieved or shown to be achievable bit-for-bit.
    handles, idle timers, last destruction time and physics flags. Those handles
    cannot be transferred across episodes. Its referenced actor registration,
    waypoint buffers, tracker and other stage state must be handled separately.
+   `Parameters` can copy its configuration, pending lane changes and custom
+   route/path commands, with a deep copy of collision-ignore sets. Capturing
+   individual maps under locks does not make the aggregate snapshot atomic:
+   all worker updates and external parameter setters must be excluded by the
+   coordinator. Its actor handles remain tied to the current episode.
 5. Capture ScenarioRunner and agent state outside CARLA: behavior trees,
    criteria, timers, route progress, Python and other RNGs, policy recurrent
    state, and pending commands. Alternatively record all relevant external
