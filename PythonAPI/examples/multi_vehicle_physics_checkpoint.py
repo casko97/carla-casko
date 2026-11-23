@@ -30,6 +30,21 @@ def validate_scenario(scenario, checkpoint_after):
         raise ValueError("actors must be non-empty and frames must be a list")
     if not 1 <= checkpoint_after < len(frames):
         raise ValueError("checkpoint-after must be at least one and leave a non-empty suffix")
+    weather_changes = scenario.get("weather_changes", [])
+    if not isinstance(weather_changes, list):
+        raise ValueError("weather_changes must be a list")
+    weather_frames = set()
+    for change in weather_changes:
+        if not isinstance(change, dict) or set(change) != {"frame", "parameters"}:
+            raise ValueError("each weather change must contain frame and parameters")
+        frame = change["frame"]
+        if type(frame) is not int or not 0 <= frame < len(frames) or frame in weather_frames:
+            raise ValueError("weather change frames must be unique valid frame indices")
+        weather_frames.add(frame)
+        parameters = change["parameters"]
+        if (not isinstance(parameters, dict) or set(parameters) != set(WEATHER_FIELDS) or
+                any(type(value) not in (int, float) or not math.isfinite(value) for value in parameters.values())):
+            raise ValueError("weather parameters must contain all finite weather fields")
     labels = []
     for actor in actors:
         if not isinstance(actor, dict) or not isinstance(actor.get("id"), str) or not actor["id"]:
@@ -170,8 +185,15 @@ def compare_component_traces(reference, candidate):
     return {"exact": True, "first_difference": None}
 
 
-def run_frames(client, world, actors, frames, trace, lights=None, light_trace=None, weather_trace=None):
-    for commands in frames:
+def run_frames(client, world, actors, frames, trace, lights=None, light_trace=None, weather_trace=None,
+               weather_changes=None, start_frame=0):
+    weather_changes = weather_changes or {}
+    for frame_index, commands in enumerate(frames, start_frame):
+        if frame_index in weather_changes:
+            before = world.get_snapshot().frame
+            world.set_weather_synchronously(carla.WeatherParameters(**weather_changes[frame_index]))
+            if world.get_snapshot().frame != before:
+                raise RuntimeError("world advanced during weather change")
         trace.append(step(client, world, actors, commands))
         if lights is not None:
             light_trace.append(sample_traffic_lights(lights))
@@ -251,6 +273,9 @@ def main():
         labels = validate_scenario(scenario, args.checkpoint_after)
     except ValueError as error:
         parser.error(str(error))
+    weather_changes = {change["frame"]: change["parameters"] for change in scenario.get("weather_changes", [])}
+    if weather_changes and not args.weather:
+        parser.error("weather_changes requires --weather")
 
     traces = {"prefix": [], "baseline": [], "restores": [], "replay_prefix": [], "replay_suffix": []}
     light_traces = {"prefix": [], "baseline": [], "restores": [], "replay_prefix": [], "replay_suffix": []}
@@ -258,7 +283,8 @@ def main():
     report = {"scenario": scenario, "checkpoint_after": args.checkpoint_after, "repetitions": args.repetitions,
               "traffic_lights_enabled": args.traffic_lights, "manifest": None, "replay_manifest": None,
               "weather_enabled": args.weather, "traces": traces, "light_traces": light_traces,
-              "weather_traces": weather_traces, "summary": None, "failure": None}
+              "weather_traces": weather_traces, "weather_checkpoint": None,
+              "weather_after_restores": [], "summary": None, "failure": None}
     client = carla.Client(args.host, args.port)
     client.set_timeout(30.0)
     original_settings = client.get_world().get_settings()
@@ -272,7 +298,7 @@ def main():
         stage = "find_traffic_lights"
         lights = traffic_lights(world) if args.traffic_lights else None
         stage = "prefix"
-        run_frames(client, world, actors, scenario["frames"][:args.checkpoint_after], traces["prefix"], lights, light_traces["prefix"], weather_traces["prefix"] if args.weather else None)
+        run_frames(client, world, actors, scenario["frames"][:args.checkpoint_after], traces["prefix"], lights, light_traces["prefix"], weather_traces["prefix"] if args.weather else None, weather_changes)
         report["manifest"] = manifest(client, world, actors, scenario["actors"], args.build_id)
         stage = "save_checkpoint"
         report["checkpoint_frame"] = checkpoint_actors(world, actors)
@@ -284,9 +310,10 @@ def main():
             stage = "save_weather"
             if checkpoint_weather(world) != report["checkpoint_frame"]:
                 raise RuntimeError("world advanced during weather checkpoint")
+            report["weather_checkpoint"] = sample_weather(world)
         suffix = scenario["frames"][args.checkpoint_after:]
         stage = "baseline"
-        run_frames(client, world, actors, suffix, traces["baseline"], lights, light_traces["baseline"], weather_traces["baseline"] if args.weather else None)
+        run_frames(client, world, actors, suffix, traces["baseline"], lights, light_traces["baseline"], weather_traces["baseline"] if args.weather else None, weather_changes, args.checkpoint_after)
         restores = []
         light_restores = []
         weather_restores = []
@@ -301,11 +328,12 @@ def main():
                 stage = "restore_weather_{}".format(index)
                 if checkpoint_weather(world, restore=True) != restored_frame:
                     raise RuntimeError("world advanced between vehicle and weather restores")
+                report["weather_after_restores"].append(sample_weather(world))
             traces["restores"].append([])
             light_traces["restores"].append([])
             weather_traces["restores"].append([])
             stage = "restore_suffix_{}".format(index)
-            run_frames(client, world, actors, suffix, traces["restores"][-1], lights, light_traces["restores"][-1], weather_traces["restores"][-1] if args.weather else None)
+            run_frames(client, world, actors, suffix, traces["restores"][-1], lights, light_traces["restores"][-1], weather_traces["restores"][-1] if args.weather else None, weather_changes, args.checkpoint_after)
             restores.append(compare_scene(traces["baseline"], traces["restores"][-1], labels))
             if args.traffic_lights:
                 light_restores.append(compare_component_traces(light_traces["baseline"], light_traces["restores"][-1]))
@@ -319,10 +347,10 @@ def main():
         stage = "replay_find_traffic_lights"
         lights = traffic_lights(world) if args.traffic_lights else None
         stage = "replay_prefix"
-        run_frames(client, world, actors, scenario["frames"][:args.checkpoint_after], traces["replay_prefix"], lights, light_traces["replay_prefix"], weather_traces["replay_prefix"] if args.weather else None)
+        run_frames(client, world, actors, scenario["frames"][:args.checkpoint_after], traces["replay_prefix"], lights, light_traces["replay_prefix"], weather_traces["replay_prefix"] if args.weather else None, weather_changes)
         report["replay_manifest"] = manifest(client, world, actors, scenario["actors"], args.build_id)
         stage = "replay_suffix"
-        run_frames(client, world, actors, suffix, traces["replay_suffix"], lights, light_traces["replay_suffix"], weather_traces["replay_suffix"] if args.weather else None)
+        run_frames(client, world, actors, suffix, traces["replay_suffix"], lights, light_traces["replay_suffix"], weather_traces["replay_suffix"] if args.weather else None, weather_changes, args.checkpoint_after)
         stage = "compare"
         summary = {"restores": restores, "prefix_replay": compare_scene(traces["prefix"], traces["replay_prefix"], labels),
                    "suffix_replay": compare_scene(traces["baseline"], traces["replay_suffix"], labels),
@@ -333,13 +361,16 @@ def main():
                 "suffix_replay": compare_component_traces(light_traces["baseline"], light_traces["replay_suffix"])}
         if args.weather:
             summary["weather"] = {"restores": weather_restores,
+                "checkpoint_restores_match": all(item == report["weather_checkpoint"]
+                                                 for item in report["weather_after_restores"]),
                 "prefix_replay": compare_component_traces(weather_traces["prefix"], weather_traces["replay_prefix"]),
                 "suffix_replay": compare_component_traces(weather_traces["baseline"], weather_traces["replay_suffix"])}
         report["summary"] = summary
         print(json.dumps(summary, indent=2, sort_keys=True))
         lights_match = not args.traffic_lights or (all(item["exact"] for item in light_restores) and
             summary["traffic_lights"]["prefix_replay"]["exact"] and summary["traffic_lights"]["suffix_replay"]["exact"])
-        weather_match = not args.weather or (all(item["exact"] for item in weather_restores) and
+        weather_match = not args.weather or (summary["weather"]["checkpoint_restores_match"] and
+            all(item["exact"] for item in weather_restores) and
             summary["weather"]["prefix_replay"]["exact"] and summary["weather"]["suffix_replay"]["exact"])
         return 0 if all(item["exact"] for item in restores) and summary["prefix_replay"]["exact"] and summary["suffix_replay"]["exact"] and summary["manifest_matches_replay"] and lights_match and weather_match else 1
     except Exception as error:

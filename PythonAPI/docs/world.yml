@@ -770,6 +770,15 @@
       doc: >
         Changes the weather parameteres ruling the simulation to another ones defined in an object. 
     # --------------------------------------
+    - def_name: set_weather_synchronously
+      params:
+      - param_name: weather
+        type: carla.WeatherParameters
+        doc: New conditions to be applied.
+      doc: >
+        Experimental: wait for the server to apply the weather parameters before returning. Intended for a single-owner synchronous checkpoint journal.
+      warning: This does not fence another client or restore Blueprint and rendering side effects.
+    # --------------------------------------
     - def_name: cast_ray
       return: list(carla.LabelledPoint)
       params:

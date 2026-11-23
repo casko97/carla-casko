@@ -154,6 +154,7 @@ namespace detail {
     bool RestoreWeatherCheckpoint();
 
     void SetWeatherParameters(const rpc::WeatherParameters &weather);
+    void SetWeatherParametersSynchronously(const rpc::WeatherParameters &weather);
 
     std::vector<rpc::Actor> GetActorsById(const std::vector<ActorId> &ids);
 

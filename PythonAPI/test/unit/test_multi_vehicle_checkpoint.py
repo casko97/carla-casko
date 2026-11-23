@@ -20,6 +20,34 @@ with patch.dict(sys.modules, {"carla": types.ModuleType("carla"), "vehicle_physi
 
 
 class MultiVehicleJournalTest(unittest.TestCase):
+    def test_weather_changes_are_validated_and_replayed_at_absolute_frame(self):
+        scenario = module.demo_scenario()
+        parameters = {field: float(index) for index, field in enumerate(module.WEATHER_FIELDS)}
+        scenario["weather_changes"] = [{"frame": 40, "parameters": parameters}]
+        module.validate_scenario(scenario, 40)
+        for mutation in ("duplicate", "out_of_range", "missing", "nonfinite"):
+            altered = copy.deepcopy(scenario)
+            if mutation == "duplicate":
+                altered["weather_changes"].append(copy.deepcopy(altered["weather_changes"][0]))
+            elif mutation == "out_of_range":
+                altered["weather_changes"][0]["frame"] = len(altered["frames"])
+            elif mutation == "missing":
+                del altered["weather_changes"][0]["parameters"]["wetness"]
+            else:
+                altered["weather_changes"][0]["parameters"]["wetness"] = float("nan")
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                module.validate_scenario(altered, 40)
+        calls = []
+        world = types.SimpleNamespace(get_snapshot=lambda: types.SimpleNamespace(frame=7),
+                                      set_weather_synchronously=lambda weather: calls.append(("weather", weather)))
+        fake_carla = types.SimpleNamespace(WeatherParameters=lambda **kw: kw)
+        trace = []
+        with patch.object(module, "carla", fake_carla), patch.object(module, "step", side_effect=lambda *args: calls.append(("step", args[-1])) or {}):
+            module.run_frames(None, world, {}, [{"a": 1}, {"a": 2}], trace,
+                              weather_changes={40: parameters}, start_frame=40)
+        self.assertEqual(calls, [("weather", parameters), ("step", {"a": 1}), ("step", {"a": 2})])
+        self.assertEqual(len(trace), 2)
+
     def test_explicit_spawn_transform_and_attributes(self):
         scenario = module.demo_scenario()
         scenario["actors"][0] = {"id": "first", "blueprint": "vehicle.example",

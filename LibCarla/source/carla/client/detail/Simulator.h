@@ -275,6 +275,10 @@ namespace detail {
       _client.SetWeatherParameters(weather);
     }
 
+    void SetWeatherParametersSynchronously(const rpc::WeatherParameters &weather) {
+      _client.SetWeatherParametersSynchronously(weather);
+    }
+
     rpc::VehiclePhysicsControl GetVehiclePhysicsControl(const Vehicle &vehicle) const {
       return _client.GetVehiclePhysicsControl(vehicle.GetId());
     }

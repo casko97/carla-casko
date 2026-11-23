@@ -267,6 +267,10 @@ namespace detail {
     _pimpl->AsyncCall("set_weather_parameters", weather);
   }
 
+  void Client::SetWeatherParametersSynchronously(const rpc::WeatherParameters &weather) {
+    _pimpl->CallAndWait<void>("set_weather_parameters", weather);
+  }
+
   bool Client::SaveWeatherCheckpoint() {
     return _pimpl->CallAndWait<bool>("save_weather_checkpoint");
   }

@@ -101,6 +101,9 @@ namespace client {
     /// Change the weather in the simulation.
     void SetWeather(const rpc::WeatherParameters &weather);
 
+    /// Experimental: wait for the server to apply weather before returning.
+    void SetWeatherSynchronously(const rpc::WeatherParameters &weather);
+
     /// Return a snapshot of the world at this moment.
     WorldSnapshot GetSnapshot() const;
 

@@ -321,6 +321,7 @@ void export_world() {
     .def("save_weather_checkpoint", CALL_WITHOUT_GIL(cc::World, SaveWeatherCheckpoint))
     .def("restore_weather_checkpoint", CALL_WITHOUT_GIL(cc::World, RestoreWeatherCheckpoint))
     .def("set_weather", &cc::World::SetWeather)
+    .def("set_weather_synchronously", CALL_WITHOUT_GIL_1(cc::World, SetWeatherSynchronously, const carla::rpc::WeatherParameters &))
     .def("get_snapshot", &cc::World::GetSnapshot)
     .def("get_actor", CONST_CALL_WITHOUT_GIL_1(cc::World, GetActor, carla::ActorId), (arg("actor_id")))
     .def("get_actors", CONST_CALL_WITHOUT_GIL(cc::World, GetActors))

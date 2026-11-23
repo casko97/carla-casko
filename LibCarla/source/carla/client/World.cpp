@@ -107,6 +107,10 @@ namespace client {
     _episode.Lock()->SetWeatherParameters(weather);
   }
 
+  void World::SetWeatherSynchronously(const rpc::WeatherParameters &weather) {
+    _episode.Lock()->SetWeatherParametersSynchronously(weather);
+  }
+
   WorldSnapshot World::GetSnapshot() const {
     return _episode.Lock()->GetWorldSnapshot();
   }

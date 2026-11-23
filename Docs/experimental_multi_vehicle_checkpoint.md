@@ -92,8 +92,16 @@ or callback side effects were restored, and this path has not been run in CARLA.
 With `--weather`, the harness saves the current CARLA weather parameters and
 the weather actor's day/night switch and restores them in the same episode. It
 records and compares all 14 exposed weather parameters after each frame. The
-public trace does not expose the day/night switch, and the command journal does
-not yet support frame-by-frame weather changes. Applying weather invokes
+report also compares parameters immediately after each restore, before suffix
+commands can mask a failed restoration. The
+public trace does not expose the day/night switch. A scenario can include a
+`weather_changes` list of objects with a zero-based `frame` index and a
+`parameters` object containing all 14 fields reported by `sample_weather`.
+Each change is applied before that frame's controls and tick; a change at
+`checkpoint_after` belongs to the suffix. Supply `--weather` when using this
+journal. The harness uses the experimental synchronous weather setter so the
+server acknowledges each change before the tick; ordinary `set_weather` is
+asynchronous. Applying weather invokes
 Blueprint callbacks and refreshes sensor post-processing; their internal state,
 scene lights and rendering history are not captured. The weather path is also
 untested in a live simulator.
