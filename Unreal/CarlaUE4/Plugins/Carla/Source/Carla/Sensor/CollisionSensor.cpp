@@ -14,6 +14,8 @@
 #include "Carla/Game/CarlaGameInstance.h"
 #include "Carla/Game/CarlaGameModeBase.h"
 
+#include <utility>
+
 ACollisionSensor::ACollisionSensor(const FObjectInitializer& ObjectInitializer)
   : Super(ObjectInitializer)
 {
@@ -25,6 +27,19 @@ FActorDefinition ACollisionSensor::GetSensorDefinition()
   return UActorBlueprintFunctionLibrary::MakeGenericSensorDefinition(
       TEXT("other"),
       TEXT("collision"));
+}
+
+void ACollisionSensor::BeginCheckpointLog()
+{
+  CheckpointLog = FCollisionCheckpointLog{};
+  bCheckpointLogEnabled = true;
+}
+
+FCollisionCheckpointLog ACollisionSensor::DrainCheckpointLog()
+{
+  FCollisionCheckpointLog Result = std::move(CheckpointLog);
+  CheckpointLog = FCollisionCheckpointLog{};
+  return Result;
 }
 
 void ACollisionSensor::SetOwner(AActor *NewOwner)
@@ -77,6 +92,19 @@ void ACollisionSensor::OnCollisionEvent(
   const auto &Episode = GetEpisode();
   constexpr float TO_METERS = 1e-2;
   NormalImpulse *= TO_METERS;
+  if (bCheckpointLogEnabled)
+  {
+    if (CheckpointLog.Events.size() < MaxCheckpointEvents)
+    {
+      const auto Other = Episode.SerializeActor(OtherActor);
+      CheckpointLog.Events.push_back({CurrentFrame, Other.id,
+        FString(UTF8_TO_TCHAR(Other.description.id.c_str())), NormalImpulse});
+    }
+    else
+    {
+      CheckpointLog.bOverflow = true;
+    }
+  }
   GetDataStream(*this).SerializeAndSend(
       *this,
       Episode.SerializeActor(Actor),

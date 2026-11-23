@@ -7,7 +7,7 @@
 #pragma once
 
 #include "Carla/Actor/ActorDefinition.h"
-#include "Carla/Sensor/Sensor.h"
+#include "Carla/Sensor/CollisionCheckpointLog.h"
 
 #include "CollisionSensor.generated.h"
 
@@ -37,7 +37,17 @@ private:
       FVector NormalImpulse,
       const FHitResult &Hit);
 
+public:
+  // Begin a bounded server-side diagnostic log and drain it synchronously.
+  // These do not restore sensor state or establish a world-wide barrier.
+  void BeginCheckpointLog();
+  FCollisionCheckpointLog DrainCheckpointLog();
+
+private:
   /// Registry that saves all collisions. Used to avoid sending the same collision more than once per frame,
   /// as the collision sensor uses the PhysX substepping tick. Helps with sensor usage and stream overload.
   std::vector<std::tuple<uint64_t, AActor*, AActor*>> CollisionRegistry;
+  bool bCheckpointLogEnabled = false;
+  FCollisionCheckpointLog CheckpointLog;
+  static constexpr size_t MaxCheckpointEvents = 65536u;
 };

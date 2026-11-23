@@ -113,6 +113,12 @@ has not been achieved or shown to be achievable bit-for-bit.
    checkpoint frames, contact-heavy cases, repeated restores and process restarts
    across fixed builds. Continue comparing a full prefix replay separately.
 
+The collision sensor now has an opt-in bounded server-side diagnostic log of
+its de-duplicated hit events. It is not yet exposed through RPC or the harness,
+and does not capture every PhysX contact. Event timing and the game-thread
+ordering must be validated in a live simulator before treating a drain as a
+complete per-frame record.
+
 CARLA's recorder/replayer code is useful for actor event and identity mapping,
 but replaying recorded positions and events is not itself a snapshot of all
 physics, controller, sensor and random state needed for a new physics rollout.
