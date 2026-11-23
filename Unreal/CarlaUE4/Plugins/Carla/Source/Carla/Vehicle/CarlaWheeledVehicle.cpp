@@ -36,6 +36,10 @@ static_assert(PX_PHYSICS_VERSION_MAJOR == 3 && PX_PHYSICS_VERSION_MINOR == 4,
 #include "Carla/Vegetation/VegetationManager.h"
 #include "Carla/Vehicle/CarlaWheeledVehicle.h"
 
+#include <compiler/disable-ue4-macros.h>
+#include <carla/rpc/VehiclePhysicsControl.h>
+#include <compiler/enable-ue4-macros.h>
+
 // This is deliberately a same-actor, same-episode prototype. In particular,
 // wheel raycast caches and the PhysX scene's solver/contact state are not saved.
 struct FCheckpointWheelState
@@ -61,6 +65,7 @@ struct FVehiclePhysicsCheckpoint
   EVehicleInputPriority InputPriority;
   int32 RolloverTracker;
   carla::rpc::VehicleFailureState FailureState;
+  carla::rpc::VehiclePhysicsControl PhysicsConfiguration;
   bool bRolloverTimerExists;
   bool bRolloverTimerPaused;
   float RolloverTimerRemaining;
@@ -79,6 +84,15 @@ struct FVehiclePhysicsCheckpoint
 
 namespace
 {
+carla::rpc::VehiclePhysicsControl CheckpointPhysicsConfiguration(const ACarlaWheeledVehicle &Vehicle)
+{
+  carla::rpc::VehiclePhysicsControl Config(Vehicle.GetVehiclePhysicsControl());
+  // GetVehiclePhysicsControl reports the wheel's current position, which varies
+  // with suspension motion and is not a stable configuration value.
+  for (auto &Wheel : Config.wheels) Wheel.position = carla::geom::Vector3D{};
+  return Config;
+}
+
 // These UPROPERTY fields are protected by the engine movement component.
 // Preserving both raw and interpolated values matters for the next input tick.
 const TCHAR *CheckpointFloatFields[] = {
@@ -127,7 +141,7 @@ bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Setting
   auto *Movement = GetVehicleMovementComponent();
   auto *Root = Cast<UPrimitiveComponent>(GetRootComponent());
   if (!Settings.bSynchronousMode || !Settings.FixedDeltaSeconds.IsSet() ||
-      !Movement || !Root || !Root->IsSimulatingPhysics() ||
+      !Movement || !Movement->UpdatedComponent || !Root || !Root->IsSimulatingPhysics() ||
       !Movement->PVehicleDrive || !Movement->PVehicle ||
       !Cast<UDefaultMovementComponent>(BaseMovementComponent) ||
       bAckermannControlActive || VelocityControl->IsActive() ||
@@ -146,6 +160,7 @@ bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Setting
   State->LightState = GetVehicleLightState();
   State->RolloverTracker = RolloverBehaviorTracker;
   State->FailureState = FailureState;
+  State->PhysicsConfiguration = CheckpointPhysicsConfiguration(*this);
   if (!GetWorld()) return false;
   const auto &Timers = GetWorld()->GetTimerManager();
   State->bRolloverTimerExists = Timers.TimerExists(TimerHandler);
@@ -210,7 +225,7 @@ bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Sett
       Settings.MaxSubstepDeltaTime != PhysicsCheckpoint->MaxSubstepDeltaTime ||
       Settings.MaxSubsteps != PhysicsCheckpoint->MaxSubsteps ||
       Settings.bSubstepping != PhysicsCheckpoint->bSubstepping ||
-      !Movement || !Root || !GetWorld() || !Root->IsSimulatingPhysics() ||
+      !Movement || !Movement->UpdatedComponent || !Root || !GetWorld() || !Root->IsSimulatingPhysics() ||
       !Movement->PVehicleDrive || !Movement->PVehicle ||
       Movement->PVehicleDrive != PhysicsCheckpoint->DriveIdentity ||
       Movement->VehicleSetupTag != PhysicsCheckpoint->SetupTag ||
@@ -235,6 +250,7 @@ bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Sett
     BodyMatchesDrive = BodyActor && Movement->PVehicleDrive->getRigidDynamicActor() == BodyActor;
   });
   if (!BodyMatchesDrive) return false;
+  if (CheckpointPhysicsConfiguration(*this) != PhysicsCheckpoint->PhysicsConfiguration) return false;
 
   if (!SetActorTransform(PhysicsCheckpoint->Transform, false, nullptr, ETeleportType::TeleportPhysics))
     return false;

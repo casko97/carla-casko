@@ -31,6 +31,10 @@ between save and restore. The API checks the PhysX drive object's identity and
 vehicle setup tag, but cannot detect every possible configuration change.
 Restore also checks that the fixed timestep and physics substep settings still
 match the save. These checks do not track every world setting.
+It compares the exposed vehicle physics configuration, including the torque
+curve, while excluding wheel positions because CARLA reports those as changing
+simulation state. This catches some configuration changes; hidden PhysX and
+Unreal properties and curve interpolation details can still differ.
 Changing physics control, wheel friction, movement component, physics-enabled
 state or doors invalidates the slot. Saving and restoring reject a vehicle with
 a door currently simulating physics. Other changes can still escape detection.
