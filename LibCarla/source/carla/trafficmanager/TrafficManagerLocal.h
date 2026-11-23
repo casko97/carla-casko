@@ -156,6 +156,14 @@ public:
 
   bool CaptureCheckpointForCoordinator(Checkpoint &checkpoint);
   bool RestoreCheckpointForCoordinator(const Checkpoint &checkpoint);
+  bool SaveCheckpoint() override;
+  bool RestoreCheckpoint() override;
+
+private:
+  std::mutex checkpoint_slot_mutex;
+  std::unique_ptr<Checkpoint> checkpoint_slot;
+
+public:
 
   /// Private constructor for singleton lifecycle management.
   TrafficManagerLocal(std::vector<float> longitudinal_PID_parameters,

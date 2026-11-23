@@ -107,6 +107,10 @@ public:
   /// Method to provide synchronous tick
   virtual bool SynchronousTick() = 0;
 
+  /// Experimental same-episode Traffic Manager checkpoint slot.
+  virtual bool SaveCheckpoint() = 0;
+  virtual bool RestoreCheckpoint() = 0;
+
   /// Get carla episode information
   virtual  carla::client::detail::EpisodeProxy& GetEpisodeProxy() = 0;
 

@@ -165,6 +165,8 @@ public:
 
   /// Method to provide synchronous tick
   bool SynchronousTick();
+  bool SaveCheckpoint() override;
+  bool RestoreCheckpoint() override;
 
   /// Get CARLA episode information.
   carla::client::detail::EpisodeProxy& GetEpisodeProxy();

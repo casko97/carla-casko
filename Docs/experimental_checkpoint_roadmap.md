@@ -82,8 +82,10 @@ has not been achieved or shown to be achievable bit-for-bit.
    methods for these snapshots, waypoint buffers, the tracker, simulation cache
    and actor lifecycle. They validate episode, local map, settings, actor IDs,
    registration state and saved random state, and rebase the component timers.
-   They are not exposed via the public Traffic Manager or Python APIs and are
-   not a world checkpoint. An experimental TM mutex excludes its worker cycle
+   Experimental `TrafficManager.save_checkpoint()` and `restore_checkpoint()`
+   expose a single in-memory slot through local or remote TM clients. A failed
+   save or TM stop invalidates the slot; it cannot survive an episode or process
+   change. These methods are not a world checkpoint. An experimental TM mutex excludes its worker cycle
    including command submission, setters and registration during each operation,
    and the methods reject unless the synchronous worker is waiting for its next
    tick. A caller must still ensure no other client ticks or changes actors,

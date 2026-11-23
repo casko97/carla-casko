@@ -311,6 +311,16 @@ public:
     return false;
   }
 
+  bool SaveCheckpoint() {
+    TrafficManagerBase *tm_ptr = GetTM(_port);
+    return tm_ptr != nullptr && tm_ptr->SaveCheckpoint();
+  }
+
+  bool RestoreCheckpoint() {
+    TrafficManagerBase *tm_ptr = GetTM(_port);
+    return tm_ptr != nullptr && tm_ptr->RestoreCheckpoint();
+  }
+
   /// Method to Set Global distance to Leading vehicle
   void SetGlobalDistanceToLeadingVehicle(const float distance) {
     TrafficManagerBase* tm_ptr = GetTM(_port);

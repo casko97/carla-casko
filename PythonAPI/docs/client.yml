@@ -611,6 +611,18 @@
       doc: >
         Sets a specific random seed for the Traffic Manager, thereby setting it to be deterministic.
     # --------------------------------------
+    - def_name: save_checkpoint
+      return: bool
+      doc: >
+        Experimental: save one in-memory Traffic Manager state slot in the current synchronous fixed-step episode. A failed save discards the previous slot. The worker must be waiting after a completed tick; retry later without advancing the world if it is not ready.
+      warning: This is not a simulator checkpoint. Use one tick owner and prevent other clients from ticking or changing actors or Traffic Manager lifetime during capture. It does not save physics, server actor controls, pedestrians, sensors or scenario state. Untested in a live simulator.
+    # --------------------------------------
+    - def_name: restore_checkpoint
+      return: bool
+      doc: >
+        Experimental: restore the saved Traffic Manager slot in the same episode and map, with the same settings and actor identities. The worker must be waiting after a completed tick.
+      warning: Restore is not a world transaction and may partially apply on an exception. The caller must separately restore vehicle and world state and prevent other clients from ticking or changing actors. Timers are rebased and exact replay is unverified.
+    # --------------------------------------
     - def_name: set_synchronous_mode
       params:
       - param_name: mode_switch

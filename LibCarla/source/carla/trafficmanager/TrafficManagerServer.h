@@ -277,6 +277,9 @@ public:
         return tm->SynchronousTick();
       });
 
+      server->bind("save_checkpoint", [=]() -> bool { return tm->SaveCheckpoint(); });
+      server->bind("restore_checkpoint", [=]() -> bool { return tm->RestoreCheckpoint(); });
+
       /// Method to check server is alive or not.
       server->bind("health_check_remote_TM", [=](){});
 

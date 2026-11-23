@@ -285,6 +285,14 @@ bool TrafficManagerRemote::SynchronousTick() {
   return false;
 }
 
+bool TrafficManagerRemote::SaveCheckpoint() {
+  return client.SaveCheckpoint();
+}
+
+bool TrafficManagerRemote::RestoreCheckpoint() {
+  return client.RestoreCheckpoint();
+}
+
 void TrafficManagerRemote::HealthCheckRemoteTM() {
   client.HealthCheckRemoteTM();
 }

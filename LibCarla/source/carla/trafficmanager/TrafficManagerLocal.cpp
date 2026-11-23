@@ -103,6 +103,20 @@ bool TrafficManagerLocal::RestoreCheckpointForCoordinator(const Checkpoint &chec
   return true;
 }
 
+bool TrafficManagerLocal::SaveCheckpoint() {
+  std::lock_guard<std::mutex> slot_lock(checkpoint_slot_mutex);
+  checkpoint_slot.reset();
+  auto state = std::make_unique<Checkpoint>();
+  if (!CaptureCheckpointForCoordinator(*state)) return false;
+  checkpoint_slot = std::move(state);
+  return true;
+}
+
+bool TrafficManagerLocal::RestoreCheckpoint() {
+  std::lock_guard<std::mutex> slot_lock(checkpoint_slot_mutex);
+  return checkpoint_slot && RestoreCheckpointForCoordinator(*checkpoint_slot);
+}
+
 TrafficManagerLocal::TrafficManagerLocal(
   std::vector<float> longitudinal_PID_parameters,
   std::vector<float> longitudinal_highway_PID_parameters,
@@ -358,6 +372,9 @@ bool TrafficManagerLocal::SynchronousTick() {
 }
 
 void TrafficManagerLocal::Stop() {
+
+  std::lock_guard<std::mutex> slot_lock(checkpoint_slot_mutex);
+  checkpoint_slot.reset();
 
   run_traffic_manger.store(false);
   if (parameters.GetSynchronousMode()) {

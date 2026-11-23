@@ -182,6 +182,16 @@ public:
     return _client->call("synchronous_tick").as<bool>();
   }
 
+  bool SaveCheckpoint() {
+    DEBUG_ASSERT(_client != nullptr);
+    return _client->call("save_checkpoint").as<bool>();
+  }
+
+  bool RestoreCheckpoint() {
+    DEBUG_ASSERT(_client != nullptr);
+    return _client->call("restore_checkpoint").as<bool>();
+  }
+
   /// Check if remote traffic manager is alive
   void HealthCheckRemoteTM() {
     DEBUG_ASSERT(_client != nullptr);

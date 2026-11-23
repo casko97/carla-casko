@@ -105,6 +105,8 @@ void export_trafficmanager() {
     .def("random_left_lanechange_percentage", &ctm::TrafficManager::SetRandomLeftLaneChangePercentage, (arg("actor"), arg("percentage")))
     .def("random_right_lanechange_percentage", &ctm::TrafficManager::SetRandomRightLaneChangePercentage, (arg("actor"), arg("percentage")))
     .def("set_synchronous_mode", &ctm::TrafficManager::SetSynchronousMode, (arg("mode_switch")))
+    .def("save_checkpoint", CALL_WITHOUT_GIL(ctm::TrafficManager, SaveCheckpoint))
+    .def("restore_checkpoint", CALL_WITHOUT_GIL(ctm::TrafficManager, RestoreCheckpoint))
     .def("set_hybrid_physics_mode", &ctm::TrafficManager::SetHybridPhysicsMode, (arg("enabled")))
     .def("set_hybrid_physics_radius", &ctm::TrafficManager::SetHybridPhysicsRadius, (arg("r")))
     .def("set_random_device_seed", &ctm::TrafficManager::SetRandomDeviceSeed, (arg("value")))
