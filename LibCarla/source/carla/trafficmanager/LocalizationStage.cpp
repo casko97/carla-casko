@@ -332,11 +332,13 @@ void LocalizationStage::RestoreCheckpoint(const Checkpoint &checkpoint) {
 void LocalizationStage::RemoveActor(ActorId actor_id) {
     last_lane_change_swpt.erase(actor_id);
     vehicles_at_junction.erase(actor_id);
+    vehicles_at_junction_entrance.erase(actor_id);
 }
 
 void LocalizationStage::Reset() {
   last_lane_change_swpt.clear();
   vehicles_at_junction.clear();
+  vehicles_at_junction_entrance.clear();
 }
 
 SimpleWaypointPtr LocalizationStage::AssignLaneChange(const ActorId actor_id,

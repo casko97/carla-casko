@@ -27,4 +27,9 @@ TEST(trafficmanager_localization_checkpoint, copies_localization_history) {
   EXPECT_EQ(captured.last_lane_change_swpt.count(7), 1u);
   EXPECT_EQ(captured.vehicles_at_junction.count(7), 1u);
   EXPECT_EQ(captured.vehicles_at_junction_entrance.count(7), 1u);
+  stage.RemoveActor(7);
+  EXPECT_TRUE(stage.CaptureCheckpoint().vehicles_at_junction_entrance.empty());
+  stage.RestoreCheckpoint(captured);
+  stage.Reset();
+  EXPECT_TRUE(stage.CaptureCheckpoint().vehicles_at_junction_entrance.empty());
 }
