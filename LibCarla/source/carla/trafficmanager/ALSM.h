@@ -89,6 +89,22 @@ private:
   void UpdateUnregisteredActorsData();
 
 public:
+  // Same-episode state only. Actor handles in this snapshot cannot be used in
+  // a new episode. The coordinator must stop the worker, preserve actor IDs and
+  // restore or rebase the simulation clock. Referenced shared structures and
+  // registered vehicles are not included in this component.
+  struct Checkpoint {
+    ActorMap unregistered_actors;
+    IdleTimeMap idle_time;
+    ActorMap hero_actors;
+    double elapsed_last_actor_destruction;
+    cc::Timestamp current_timestamp;
+    std::unordered_map<ActorId, bool> has_physics_enabled;
+  };
+
+  Checkpoint CaptureCheckpoint() const;
+  void RestoreCheckpoint(const Checkpoint &checkpoint);
+
   ALSM(AtomicActorSet &registered_vehicles,
        BufferMap &buffer_map,
        TrackTraffic &track_traffic,

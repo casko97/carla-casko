@@ -364,6 +364,20 @@ bool ALSM::IsVehicleStuck(const ActorId& actor_id) {
   return false;
 }
 
+ALSM::Checkpoint ALSM::CaptureCheckpoint() const {
+  return {unregistered_actors, idle_time, hero_actors, elapsed_last_actor_destruction,
+          current_timestamp, has_physics_enabled};
+}
+
+void ALSM::RestoreCheckpoint(const Checkpoint &checkpoint) {
+  unregistered_actors = checkpoint.unregistered_actors;
+  idle_time = checkpoint.idle_time;
+  hero_actors = checkpoint.hero_actors;
+  elapsed_last_actor_destruction = checkpoint.elapsed_last_actor_destruction;
+  current_timestamp = checkpoint.current_timestamp;
+  has_physics_enabled = checkpoint.has_physics_enabled;
+}
+
 void ALSM::RemoveActor(const ActorId actor_id, const bool registered_actor) {
   if (registered_actor) {
     registered_vehicles.Remove({actor_id});

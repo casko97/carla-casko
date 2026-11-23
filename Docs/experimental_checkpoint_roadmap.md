@@ -64,6 +64,10 @@ has not been achieved or shown to be achievable bit-for-bit.
    does not contain the separately owned route buffers and traffic tracker.
    `CollisionStage` can copy collision locks and its per-cycle geometry caches;
    this is traffic-decision state, not the PhysX scene's contact or solver state.
+   The actor lifecycle manager has a separate in-memory snapshot of its actor
+   handles, idle timers, last destruction time and physics flags. Those handles
+   cannot be transferred across episodes. Its referenced actor registration,
+   waypoint buffers, tracker and other stage state must be handled separately.
 5. Capture ScenarioRunner and agent state outside CARLA: behavior trees,
    criteria, timers, route progress, Python and other RNGs, policy recurrent
    state, and pending commands. Alternatively record all relevant external
