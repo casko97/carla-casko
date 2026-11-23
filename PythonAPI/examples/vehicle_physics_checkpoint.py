@@ -126,9 +126,10 @@ def spawn(world, blueprint_id, spawn_index):
     return vehicle
 
 
-def collect_manifest(client, world, vehicle, spawn_index, build_id):
+def collect_manifest(client, world, vehicle, spawn_index, build_id, spawn_transform=None):
     settings = world.get_settings()
-    spawn_transform = world.get_map().get_spawn_points()[spawn_index]
+    if spawn_transform is None:
+        spawn_transform = world.get_map().get_spawn_points()[spawn_index]
     rotation = spawn_transform.rotation
     return {
         "client_version": client.get_client_version(),

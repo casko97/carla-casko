@@ -46,8 +46,16 @@ Choose `--checkpoint-after 1` for this two-frame example. The value counts
 completed journal frames, so it must be at least one and leave at least one
 suffix frame. Controls use `carla.VehicleControl` field names; omitted fields
 take its defaults. Each frame must explicitly contain every actor, actor ids
-must be unique, and each actor must use a vehicle blueprint and spawn-point
-index. Use the same `--build-id` convention as the single-vehicle harness.
+must be unique, and each actor must use a vehicle blueprint and either a
+spawn-point index or an explicit CARLA transform. For example, an actor can use
+`"transform": {"x": 1, "y": 2, "z": 0.5, "pitch": 0, "yaw": 90, "roll": 0}`
+instead of `spawn_index`. An optional `attributes` object maps blueprint
+attribute names to string values, for example `{"color": "255,0,0"}`. The
+harness sets `sticky_control` to false; specifying it as true is rejected.
+The report records actual vehicle attributes, spawn transform and physics
+configuration. An explicit starting transform does not capture a mid-run
+physics state or reconstruct actors created after the start of the journal.
+Use the same `--build-id` convention as the single-vehicle harness.
 
 The multi-vehicle save consists of sequential per-vehicle RPCs, not one atomic
 world transaction. The single-tick-owner requirement is essential. The harness
@@ -58,7 +66,7 @@ there is no rollback of previously saved or restored vehicles. The report
 preserves completed traces and the failing stage where possible.
 
 This step does **not** create a complete scenario checkpoint. It uses a fixed
-actor set from map spawn points, does not capture actor creation and deletion,
+actor set, does not capture actor creation and deletion,
 Traffic Manager, ScenarioRunner, pedestrian controllers,
 sensors or their random states, and does not restore PhysX scene contact and
 solver caches. The actor snapshots compare kinematics; collision events are not

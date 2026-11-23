@@ -38,10 +38,21 @@ def validate_scenario(scenario, checkpoint_after):
             raise ValueError("actor ids must be unique")
         if not isinstance(actor.get("blueprint"), str) or not actor["blueprint"].startswith("vehicle."):
             raise ValueError("each actor requires a vehicle blueprint")
-        if set(actor) != {"id", "blueprint", "spawn_index"}:
-            raise ValueError("each actor must specify id, blueprint and spawn_index")
-        if type(actor["spawn_index"]) is not int or actor["spawn_index"] < 0:
+        if set(actor) - {"id", "blueprint", "spawn_index", "transform", "attributes"} or ("spawn_index" in actor) == ("transform" in actor):
+            raise ValueError("each actor requires exactly one of spawn_index or transform")
+        if "spawn_index" in actor and (type(actor["spawn_index"]) is not int or actor["spawn_index"] < 0):
             raise ValueError("spawn_index must be a non-negative integer")
+        if "transform" in actor:
+            transform = actor["transform"]
+            if (not isinstance(transform, dict) or set(transform) != {"x", "y", "z", "pitch", "yaw", "roll"}
+                    or any(type(value) not in (int, float) or not math.isfinite(value) for value in transform.values())):
+                raise ValueError("transform must contain finite x, y, z, pitch, yaw and roll")
+        attributes = actor.get("attributes", {})
+        if not isinstance(attributes, dict) or any(not isinstance(key, str) or not isinstance(value, str)
+                                                   for key, value in attributes.items()):
+            raise ValueError("attributes must map strings to strings")
+        if "sticky_control" in attributes and attributes["sticky_control"].lower() != "false":
+            raise ValueError("sticky_control must be false")
         labels.append(actor["id"])
     for frame_index, frame in enumerate(frames):
         if not isinstance(frame, dict) or set(frame) != set(labels):
@@ -78,11 +89,32 @@ def demo_scenario():
     return {"map": "Town03", "actors": actors, "frames": frames}
 
 
+def spawn_transform(world, spec):
+    if "spawn_index" in spec:
+        points = world.get_map().get_spawn_points()
+        if spec["spawn_index"] >= len(points):
+            raise ValueError("spawn index is outside the map's spawn-point list")
+        return points[spec["spawn_index"]]
+    value = spec["transform"]
+    return carla.Transform(carla.Location(x=value["x"], y=value["y"], z=value["z"]),
+                           carla.Rotation(pitch=value["pitch"], yaw=value["yaw"], roll=value["roll"]))
+
+
 def spawn_actors(world, actor_specs):
     actors = {}
     try:
         for spec in actor_specs:
-            actors[spec["id"]] = single.spawn(world, spec["blueprint"], spec["spawn_index"])
+            blueprint = world.get_blueprint_library().find(spec["blueprint"])
+            for name, value in spec.get("attributes", {}).items():
+                if not blueprint.has_attribute(name):
+                    raise ValueError("unknown blueprint attribute: {}".format(name))
+                blueprint.set_attribute(name, value)
+            if blueprint.has_attribute("sticky_control"):
+                blueprint.set_attribute("sticky_control", "false")
+            actor = world.try_spawn_actor(blueprint, spawn_transform(world, spec))
+            if actor is None:
+                raise RuntimeError("vehicle spawn failed for {}".format(spec["id"]))
+            actors[spec["id"]] = actor
     except Exception:
         for actor in actors.values():
             actor.destroy()
@@ -191,7 +223,8 @@ def checkpoint_weather(world, restore=False):
 
 
 def manifest(client, world, actors, actor_specs, build_id):
-    return {label: single.collect_manifest(client, world, actors[label], spec["spawn_index"], build_id)
+    return {label: single.collect_manifest(client, world, actors[label], spec.get("spawn_index"), build_id,
+                                           spawn_transform(world, spec))
             for label, spec in ((spec["id"], spec) for spec in actor_specs)}
 
 

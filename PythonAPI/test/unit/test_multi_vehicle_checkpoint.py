@@ -20,6 +20,40 @@ with patch.dict(sys.modules, {"carla": types.ModuleType("carla"), "vehicle_physi
 
 
 class MultiVehicleJournalTest(unittest.TestCase):
+    def test_explicit_spawn_transform_and_attributes(self):
+        scenario = module.demo_scenario()
+        scenario["actors"][0] = {"id": "first", "blueprint": "vehicle.example",
+            "transform": {"x": 1, "y": 2, "z": 3, "pitch": 4, "yaw": 5, "roll": 6},
+            "attributes": {"color": "red", "sticky_control": "false"}}
+        module.validate_scenario(scenario, 40)
+        attributes = {}
+        blueprint = types.SimpleNamespace(has_attribute=lambda name: name in ("color", "sticky_control"),
+                                           set_attribute=lambda name, value: attributes.update({name: value}))
+        spawned = []
+        actor = types.SimpleNamespace(destroy=lambda: None)
+        world = types.SimpleNamespace(get_blueprint_library=lambda: types.SimpleNamespace(find=lambda _: blueprint),
+                                      try_spawn_actor=lambda bp, transform: spawned.append((bp, transform)) or actor)
+        fake_carla = types.SimpleNamespace(Location=lambda **kw: kw, Rotation=lambda **kw: kw,
+                                           Transform=lambda loc, rot: (loc, rot))
+        with patch.object(module, "carla", fake_carla):
+            result = module.spawn_actors(world, scenario["actors"][:1])
+        self.assertIs(result["first"], actor)
+        self.assertEqual(spawned[0][1], ({"x": 1, "y": 2, "z": 3}, {"pitch": 4, "yaw": 5, "roll": 6}))
+        self.assertEqual(attributes, {"color": "red", "sticky_control": "false"})
+        for change in ("both", "nonfinite", "sticky", "unknown"):
+            altered = copy.deepcopy(scenario)
+            spec = altered["actors"][0]
+            if change == "both":
+                spec["spawn_index"] = 0
+            elif change == "nonfinite":
+                spec["transform"]["x"] = float("nan")
+            elif change == "sticky":
+                spec["attributes"]["sticky_control"] = "true"
+            else:
+                spec["attributes"]["color"] = 1
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                module.validate_scenario(altered, 40)
+
     def test_traffic_lights_use_unique_ids_and_detect_first_difference(self):
         def light(identifier, state):
             return types.SimpleNamespace(get_opendrive_id=lambda: identifier, get_state=lambda: state,
