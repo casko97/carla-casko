@@ -756,6 +756,12 @@
       doc: >
         Returns the spectator actor. The spectator is a special type of actor created by Unreal Engine, usually with ID=0, that acts as a camera and controls the view in the simulator window.
     # --------------------------------------
+    - def_name: get_physx_scene_flags
+      return: int
+      doc: >
+        Experimental: read the bitmask of flags from the active PhysX scene. For the matching PhysX 3.4 build, bit 20 is enhanced determinism, bit 19 GPU dynamics, bit 14 stabilization, bit 11 disabled contact cache and bit 9 persistent contact manifolds.
+      warning: Enhanced determinism does not save or restore contact and solver state and does not guarantee equivalent restored rollouts.
+    # --------------------------------------
     - def_name: get_weather
       return: carla.WeatherParameters
       doc: >

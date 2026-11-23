@@ -19,6 +19,8 @@
 #include "Carla/Walker/WalkerController.h"
 #include "Carla/Walker/WalkerBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Physics/PhysScene.h"
+#include "PhysXPublic.h"
 #include "Carla/Game/Tagger.h"
 #include "Carla/Game/CarlaStatics.h"
 #include "Carla/Vehicle/MovementComponents/CarSimManagerComponent.h"
@@ -1319,6 +1321,19 @@ BIND_SYNC(is_sensor_enabled_for_ros) << [this](carla::streaming::detail::stream_
 
   // These execute on the game thread while the synchronous world is waiting
   // for its next tick. Callers must ensure there is only one tick owner.
+  BIND_SYNC(get_physx_scene_flags) << [this]() -> R<uint32_t>
+  {
+    REQUIRE_CARLA_EPISODE();
+    auto *World = Episode->GetWorld();
+    auto *PhysicsScene = World ? World->GetPhysicsScene() : nullptr;
+    auto *Scene = PhysicsScene ? PhysicsScene->GetPxScene() : nullptr;
+    if (!Scene) RESPOND_ERROR("PhysX scene is unavailable");
+    Scene->lockRead();
+    const uint32_t Flags = static_cast<uint32_t>(Scene->getFlags());
+    Scene->unlockRead();
+    return Flags;
+  };
+
   BIND_SYNC(save_vehicle_physics_checkpoint) << [this](cr::ActorId ActorId) -> R<bool>
   {
     REQUIRE_CARLA_EPISODE();

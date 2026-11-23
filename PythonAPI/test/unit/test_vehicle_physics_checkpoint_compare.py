@@ -27,7 +27,8 @@ class CompareRolloutsTest(unittest.TestCase):
                                          substepping=True, max_substep_delta_time=0.01,
                                          max_substeps=10, deterministic_ragdolls=True,
                                          no_rendering_mode=False)
-        world = types.SimpleNamespace(get_settings=lambda: settings, get_map=lambda: map_obj)
+        world = types.SimpleNamespace(get_settings=lambda: settings, get_map=lambda: map_obj,
+                                      get_physx_scene_flags=lambda: 1 << 20)
         client = types.SimpleNamespace(get_client_version=lambda: "client", get_server_version=lambda: "server")
         vehicle = types.SimpleNamespace(type_id="vehicle.test", attributes={"color": "red"},
                                         get_physics_control=lambda: "physics")
@@ -37,6 +38,9 @@ class CompareRolloutsTest(unittest.TestCase):
         self.assertEqual(result["spawn_rotation"], [4.0, 5.0, 6.0])
         self.assertEqual(result["vehicle_attributes"], {"color": "red"})
         self.assertEqual(result["physics_control"], "physics")
+        self.assertEqual(result["physx_scene_flags"], 1 << 20)
+        self.assertTrue(result["physx_scene_flags_physx_3_4"]["enhanced_determinism"])
+        self.assertFalse(result["physx_scene_flags_physx_3_4"]["gpu_dynamics"])
         self.assertEqual(result["build_id"], "build-hash")
 
     def test_maneuver_journal_includes_both_gears_steering_and_braking(self):

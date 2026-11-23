@@ -306,6 +306,10 @@ namespace detail {
     return _pimpl->CallAndWait<bool>("restore_vehicle_physics_checkpoint", vehicle);
   }
 
+  uint32_t Client::GetPhysXSceneFlags() const {
+    return _pimpl->CallAndWait<uint32_t>("get_physx_scene_flags");
+  }
+
   void Client::BeginCollisionCheckpointLog(rpc::ActorId sensor) {
     _pimpl->CallAndWait<void>("begin_collision_checkpoint_log", sensor);
   }

@@ -339,6 +339,7 @@ void export_world() {
     .def("restore_traffic_lights_checkpoint", CALL_WITHOUT_GIL(cc::World, RestoreTrafficLightsCheckpoint))
     .def("apply_settings", &ApplySettings, (arg("settings"), arg("seconds")=0.0))
     .def("get_weather", CONST_CALL_WITHOUT_GIL(cc::World, GetWeather))
+    .def("get_physx_scene_flags", CONST_CALL_WITHOUT_GIL(cc::World, GetPhysXSceneFlags))
     .def("begin_collision_checkpoint_log", CALL_WITHOUT_GIL_1(cc::World, BeginCollisionCheckpointLog, carla::ActorId), (arg("sensor_id")))
     .def("drain_collision_checkpoint_log", &DrainCollisionCheckpointLog, (arg("sensor_id")))
     .def("save_weather_checkpoint", CALL_WITHOUT_GIL(cc::World, SaveWeatherCheckpoint))

@@ -103,6 +103,10 @@ namespace client {
     return _episode.Lock()->RestoreWeatherCheckpoint();
   }
 
+  uint32_t World::GetPhysXSceneFlags() const {
+    return _episode.Lock()->GetPhysXSceneFlags();
+  }
+
   void World::BeginCollisionCheckpointLog(ActorId sensor) {
     _episode.Lock()->BeginCollisionCheckpointLog(sensor);
   }

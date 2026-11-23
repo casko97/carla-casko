@@ -87,6 +87,14 @@ using Python's JSON extensions so they remain visible for diagnosis.
 Client and server versions, vehicle attributes and physics settings are included,
 but version strings do not establish binary identity. Supply an externally
 computed build and asset identifier using `--build-id`.
+The manifest also records the active PhysX scene's raw flag bitmask and selected
+decoded PhysX 3.4 flags via a synchronous server query. In this engine's headers, enhanced
+determinism is bit 20, GPU dynamics bit 19, stabilization bit 14, disabled
+contact cache bit 11 and persistent contact manifolds bit 9. The project's
+`DefaultEngine.ini` requests enhanced determinism, but config overrides and
+different builds can change the active scene. The flag is set at scene creation
+and cannot recover a saved scene's solver or contact caches. Matching flags are
+not evidence that restored physics will reproduce a trajectory.
 
 This script changes the server's map and settings and destroys its vehicle. It
 must not be pointed at a shared server. The worktree contains source files only;

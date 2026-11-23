@@ -128,6 +128,7 @@ def spawn(world, blueprint_id, spawn_index):
 
 def collect_manifest(client, world, vehicle, spawn_index, build_id, spawn_transform=None):
     settings = world.get_settings()
+    scene_flags = world.get_physx_scene_flags()
     if spawn_transform is None:
         spawn_transform = world.get_map().get_spawn_points()[spawn_index]
     rotation = spawn_transform.rotation
@@ -141,6 +142,14 @@ def collect_manifest(client, world, vehicle, spawn_index, build_id, spawn_transf
         "vehicle": vehicle.type_id,
         "vehicle_attributes": dict(vehicle.attributes),
         "physics_control": str(vehicle.get_physics_control()),
+        "physx_scene_flags": scene_flags,
+        "physx_scene_flags_physx_3_4": {
+            "enhanced_determinism": bool(scene_flags & (1 << 20)),
+            "gpu_dynamics": bool(scene_flags & (1 << 19)),
+            "stabilization": bool(scene_flags & (1 << 14)),
+            "contact_cache_disabled": bool(scene_flags & (1 << 11)),
+            "persistent_contact_manifolds": bool(scene_flags & (1 << 9)),
+        },
         "spawn_index": spawn_index,
         "spawn_location": vector(spawn_transform.location),
         "spawn_rotation": [rotation.pitch, rotation.yaw, rotation.roll],

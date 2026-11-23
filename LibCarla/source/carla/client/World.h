@@ -85,6 +85,9 @@ namespace client {
 
     rpc::EpisodeSettings GetSettings() const;
 
+    /// Experimental: flags read from the active PhysX scene.
+    uint32_t GetPhysXSceneFlags() const;
+
     void BeginCollisionCheckpointLog(ActorId sensor);
     rpc::CollisionCheckpointLog DrainCollisionCheckpointLog(ActorId sensor);
 

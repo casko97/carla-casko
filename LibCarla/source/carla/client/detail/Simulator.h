@@ -295,6 +295,10 @@ namespace detail {
       return _client.GetVehicleLightState(vehicle.GetId());
     }
 
+    uint32_t GetPhysXSceneFlags() const {
+      return _client.GetPhysXSceneFlags();
+    }
+
     void BeginCollisionCheckpointLog(ActorId sensor) {
       _client.BeginCollisionCheckpointLog(sensor);
     }

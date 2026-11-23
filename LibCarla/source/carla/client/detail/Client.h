@@ -163,6 +163,7 @@ namespace detail {
 
     bool SaveVehiclePhysicsCheckpoint(rpc::ActorId vehicle);
     bool RestoreVehiclePhysicsCheckpoint(rpc::ActorId vehicle);
+    uint32_t GetPhysXSceneFlags() const;
     void BeginCollisionCheckpointLog(rpc::ActorId sensor);
     rpc::CollisionCheckpointLog DrainCollisionCheckpointLog(rpc::ActorId sensor);
 
