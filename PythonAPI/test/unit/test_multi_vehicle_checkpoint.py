@@ -31,7 +31,7 @@ class MultiVehicleJournalTest(unittest.TestCase):
         baseline = module.sample_traffic_lights(selected)
         changed = copy.deepcopy(baseline)
         changed["A"]["elapsed"] = 2.0
-        result = module.compare_traffic_lights([baseline], [changed])
+        result = module.compare_component_traces([baseline], [changed])
         self.assertEqual(result["first_difference"]["relative_frame"], 1)
         self.assertFalse(result["exact"])
         lights.append(light("A", "Yellow"))
@@ -48,6 +48,16 @@ class MultiVehicleJournalTest(unittest.TestCase):
                                       restore_traffic_lights_checkpoint=lambda: True)
         with self.assertRaisesRegex(RuntimeError, "world advanced"):
             module.checkpoint_traffic_lights(world, restore=True)
+
+    def test_weather_checkpoint_and_complete_parameter_sample(self):
+        weather = types.SimpleNamespace(**{field: float(index) for index, field in enumerate(module.WEATHER_FIELDS)})
+        world = types.SimpleNamespace(get_snapshot=lambda: types.SimpleNamespace(frame=8),
+                                      get_weather=lambda: weather, save_weather_checkpoint=lambda: True,
+                                      restore_weather_checkpoint=lambda: False)
+        self.assertEqual(module.checkpoint_weather(world), 8)
+        self.assertEqual(module.sample_weather(world)["dust_storm"], float(len(module.WEATHER_FIELDS) - 1))
+        with self.assertRaisesRegex(RuntimeError, "weather restore rejected"):
+            module.checkpoint_weather(world, restore=True)
 
     def test_scenario_rejects_missing_actor_commands_and_invalid_control(self):
         scenario = module.demo_scenario()

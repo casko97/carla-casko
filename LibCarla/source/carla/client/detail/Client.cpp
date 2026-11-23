@@ -267,6 +267,14 @@ namespace detail {
     _pimpl->AsyncCall("set_weather_parameters", weather);
   }
 
+  bool Client::SaveWeatherCheckpoint() {
+    return _pimpl->CallAndWait<bool>("save_weather_checkpoint");
+  }
+
+  bool Client::RestoreWeatherCheckpoint() {
+    return _pimpl->CallAndWait<bool>("restore_weather_checkpoint");
+  }
+
   std::vector<rpc::Actor> Client::GetActorsById(
       const std::vector<ActorId> &ids) {
     using return_t = std::vector<rpc::Actor>;

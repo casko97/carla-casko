@@ -131,6 +131,13 @@ public:
   bool bTrafficLightsCheckpointManagerFrozen = false;
   TArray<TWeakObjectPtr<ATrafficLightGroup>> TrafficLightsCheckpointGroups;
 
+  bool bWeatherCheckpointValid = false;
+  uint64 WeatherCheckpointEpisode = 0;
+  double WeatherCheckpointDelta = 0.0;
+  TWeakObjectPtr<AWeather> WeatherCheckpointActor;
+  FWeatherParameters WeatherCheckpointParameters;
+  bool bWeatherCheckpointDayNightCycle = false;
+
 private:
 
   void BindActions();
@@ -641,6 +648,34 @@ void FCarlaServer::FPimpl::BindActions()
   };
 
   // ~~ Weather ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  BIND_SYNC(save_weather_checkpoint) << [this]() -> R<bool>
+  {
+    REQUIRE_CARLA_EPISODE();
+    bWeatherCheckpointValid = false;
+    if (!Episode->GetSettings().bSynchronousMode || !Episode->GetSettings().FixedDeltaSeconds.IsSet()) return false;
+    auto *Weather = Episode->GetWeather();
+    if (!IsValid(Weather)) return false;
+    WeatherCheckpointEpisode = Episode->GetId();
+    WeatherCheckpointDelta = Episode->GetSettings().FixedDeltaSeconds.GetValue();
+    WeatherCheckpointActor = Weather;
+    WeatherCheckpointParameters = Weather->GetCurrentWeather();
+    bWeatherCheckpointDayNightCycle = Weather->GetDayNightCycle();
+    bWeatherCheckpointValid = true;
+    return true;
+  };
+
+  BIND_SYNC(restore_weather_checkpoint) << [this]() -> R<bool>
+  {
+    REQUIRE_CARLA_EPISODE();
+    if (!bWeatherCheckpointValid || Episode->GetId() != WeatherCheckpointEpisode ||
+        !Episode->GetSettings().bSynchronousMode || !Episode->GetSettings().FixedDeltaSeconds.IsSet() ||
+        Episode->GetSettings().FixedDeltaSeconds.GetValue() != WeatherCheckpointDelta ||
+        !WeatherCheckpointActor.IsValid() || Episode->GetWeather() != WeatherCheckpointActor.Get()) return false;
+    WeatherCheckpointActor->SetDayNightCycle(bWeatherCheckpointDayNightCycle);
+    WeatherCheckpointActor->ApplyWeather(WeatherCheckpointParameters);
+    return true;
+  };
 
   BIND_SYNC(get_weather_parameters) << [this]() -> R<cr::WeatherParameters>
   {

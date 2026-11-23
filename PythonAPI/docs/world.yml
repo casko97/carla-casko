@@ -659,6 +659,18 @@
         Experimental: restore the saved traffic-light groups and controller phases in the same episode. Returns false when the slot, settings or group topology are incompatible.
       warning: Restore can dispatch light-change callbacks; scenario and controller state outside the traffic-light subsystem is not restored.
     # --------------------------------------
+    - def_name: save_weather_checkpoint
+      return: bool
+      doc: >
+        Experimental: save current weather parameters and the day/night switch in the current synchronous fixed-step episode. A failed save invalidates the previous slot.
+      warning: This does not save rendering history, Blueprint state or other simulator state.
+    # --------------------------------------
+    - def_name: restore_weather_checkpoint
+      return: bool
+      doc: >
+        Experimental: restore the saved weather parameters and day/night switch in the same episode. Returns false if the slot, settings or weather actor are incompatible.
+      warning: Applying weather invokes Blueprint callbacks and does not restore their internal state or side effects.
+    # --------------------------------------
     - def_name: reset_all_traffic_lights
       doc: >
         Resets the cycle of all traffic lights in the map to the initial state.

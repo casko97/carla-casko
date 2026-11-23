@@ -318,6 +318,8 @@ void export_world() {
     .def("restore_traffic_lights_checkpoint", CALL_WITHOUT_GIL(cc::World, RestoreTrafficLightsCheckpoint))
     .def("apply_settings", &ApplySettings, (arg("settings"), arg("seconds")=0.0))
     .def("get_weather", CONST_CALL_WITHOUT_GIL(cc::World, GetWeather))
+    .def("save_weather_checkpoint", CALL_WITHOUT_GIL(cc::World, SaveWeatherCheckpoint))
+    .def("restore_weather_checkpoint", CALL_WITHOUT_GIL(cc::World, RestoreWeatherCheckpoint))
     .def("set_weather", &cc::World::SetWeather)
     .def("get_snapshot", &cc::World::GetSnapshot)
     .def("get_actor", CONST_CALL_WITHOUT_GIL_1(cc::World, GetActor, carla::ActorId), (arg("actor_id")))

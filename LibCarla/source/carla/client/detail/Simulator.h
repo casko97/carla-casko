@@ -263,6 +263,14 @@ namespace detail {
       return _client.GetWeatherParameters();
     }
 
+    bool SaveWeatherCheckpoint() {
+      return _client.SaveWeatherCheckpoint();
+    }
+
+    bool RestoreWeatherCheckpoint() {
+      return _client.RestoreWeatherCheckpoint();
+    }
+
     void SetWeatherParameters(const rpc::WeatherParameters &weather) {
       _client.SetWeatherParameters(weather);
     }

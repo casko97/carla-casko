@@ -18,6 +18,9 @@ python PythonAPI/examples/multi_vehicle_physics_checkpoint.py \
 
 python PythonAPI/examples/multi_vehicle_physics_checkpoint.py \
   --checkpoint-after 40 --repetitions 3 --traffic-lights --report with-lights.json
+
+python PythonAPI/examples/multi_vehicle_physics_checkpoint.py \
+  --checkpoint-after 40 --repetitions 3 --traffic-lights --weather --report with-weather.json
 ```
 
 The default is a two-vehicle Town03 demonstration. Its spawn points and actions
@@ -77,3 +80,12 @@ transaction. Light restoration dispatches Unreal light-change callbacks and
 does not restore their external side effects, such as AI or scenario state. The
 public per-light comparison cannot prove that all internal traffic-light state
 or callback side effects were restored, and this path has not been run in CARLA.
+
+With `--weather`, the harness saves the current CARLA weather parameters and
+the weather actor's day/night switch and restores them in the same episode. It
+records and compares all 14 exposed weather parameters after each frame. The
+public trace does not expose the day/night switch, and the command journal does
+not yet support frame-by-frame weather changes. Applying weather invokes
+Blueprint callbacks and refreshes sensor post-processing; their internal state,
+scene lights and rendering history are not captured. The weather path is also
+untested in a live simulator.

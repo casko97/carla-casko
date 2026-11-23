@@ -94,6 +94,10 @@ namespace client {
     /// Retrieve the weather parameters currently active in the world.
     rpc::WeatherParameters GetWeather() const;
 
+    /// Experimental same-episode checkpoint of weather parameters.
+    bool SaveWeatherCheckpoint();
+    bool RestoreWeatherCheckpoint();
+
     /// Change the weather in the simulation.
     void SetWeather(const rpc::WeatherParameters &weather);
 

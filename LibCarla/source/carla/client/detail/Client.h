@@ -150,6 +150,9 @@ namespace detail {
 
     rpc::WeatherParameters GetWeatherParameters();
 
+    bool SaveWeatherCheckpoint();
+    bool RestoreWeatherCheckpoint();
+
     void SetWeatherParameters(const rpc::WeatherParameters &weather);
 
     std::vector<rpc::Actor> GetActorsById(const std::vector<ActorId> &ids);

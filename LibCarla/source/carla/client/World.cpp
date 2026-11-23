@@ -95,6 +95,14 @@ namespace client {
     return _episode.Lock()->GetWeatherParameters();
   }
 
+  bool World::SaveWeatherCheckpoint() {
+    return _episode.Lock()->SaveWeatherCheckpoint();
+  }
+
+  bool World::RestoreWeatherCheckpoint() {
+    return _episode.Lock()->RestoreWeatherCheckpoint();
+  }
+
   void World::SetWeather(const rpc::WeatherParameters &weather) {
     _episode.Lock()->SetWeatherParameters(weather);
   }
