@@ -39,7 +39,8 @@ Changing physics control, wheel friction, movement component, physics-enabled
 state or doors invalidates the slot. Saving and restoring reject a vehicle with
 a door currently simulating physics. Other changes can still escape detection.
 
-The slot currently captures the actor transform, linear and angular velocity and
+The slot currently captures the actor transform, linear and angular velocity,
+the underlying PhysX body's pose and velocities without Unreal conversion, and
 awake/asleep flag and PhysX wake counter,
 CARLA input and previous control, vehicle light state, failure/rollover state and
 the rollover timer's existence, remaining time, rate and paused state, PhysX drive dynamic
@@ -98,7 +99,8 @@ With `--build-id ID --export-checkpoint vehicle.msgpack`, the harness also write
 the saved vehicle slot as a versioned, pointer-free MessagePack value record.
 The build identifier is supplied by the caller and is not verified by CARLA.
 This is export only: no import or fresh-episode restore is implemented yet, and
-the file omits the world observer cache, scene contact and solver state, other
+the file omits the raw PhysX body pose and velocities, the world observer cache,
+scene contact and solver state, other
 actors and sensors.
 The manifest also records the active PhysX scene's raw flag bitmask and selected
 decoded PhysX 3.4 flags via a synchronous server query. In this engine's headers, enhanced

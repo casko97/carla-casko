@@ -61,6 +61,9 @@ struct FVehiclePhysicsCheckpoint
   FVector LinearVelocity;
   FVector AngularVelocity;
   FVector ObserverVelocity;
+  physx::PxTransform BodyPose;
+  physx::PxVec3 BodyLinearVelocity;
+  physx::PxVec3 BodyAngularVelocity;
   bool bAwake;
   float WakeCounter;
   FVehicleControl InputControl;
@@ -201,6 +204,9 @@ bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Setting
     if (!BodyActor || Drive->getRigidDynamicActor() != BodyActor) return;
     auto *Scene = BodyActor->getScene();
     if (!Scene) return;
+    State->BodyPose = BodyActor->getGlobalPose();
+    State->BodyLinearVelocity = BodyActor->getLinearVelocity();
+    State->BodyAngularVelocity = BodyActor->getAngularVelocity();
     State->PhysXSceneFlags = static_cast<uint32>(Scene->getFlags());
     State->bAwake = !BodyActor->isSleeping();
     State->WakeCounter = BodyActor->getWakeCounter();
@@ -342,6 +348,12 @@ bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Sett
     auto *RigidActor = FPhysicsInterface::GetPxRigidActor_AssumesLocked(Actor);
     auto *BodyActor = RigidActor ? RigidActor->is<physx::PxRigidDynamic>() : nullptr;
     if (!BodyActor || Movement->PVehicleDrive->getRigidDynamicActor() != BodyActor) return;
+    // Restore the exact PhysX values after updating the Unreal component. The
+    // component setters above can round-trip through a different transform
+    // representation and do not expose the underlying actor pose directly.
+    BodyActor->setGlobalPose(PhysicsCheckpoint->BodyPose, false);
+    BodyActor->setLinearVelocity(PhysicsCheckpoint->BodyLinearVelocity, false);
+    BodyActor->setAngularVelocity(PhysicsCheckpoint->BodyAngularVelocity, false);
     Movement->PVehicleDrive->mDriveDynData = PhysicsCheckpoint->Drive;
     auto &Wheels = Movement->PVehicle->mWheelsDynData;
     auto *WheelBlocks = Wheels.getWheel4DynData();

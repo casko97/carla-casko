@@ -63,10 +63,33 @@ timed out reloading the map with the default 30-second RPC timeout; the
 successful run used `--timeout 180`. Its local report is
 `/tmp/carla-checkpoint-collision-impact-bdbbb30.json`.
 
+## Native PhysX body pose and velocity experiment
+
+On 2026-11-24, a server built from `c127f47` plus the native body-state
+checkpoint change captured the PhysX rigid actor's global pose and linear and
+angular velocities directly, then restored those values after updating the
+Unreal component. Under the same settings, all three straight-driving restores
+and all three maneuver restores matched the uninterrupted 80-tick suffix in
+every sampled kinematic field. The warmup, prefix and suffix from a full
+reload-and-replay also matched. In the collision scenario, both restores and
+full replay matched all sampled actor fields and collision-event records;
+each restored suffix contained 172 sensor-event records across the two sensors.
+This is exact numeric comparison of these recorded values, not proof that all
+internal state or other scenarios match. The prior results above describe the
+earlier implementation and are retained for comparison.
+
+A Traffic Manager run on the same build did not complete: the server crashed
+with an assertion in Unreal's tagged skeletal-mesh scene-proxy rendering path.
+The crash's cause and relationship, if any, to the checkpoint change are not
+established. It is not evidence of a successful or failed Traffic Manager
+restore. Local reports for the completed runs are
+`/tmp/carla-checkpoint-native-body-straight.json`,
+`/tmp/carla-checkpoint-native-body-maneuver.json` and
+`/tmp/carla-checkpoint-native-body-collision.json`.
+
 The complete local reports were written to `/tmp/carla-checkpoint-straight.json`,
 `/tmp/carla-checkpoint-straight-observer.json`,
 `/tmp/carla-checkpoint-multi.json`, and `/tmp/carla-checkpoint-tm.json`.
 These temporary files are not part of the repository. Repeat runs should retain
-their own reports and verified build identifiers. Exact checkpoint restoration
-for maneuvers and this contact scenario failed; pedestrians, general sensor
-state and the VAD closed loop remain unverified.
+their own reports and verified build identifiers. Broader contacts, pedestrians,
+general sensor state and the VAD closed loop remain unverified.
