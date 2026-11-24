@@ -1,0 +1,11 @@
+{
+  "actors": [
+    "ego",
+    "other"
+  ],
+  "checkpoint_mode": "fixed_sleep_threshold_zero",
+  "fixed_prop_count": 65,
+  "saved": "/tmp/checkpoint-live-walker-lifecycle-new-20261124/checkpoint.json",
+  "source_frame": 41003,
+  "uncaptured_prop_count": 0
+}

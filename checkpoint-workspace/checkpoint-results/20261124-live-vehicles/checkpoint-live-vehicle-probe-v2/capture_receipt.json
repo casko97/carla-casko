@@ -1,0 +1,9 @@
+{
+  "actors": [
+    "ego"
+  ],
+  "checkpoint_mode": "fixed_sleep_threshold_zero",
+  "saved": "/tmp/checkpoint-live-vehicle-probe-v2/checkpoint.json",
+  "source_frame": 400554,
+  "uncaptured_prop_count": 115
+}

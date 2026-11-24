@@ -1,0 +1,16 @@
+{
+  "map": "Town01",
+  "actors": [
+    {"id": "leader", "blueprint": "vehicle.lincoln.mkz_2020", "spawn_index": 0},
+    {"id": "other", "blueprint": "vehicle.lincoln.mkz_2020", "spawn_index": 1}
+  ],
+  "initial_actors": ["leader"],
+  "frames": [
+    {"events": [], "controls": {"leader": {"throttle": 0.2}}},
+    {"events": [{"action": "spawn", "label": "other"}], "controls": {"leader": {"throttle": 0.2}, "other": {"brake": 1.0}}},
+    {"events": [], "controls": {"leader": {"throttle": 0.2, "steer": 0.05}, "other": {"brake": 1.0}}},
+    {"events": [{"action": "destroy", "label": "other"}], "controls": {"leader": {"throttle": 0.2}}},
+    {"events": [], "controls": {"leader": {"brake": 0.3}}},
+    {"events": [{"action": "spawn", "label": "other"}], "controls": {"leader": {"brake": 0.3}, "other": {"brake": 1.0}}}
+  ]
+}

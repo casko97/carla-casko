@@ -1,0 +1,79 @@
+{
+  "files": [
+    {
+      "bytes": 506144,
+      "path": "/home/casko/phd-code/carla-casko-engine/Engine/Binaries/Linux/UE4Editor",
+      "sha256": "dbeee684ac6d117204d3e37ad0bae8db3b1f68ec2b17ce20bc6d20947ca2d758"
+    },
+    {
+      "bytes": 10244000,
+      "path": "/home/casko/phd-code/carla-casko/deterministic-cpt/Unreal/CarlaUE4/Plugins/Carla/Binaries/Linux/libUE4Editor-Carla.so",
+      "sha256": "6a7ef41fbff8b1acebc5ecb8664a16fa96bfaeb32b86eca9d64233bfbd239b1e"
+    },
+    {
+      "bytes": 33232415,
+      "path": "/home/casko/phd-code/carla-casko/deterministic-cpt/PythonAPI/carla/dist/carla-0.9.15-py3.8-linux-x86_64.egg",
+      "sha256": "9f8acf8a518a1484943ed98158161757985a9f457c5fe97b2ae644ef27817d0a"
+    },
+    {
+      "bytes": 4640,
+      "path": "/home/casko/phd-code/carla-casko/scripts/checkpoint_lifecycle_replay.py",
+      "sha256": "f93eefbe208ed932fc1a8c7c170ba5b4389673d7ecfdf138b14faf38a571e4f7"
+    },
+    {
+      "bytes": 16490,
+      "path": "/home/casko/phd-code/carla-casko/deterministic-cpt/PythonAPI/examples/vehicle_physics_checkpoint.py",
+      "sha256": "df379bf1d4b2ebfa1b3f2fb7d160b08fe784b826ee9063dbaa361a10a1463100"
+    },
+    {
+      "bytes": 18236418,
+      "path": "/home/casko/phd-code/carla-casko/deterministic-cpt/Unreal/CarlaUE4/Content/Carla/Maps/Town01.umap",
+      "sha256": "e8410199f7dca0836b60466d96b64e91d30a17dffcdcc06bb4e4ef433f0a37fb"
+    },
+    {
+      "bytes": 38406,
+      "path": "/home/casko/phd-code/carla-casko/deterministic-cpt/Unreal/CarlaUE4/Content/Carla/Maps/Town01_BuiltData.uasset",
+      "sha256": "46d5a7c3b3883b34b905417cc2eec89e41702d2f8da9378dcfeb1b31e8c9f4e3"
+    },
+    {
+      "bytes": 973108,
+      "path": "/home/casko/phd-code/carla-casko/deterministic-cpt/Unreal/CarlaUE4/Content/Carla/Maps/OpenDrive/Town01.xodr",
+      "sha256": "97a7f6ac67812567e5c8ee0599cd823b23f80f30f3f97c502212e38b72e2b709"
+    },
+    {
+      "bytes": 145054,
+      "path": "/home/casko/phd-code/carla-casko/deterministic-cpt/Unreal/CarlaUE4/Content/Carla/Maps/TM/Town01.bin",
+      "sha256": "310de44ae411b0c957a7b6dec0bf34210ce633726c1b36e2425e8d78dad9bea1"
+    },
+    {
+      "bytes": 1056308,
+      "path": "/home/casko/phd-code/carla-casko/deterministic-cpt/Unreal/CarlaUE4/Content/Carla/Maps/Nav/Town01.bin",
+      "sha256": "32d1773726151a670e7ef3b6d134ce883e28fbd85dbbf0c89f21ab9ca278b9fc"
+    }
+  ],
+  "generated_utc": "2026-11-24T13:00:19.977092+00:00",
+  "missing": [],
+  "scope": "Selected on-disk files only; not all engine modules, assets, runtime-loaded bytes, or untracked source contents.",
+  "source": {
+    "engine": {
+      "head": "eb62ef3332e8b6f15dc943b0e09740e57fa75801",
+      "status_entries": [],
+      "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "project": {
+      "head": "07a907439a0e32756054f0105fea4ceb9783b7c3",
+      "status_entries": [
+        " M Docs/experimental_vehicle_physics_checkpoint.md",
+        " M LibCarla/source/carla/client/Vehicle.cpp",
+        " M LibCarla/source/carla/client/Vehicle.h",
+        " M LibCarla/source/carla/client/detail/Client.cpp",
+        " M LibCarla/source/carla/client/detail/Client.h",
+        " M LibCarla/source/carla/client/detail/Simulator.h",
+        " M PythonAPI/carla/source/libcarla/Actor.cpp",
+        " M PythonAPI/examples/vehicle_physics_checkpoint.py",
+        " M Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Server/CarlaServer.cpp"
+      ],
+      "tracked_diff_sha256": "08d0e3d8444586fc0407696426338563a2e8cd4002a58ecb051be89688187c34"
+    }
+  }
+}

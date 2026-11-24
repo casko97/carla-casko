@@ -1,0 +1,2379 @@
+{
+  "actors": {
+    "leader": {
+      "attributes": {
+        "base_type": "car",
+        "color": "0,0,0",
+        "driver_id": "0",
+        "generation": "2",
+        "has_dynamic_doors": "true",
+        "has_lights": "true",
+        "number_of_wheels": "4",
+        "object_type": "",
+        "role_name": "autopilot",
+        "ros_name": "vehicle.lincoln.mkz_2020",
+        "special_type": "",
+        "sticky_control": "false",
+        "terramechanics": "false"
+      },
+      "data_base64": "3AAnAgMEuHZlaGljbGUubGluY29sbi5ta3pfMjAyMKZUb3duMDHZXmJkMjBlY2I1M2M3YTFkMzYzYWI0ZjEzNjQyZDQxYjc2MDM5MGQzN2E4OTIxMzhjMDc0ZGU1YWQ1YjkwZjg4ZTN8Zml4ZWQtc2xlZXAtdGhyZXNob2xkLXplcm8tdjHOAANnoc4AEhBlyz+pmZmZmZmayz+EeuFHrhR7CsPcABGXkspEegAAykOtgACSykS7gADKRALAAJLKRPoAAMpEF4AAkspFO4AAykQtwACSykV6AADKRClAAJLKRaWgAMpEF8AAkspFyyAAykPpAADKRcsgAMo/gAAAyj1MzM3KQAAAAMo+szMzw8o9zMzNykEgAADKQE1wpJaTykCSsCHKPmuFH8o+64Ufk8pAPbItyj5rhR/KPuuFH5PKP/S8aso+a4Ufyj7rhR+Tyj+5FofKPmuFH8o+64Ufk8o/gAAAyj5rhR/KPuuFH5PKPz7528o+a4Ufyj7rhR/KRNQAAMo+mZmak8o+mZmZygAAAADKvkzMzJSSygAAAADKP4AAAJLKQaAAAMo/ZmZmkspCcAAAyj9MzM2SykLwAADKPzMzM5SaykBgAADKPoAAAMpCi///ykIOAADKREgAAMoAAAAAykBAAADKQaAAAMpFO4AAk8oAAAAAygAAAADKAAAAAJrKQGAAAMo+gAAAykKL///KQg4AAMpESAAAygAAAADKQEAAAMpBoAAAykU7gACTygAAAADKAAAAAMoAAAAAmspAYAAAyj6AAADKAAAAAMpCDgAAykRIAADKRMgAAMpAQAAAykGgAADKRTuAAJPKAAAAAMoAAAAAygAAAACaykBgAADKPoAAAMoAAAAAykIOAADKREgAAMpEyAAAykBAAADKQaAAAMpFO4AAk8oAAAAAygAAAADKAAAAAMKTykcDCIfKRtbibsq+8h/AlMo4oOSgyreHwxrKPzcBT8o/MwL0k8o/gAAAyj+AAADKP4AAAJPKwIIqj8pCogYJyrfQAACTyrjowgDKOki9Cso8Ws9sw8o+x64Ul8o+mZmayj0j1wrKAAAAAMLCwgGXyj6ZmZrKPSPXCsoAAAAAwsLCAQAAAADCwsoAAAAAygAAAACZ3AAQyj6ZmZrKAAAAAMoAAAAAygAAAADKPSF1hsoAAAAAygAAAADKAAAAAMoAAAAAygAAAADKAAAAAMoAAAAAygAAAADKAAAAAMoAAAAAygAAAADDwsICAspCjY7UygAAAADKPwKPWZSWyr2i03PKvaLTc8pBCvlFygAAAADKAAAAAMq88hAAlsq/ltyGyr+W3IbKQQzKp8oAAAAAygAAAADKvSuYAJbKQRQvW8pBFC9bykDwVJfKAAAAAMoAAAAAyjv0wACWykET5s3KQRPmzcpA7iB1ygAAAADKAAAAAMq7n8AAl8o9I9cKyj6ZmZrKAAAAAMo9I9cKyj6ZmZrKAAAAAMoAAAAAxAMAAACTykcDCIfKRtbibsq+8h+AlMo4oM0syreIQx7KPzcBUMo/MwL0k8rAgiqPykKiBgnKt9AAAJPKuOjCAMo6SL0Kyjxaz2yTyr0mnODKP09j4sq0hR64",
+      "sha256": "138d0bc9919e48490b593799014c4abae0bc4432f4e34665ba44ec95631bc195"
+    }
+  },
+  "checkpoint_after": 61,
+  "checkpoint_mode": "fixed_sleep_threshold_zero",
+  "expected_boundary": {
+    "actors": {
+      "leader": {
+        "acceleration": [
+          -0.05891464650630951,
+          0.05907416343688965,
+          9.5367431640625e-06
+        ],
+        "angular_velocity": [
+          -0.006359119433909655,
+          0.04387460649013519,
+          0.7651917934417725
+        ],
+        "location": [
+          335.44525146484375,
+          275.0521545410156,
+          -0.0047289845533668995
+        ],
+        "rotation": [
+          0.0075815096497535706,
+          91.2640609741211,
+          -0.00482177734375
+        ],
+        "velocity": [
+          -0.04067695140838623,
+          0.8101178407669067,
+          -2.47955313170678e-07
+        ]
+      }
+    },
+    "weather": {
+      "cloudiness": 60.0,
+      "dust_storm": 0.0,
+      "fog_density": 5.0,
+      "fog_distance": 0.75,
+      "fog_falloff": 0.10000000149011612,
+      "mie_scattering_scale": 0.029999999329447746,
+      "precipitation": 40.0,
+      "precipitation_deposits": 40.0,
+      "rayleigh_scattering_scale": 0.03310000151395798,
+      "scattering_intensity": 1.0,
+      "sun_altitude_angle": 20.0,
+      "sun_azimuth_angle": 275.0,
+      "wetness": 80.0,
+      "wind_intensity": 30.0
+    }
+  },
+  "expected_suffix": [
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            0.031133592128753662,
+            0.06695747375488281,
+            2.9182432626839727e-05
+          ],
+          "angular_velocity": [
+            -0.0032124698627740145,
+            -0.04292574152350426,
+            0.897239089012146
+          ],
+          "location": [
+            335.4433898925781,
+            275.09283447265625,
+            -0.004729366395622492
+          ],
+          "rotation": [
+            0.007704453077167273,
+            91.30398559570312,
+            -0.004455565940588713
+          ],
+          "velocity": [
+            -0.03912027180194855,
+            0.8134657144546509,
+            1.2111663636460435e-06
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            -0.06031818687915802,
+            0.08792519569396973,
+            -2.0790101189049892e-05
+          ],
+          "angular_velocity": [
+            0.004869090858846903,
+            0.04433996602892876,
+            0.8718613386154175
+          ],
+          "location": [
+            335.44146728515625,
+            275.13360595703125,
+            -0.004728488624095917
+          ],
+          "rotation": [
+            0.0074585662223398685,
+            91.34376525878906,
+            -0.004882812034338713
+          ],
+          "velocity": [
+            -0.04213618114590645,
+            0.8178619742393494,
+            1.7166136956348055e-07
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            0.03513619303703308,
+            -0.02086162567138672,
+            -1.068115216185106e-05
+          ],
+          "angular_velocity": [
+            -0.023021109402179718,
+            -0.04670565947890282,
+            0.6181948184967041
+          ],
+          "location": [
+            335.4396057128906,
+            275.1745300292969,
+            -0.004728030879050493
+          ],
+          "rotation": [
+            0.007349282968789339,
+            91.38217163085938,
+            -0.004455565474927425
+          ],
+          "velocity": [
+            -0.040379371494054794,
+            0.81681889295578,
+            -3.623962356869015e-07
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            -0.06515704095363617,
+            0.15491008758544922,
+            -4.95910626341356e-06
+          ],
+          "angular_velocity": [
+            0.010540748946368694,
+            0.04523026943206787,
+            0.7932219505310059
+          ],
+          "location": [
+            335.4376220703125,
+            275.2156066894531,
+            -0.004727802239358425
+          ],
+          "rotation": [
+            0.007280981168150902,
+            91.42135620117188,
+            -0.004913330078125
+          ],
+          "velocity": [
+            -0.0436372235417366,
+            0.8245643973350525,
+            -6.103515488575795e-07
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            0.035821571946144104,
+            -0.034215450286865234,
+            3.8146970382513246e-06
+          ],
+          "angular_velocity": [
+            -0.013471763581037521,
+            -0.04398708418011665,
+            0.8403617739677429
+          ],
+          "location": [
+            335.43560791015625,
+            275.25677490234375,
+            -0.004726467188447714
+          ],
+          "rotation": [
+            0.0069326418451964855,
+            91.46170043945312,
+            -0.004486083984375
+          ],
+          "velocity": [
+            -0.0418461449444294,
+            0.8228536248207092,
+            -4.1961669694501325e-07
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            0.0,
+            0.0,
+            -9.799999237060547
+          ],
+          "angular_velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            0.28530004620552063
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            -0.4899999797344208
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            -0.06250478327274323,
+            0.1359879970550537,
+            1.296997106692288e-05
+          ],
+          "angular_velocity": [
+            0.00758823286741972,
+            0.04321007430553436,
+            0.9017566442489624
+          ],
+          "location": [
+            335.43359375,
+            275.2981262207031,
+            -0.004726886749267578
+          ],
+          "rotation": [
+            0.007021434139460325,
+            91.50292205810547,
+            -0.004943846724927425
+          ],
+          "velocity": [
+            -0.04497138410806656,
+            0.8296530246734619,
+            2.288818308215923e-07
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            0.0,
+            0.0,
+            -9.800002098083496
+          ],
+          "angular_velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            0.246100053191185
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            -0.9800000786781311
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            0.03287769854068756,
+            -0.016344785690307617,
+            2.7847288947668858e-05
+          ],
+          "angular_velocity": [
+            -0.00699303625151515,
+            -0.04228174313902855,
+            0.6551104187965393
+          ],
+          "location": [
+            335.4315185546875,
+            275.33953857421875,
+            -0.004725360777229071
+          ],
+          "rotation": [
+            0.006645773537456989,
+            91.54096221923828,
+            -0.004516600631177425
+          ],
+          "velocity": [
+            -0.04332749918103218,
+            0.8288357853889465,
+            1.6212462696785224e-06
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            0.0,
+            0.0,
+            -9.80000114440918
+          ],
+          "angular_velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            0.1823999583721161
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            -1.470000147819519
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            -0.06198868155479431,
+            0.0958406925201416,
+            -8.392333256779239e-06
+          ],
+          "angular_velocity": [
+            0.0015619521727785468,
+            0.04428490996360779,
+            0.7891395092010498
+          ],
+          "location": [
+            335.42938232421875,
+            275.3811340332031,
+            -0.004725246224552393
+          ],
+          "rotation": [
+            0.006618452724069357,
+            91.58103942871094,
+            -0.004974364768713713
+          ],
+          "velocity": [
+            -0.046426933258771896,
+            0.8336278200149536,
+            1.201629629576928e-06
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            0.0,
+            0.0,
+            -9.800003051757812
+          ],
+          "angular_velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            0.09419996291399002
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            -1.9600002765655518
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            0.03321520984172821,
+            0.00775456428527832,
+            -2.193450927734375e-05
+          ],
+          "angular_velocity": [
+            -0.006541763432323933,
+            -0.04269346222281456,
+            0.8746552467346191
+          ],
+          "location": [
+            335.42730712890625,
+            275.4228210449219,
+            -0.004724598024040461
+          ],
+          "rotation": [
+            0.006406717002391815,
+            91.62199401855469,
+            -0.004547118674963713
+          ],
+          "velocity": [
+            -0.044766172766685486,
+            0.8340155482292175,
+            1.0490417423625331e-07
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            -5.247946432973549e-08,
+            2.2148983589431737e-06,
+            16.68164825439453
+          ],
+          "angular_velocity": [
+            -1.223369145009201e-05,
+            -8.074348443187773e-07,
+            -2.480677330218839e-10
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            0.021566446870565414
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            -2.6239732608956956e-09,
+            1.1074492078932963e-07,
+            -1.125917911529541
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            -0.060799941420555115,
+            0.09218335151672363,
+            -1.2207030522404239e-05
+          ],
+          "angular_velocity": [
+            0.0029525291174650192,
+            0.04308869317173958,
+            0.9023985862731934
+          ],
+          "location": [
+            335.42510986328125,
+            275.46466064453125,
+            -0.004724330734461546
+          ],
+          "rotation": [
+            0.006331584881991148,
+            91.6631088256836,
+            -0.005004882346838713
+          ],
+          "velocity": [
+            -0.04780616983771324,
+            0.8386247158050537,
+            -5.054473604104714e-07
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            -4.04032363121587e-11,
+            -7.977845598361455e-06,
+            10.997095108032227
+          ],
+          "angular_velocity": [
+            4.264785093255341e-05,
+            -8.07420690307481e-07,
+            7.187843209521816e-09
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            -0.017115192487835884
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            -2.6259934227113035e-09,
+            -2.8814733354920463e-07,
+            -0.5760631561279297
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            0.031918659806251526,
+            0.0030469894409179688,
+            -1.239776611328125e-05
+          ],
+          "angular_velocity": [
+            -0.008101170882582664,
+            -0.042930059134960175,
+            0.6527780294418335
+          ],
+          "location": [
+            335.42291259765625,
+            275.506591796875,
+            -0.004723682068288326
+          ],
+          "rotation": [
+            0.006201811600476503,
+            91.70204162597656,
+            -0.004577636253088713
+          ],
+          "velocity": [
+            -0.046210236847400665,
+            0.8387770652770996,
+            -1.1253356433371664e-06
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            -3.799760506240091e-09,
+            9.738816515891813e-06,
+            6.499604225158691
+          ],
+          "angular_velocity": [
+            -2.3481386961066164e-05,
+            -8.630427146272268e-07,
+            -4.88915485874486e-09
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            -0.03546502813696861
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            -2.815981448023308e-09,
+            1.9879348656104412e-07,
+            -0.2510829567909241
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            -0.06261125206947327,
+            0.09853482246398926,
+            3.776550147449598e-05
+          ],
+          "angular_velocity": [
+            0.004079416859894991,
+            0.04436979442834854,
+            0.808118999004364
+          ],
+          "location": [
+            335.420654296875,
+            275.5486755371094,
+            -0.004723644349724054
+          ],
+          "rotation": [
+            0.006160830147564411,
+            91.74261474609375,
+            -0.005035400390625
+          ],
+          "velocity": [
+            -0.04934079945087433,
+            0.8437038064002991,
+            7.629394076502649e-07
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            -3.987794627846597e-08,
+            -4.897315193375107e-06,
+            3.689081907272339
+          ],
+          "angular_velocity": [
+            -3.428134004934691e-05,
+            -1.4755531765331398e-06,
+            1.1250257392347862e-09
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            -0.04204969480633736
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            -4.809878717537686e-09,
+            -4.6072273107711226e-08,
+            -0.06662885844707489
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            0.03311559557914734,
+            0.002321004867553711,
+            -5.3596493671648204e-05
+          ],
+          "angular_velocity": [
+            -0.007086397614330053,
+            -0.043190017342567444,
+            0.8752138018608093
+          ],
+          "location": [
+            335.41839599609375,
+            275.59088134765625,
+            -0.004723262507468462
+          ],
+          "rotation": [
+            0.0060652075335383415,
+            91.7838134765625,
+            -0.004638671409338713
+          ],
+          "velocity": [
+            -0.04768501967191696,
+            0.8438198566436768,
+            -1.9168853668816155e-06
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            3.2624409840309454e-08,
+            -6.968224624870345e-06,
+            1.9645286798477173
+          ],
+          "angular_velocity": [
+            -4.486284888116643e-05,
+            -9.744059070726507e-07,
+            4.0078684815370025e-10
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            -0.04217015951871872
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            -3.178658225522213e-09,
+            -3.944834929825447e-07,
+            0.031597577035427094
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            -0.06221108138561249,
+            0.10193943977355957,
+            6.675720669591101e-06
+          ],
+          "angular_velocity": [
+            0.005522908177226782,
+            0.043432462960481644,
+            0.9067805409431458
+          ],
+          "location": [
+            335.4160461425781,
+            275.6332702636719,
+            -0.00472337706014514
+          ],
+          "rotation": [
+            0.006078868173062801,
+            91.82547760009766,
+            -0.005096435546875
+          ],
+          "velocity": [
+            -0.050795573741197586,
+            0.8489168286323547,
+            -1.5830993334020604e-06
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            3.9974963783606654e-08,
+            2.200017661380116e-06,
+            0.9318019151687622
+          ],
+          "angular_velocity": [
+            4.102827369933948e-05,
+            -3.6192523111822084e-07,
+            2.8957103381799243e-09
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            -0.039037074893713
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            -1.1799098365017358e-09,
+            -2.844826099135389e-07,
+            0.07818767428398132
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            0.032331496477127075,
+            -0.00578761100769043,
+            4.9591064453125e-05
+          ],
+          "angular_velocity": [
+            -0.007899965159595013,
+            -0.04299212247133255,
+            0.6769213080406189
+          ],
+          "location": [
+            335.4136962890625,
+            275.6756896972656,
+            -0.004723033867776394
+          ],
+          "rotation": [
+            0.005955924745649099,
+            91.86500549316406,
+            -0.004669188987463713
+          ],
+          "velocity": [
+            -0.04917899891734123,
+            0.8486274480819702,
+            8.964538551481382e-07
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            4.352890670134002e-08,
+            8.456059731543064e-06,
+            0.33425942063331604
+          ],
+          "angular_velocity": [
+            -2.3077946025296114e-05,
+            3.06263189031597e-07,
+            -1.6598169505499527e-09
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            -0.03453851491212845
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            9.965354097474233e-10,
+            1.3832035961058864e-07,
+            0.09490064531564713
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            -0.06331987679004669,
+            0.10318160057067871,
+            -3.9291378925554454e-05
+          ],
+          "angular_velocity": [
+            0.005295730661600828,
+            0.04416431486606598,
+            0.8237360119819641
+          ],
+          "location": [
+            335.41131591796875,
+            275.71826171875,
+            -0.004722995683550835
+          ],
+          "rotation": [
+            0.005976415239274502,
+            91.9061050415039,
+            -0.005126953125
+          ],
+          "velocity": [
+            -0.05234499275684357,
+            0.8537865281105042,
+            -1.0681152389224735e-06
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            3.6340058073847104e-08,
+            -8.851118764141575e-06,
+            0.005924999713897705
+          ],
+          "angular_velocity": [
+            -3.697636566357687e-05,
+            8.630642014395562e-07,
+            1.6548965531271165e-09
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            -0.029738329350948334
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            2.813538291235318e-09,
+            -3.0423558428083197e-07,
+            0.09519689530134201
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            0.03316923975944519,
+            -0.005793571472167969,
+            3.9482114516431466e-05
+          ],
+          "angular_velocity": [
+            -0.0072893924079835415,
+            -0.04313277080655098,
+            0.8734315633773804
+          ],
+          "location": [
+            335.4089050292969,
+            275.7609558105469,
+            -0.004722461570054293
+          ],
+          "rotation": [
+            0.0058534718118608,
+            91.94783020019531,
+            -0.004730224609375
+          ],
+          "velocity": [
+            -0.05068653076887131,
+            0.8534968495368958,
+            9.059905892172537e-07
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            3.4484823885350124e-08,
+            1.972827703866642e-06,
+            -0.15931248664855957
+          ],
+          "angular_velocity": [
+            4.9469595978735015e-05,
+            1.3920379160481389e-06,
+            2.5966746530770024e-09
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            -0.025195904076099396
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            4.537779485502824e-09,
+            -2.0559420477184176e-07,
+            0.08723127096891403
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            -0.06258435547351837,
+            0.09926915168762207,
+            -3.795623706537299e-05
+          ],
+          "angular_velocity": [
+            0.004653346259146929,
+            0.043345097452402115,
+            0.9141865968704224
+          ],
+          "location": [
+            335.4064025878906,
+            275.8038024902344,
+            -0.004722461570054293
+          ],
+          "rotation": [
+            0.005867131985723972,
+            91.99005126953125,
+            -0.005157469771802425
+          ],
+          "velocity": [
+            -0.053815748542547226,
+            0.8584603071212769,
+            -9.91821252682712e-07
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            3.298307404975276e-08,
+            -7.828890602468164e-07,
+            -0.22862508893013
+          ],
+          "angular_velocity": [
+            -2.696441333682742e-05,
+            1.9215299289498944e-06,
+            6.635062721471741e-09
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            -0.02116994746029377
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            6.186933187990462e-09,
+            -2.447386577841826e-07,
+            0.07580001652240753
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    },
+    {
+      "leader": {
+        "control": {
+          "brake": 0.0,
+          "gear": 1,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.03999999910593033,
+          "throttle": 0.30000001192092896
+        },
+        "state": {
+          "acceleration": [
+            0.03205440938472748,
+            -0.006760358810424805,
+            7.629387255292386e-07
+          ],
+          "angular_velocity": [
+            -0.0073313238099217415,
+            -0.0428197868168354,
+            0.7032888531684875
+          ],
+          "location": [
+            335.4039306640625,
+            275.8466796875,
+            -0.00472196564078331
+          ],
+          "rotation": [
+            0.005723698064684868,
+            92.03028869628906,
+            -0.004760742653161287
+          ],
+          "velocity": [
+            -0.05221302807331085,
+            0.8581222891807556,
+            -9.5367431640625e-07
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      },
+      "parked": {
+        "control": {
+          "brake": 1.0,
+          "gear": 0,
+          "hand_brake": false,
+          "manual_gear_shift": false,
+          "reverse": false,
+          "steer": 0.0,
+          "throttle": 0.0
+        },
+        "state": {
+          "acceleration": [
+            1.0469145550473513e-08,
+            6.176760052767349e-06,
+            -0.24389907717704773
+          ],
+          "angular_velocity": [
+            -1.452473588869907e-05,
+            2.060255155811319e-06,
+            -1.3903030948725359e-09
+          ],
+          "location": [
+            299.3999938964844,
+            133.2400360107422,
+            -0.01774633303284645
+          ],
+          "rotation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "velocity": [
+            6.710390465514138e-09,
+            6.409934627527036e-08,
+            0.06360506266355515
+          ]
+        },
+        "type": "vehicle.lincoln.mkz_2020"
+      }
+    }
+  ],
+  "identity": {
+    "scope": "Selected on-disk files only, not all loaded modules, assets or server memory.",
+    "selected_files_id": "bd20ecb53c7a1d363ab4f13642d41b760390d37a892138c074de5ad5b90f88e3",
+    "sha256": {
+      "client_egg": "9f8acf8a518a1484943ed98158161757985a9f457c5fe97b2ae644ef27817d0a",
+      "editor": "dbeee684ac6d117204d3e37ad0bae8db3b1f68ec2b17ce20bc6d20947ca2d758",
+      "map": "e8410199f7dca0836b60466d96b64e91d30a17dffcdcc06bb4e4ef433f0a37fb",
+      "map_built_data": "46d5a7c3b3883b34b905417cc2eec89e41702d2f8da9378dcfeb1b31e8c9f4e3",
+      "nav": "32d1773726151a670e7ef3b6d134ce883e28fbd85dbbf0c89f21ab9ca278b9fc",
+      "opendrive": "97a7f6ac67812567e5c8ee0599cd823b23f80f30f3f97c502212e38b72e2b709",
+      "server_plugin": "51698d1748e63124fad343ea6264490f7e52cf358b04dfaa31dacbc9edf5d15b",
+      "traffic_map": "310de44ae411b0c957a7b6dec0bf34210ce633726c1b36e2425e8d78dad9bea1"
+    }
+  },
+  "journal": {
+    "actors": [
+      {
+        "blueprint": "vehicle.lincoln.mkz_2020",
+        "id": "leader",
+        "spawn_index": 0
+      },
+      {
+        "blueprint": "vehicle.lincoln.mkz_2020",
+        "id": "parked",
+        "spawn_index": 1
+      }
+    ],
+    "frames": [
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": [
+          {
+            "action": "spawn",
+            "label": "parked"
+          }
+        ]
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": [
+          {
+            "action": "destroy",
+            "label": "parked"
+          }
+        ]
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": [
+          {
+            "action": "spawn",
+            "label": "parked"
+          }
+        ]
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      },
+      {
+        "controls": {
+          "leader": {
+            "steer": 0.04,
+            "throttle": 0.3
+          },
+          "parked": {
+            "brake": 1.0
+          }
+        },
+        "events": []
+      }
+    ],
+    "initial_actors": [
+      "leader"
+    ],
+    "map": "Town01"
+  },
+  "limitations": [
+    "manual vehicle controls only",
+    "sequential capture is not atomic",
+    "no sensors, traffic manager, scenario controllers, or physics scene cache"
+  ],
+  "origin_assumption": "source and target origin are zero; not independently verified",
+  "schema": "carla-manual-vehicle-journal-checkpoint-v1"
+}

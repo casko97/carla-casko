@@ -1,0 +1,184 @@
+{
+  "actors": {
+    "ego": {
+      "attributes": {
+        "base_type": "car",
+        "color": "0,0,0",
+        "driver_id": "0",
+        "generation": "2",
+        "has_dynamic_doors": "true",
+        "has_lights": "true",
+        "number_of_wheels": "4",
+        "object_type": "",
+        "role_name": "autopilot",
+        "ros_name": "vehicle.lincoln.mkz_2020",
+        "special_type": "",
+        "sticky_control": "false",
+        "terramechanics": "false"
+      },
+      "data_base64": "3AAnAgMEuHZlaGljbGUubGluY29sbi5ta3pfMjAyMKZUb3duMDHZXmEyNDQ3YjJkMTYxODY1Yzk5MjlhMGY5YmYyYTQ0MGMzZjdkMWU5N2YxZjRmYWZiODFkNzA1YTgzNGE4ZWYzODd8Zml4ZWQtc2xlZXAtdGhyZXNob2xkLXplcm8tdjHN0+fOABIQZcs/qZmZmZmZmss/hHrhR64UewrD3AARl5LKRHoAAMpDrYAAkspEu4AAykQCwACSykT6AADKRBeAAJLKRTuAAMpELcAAkspFegAAykQpQACSykWloADKRBfAAJLKRcsgAMpD6QAAykXLIADKP4AAAMo9TMzNykAAAADKPrMzM8PKPczMzcpBIAAAykBNcKSWk8pAkrAhyj5rhR/KPuuFH5PKQD2yLco+a4Ufyj7rhR+Tyj/0vGrKPmuFH8o+64Ufk8o/uRaHyj5rhR/KPuuFH5PKP4AAAMo+a4Ufyj7rhR+Tyj8++dvKPmuFH8o+64UfykTUAADKPpmZmpPKPpmZmcoAAAAAyr5MzMyUksoAAAAAyj+AAACSykGgAADKP2ZmZpLKQnAAAMo/TMzNkspC8AAAyj8zMzOUmspAYAAAyj6AAADKQov//8pCDgAAykRIAADKAAAAAMpAQAAAykGgAADKRTuAAJPKAAAAAMoAAAAAygAAAACaykBgAADKPoAAAMpCi///ykIOAADKREgAAMoAAAAAykBAAADKQaAAAMpFO4AAk8oAAAAAygAAAADKAAAAAJrKQGAAAMo+gAAAygAAAADKQg4AAMpESAAAykTIAADKQEAAAMpBoAAAykU7gACTygAAAADKAAAAAMoAAAAAmspAYAAAyj6AAADKAAAAAMpCDgAAykRIAADKRMgAAMpAQAAAykGgAADKRTuAAJPKAAAAAMoAAAAAygAAAADCk8pHAw0DykbZF8PKvvXpwJTKOTI6ucq5MicDyj81DvbKPzT68JPKP4AAAMo/gAAAyj+AAACTyr2mUKPKQzvT5cq4oAAAk8o4i/8YyrQN6zTKNhuZb8PKPseuFJfKPszMzcoAAAAAygAAAADCwsIBl8o+zMzNygAAAADKAAAAAMLCwgEAAAAAwsLKAAAAAMoAAAAAmdwAEMo+zMzNygAAAADKAAAAAMoAAAAAygAAAADKAAAAAMoAAAAAygAAAADKAAAAAMoAAAAAygAAAADKAAAAAMoAAAAAygAAAADKAAAAAMoAAAAAw8LCAgLKQsx2wMoAAAAAyj8Cj1mUlspAInimykAieKbKQZk1B8oAAAAAygAAAADKvaMQAJbKQCJ1q8pAInWrykGYs+/KAAAAAMoAAAAAyr2jGACWykEmz0fKQSbPR8pBikBjygAAAADKAAAAAMo9agAAlspBJt8WykEm3xbKQYjKIMoAAAAAygAAAADKPWnwAJfKAAAAAMo+zMzNygAAAADKAAAAAMo+zMzNygAAAADKAAAAAMQDAAAAk8pHAw0DykbZF8PKvvXpgJTKOTJXWsq5MjK8yj81DvfKPzT67pPKvaZQo8pDO9PlyrigAACTyjiL/xjKtA3rNMo2G5lvk8q6VOIYyj/wa2LKtUzMzA==",
+      "sha256": "41cee57bc4e4ab217d79ba68e8d886612735a75e9b7b4c9db4b06f8158487a9a",
+      "source_actor_id": 198
+    }
+  },
+  "boundary_observation": {
+    "actors": {
+      "ego": {
+        "acceleration": [
+          -0.0001315923873335123,
+          0.3026247024536133,
+          3.4332276754867053e-06
+        ],
+        "angular_velocity": [
+          0.0038248091004788876,
+          -7.5729058153228834e-06,
+          0.00013284661690704525
+        ],
+        "location": [
+          335.4901123046875,
+          277.8788146972656,
+          -0.004802989773452282
+        ],
+        "rotation": [
+          0.027539320290088654,
+          90.0247573852539,
+          0.0
+        ],
+        "velocity": [
+          -0.0008120848797261715,
+          1.878277063369751,
+          -7.629394076502649e-07
+        ]
+      }
+    },
+    "weather": {
+      "cloudiness": 60.0,
+      "dust_storm": 0.0,
+      "fog_density": 5.0,
+      "fog_distance": 0.75,
+      "fog_falloff": 0.10000000149011612,
+      "mie_scattering_scale": 0.029999999329447746,
+      "precipitation": 40.0,
+      "precipitation_deposits": 40.0,
+      "rayleigh_scattering_scale": 0.03310000151395798,
+      "scattering_intensity": 1.0,
+      "sun_altitude_angle": 20.0,
+      "sun_azimuth_angle": 275.0,
+      "wetness": 80.0,
+      "wind_intensity": 30.0
+    }
+  },
+  "checkpoint_mode": "fixed_sleep_threshold_zero",
+  "dynamic_props": {
+    "cone": {
+      "attributes": {
+        "role_name": "prop",
+        "ros_name": "static.prop.trafficcone01",
+        "size": "small"
+      },
+      "blueprint": "static.prop.trafficcone01",
+      "boundary": {
+        "acceleration": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "location": [
+          335.489990234375,
+          281.7433166503906,
+          0.00016147612768691033
+        ],
+        "rotation": [
+          0.0,
+          90.00004577636719,
+          0.0
+        ],
+        "velocity": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "data_base64": "3AAgAQMEuXN0YXRpYy5wcm9wLnRyYWZmaWNjb25lMDGmVG93bjAx2V5hMjQ0N2IyZDE2MTg2NWM5OTI5YTBmOWJmMmE0NDBjM2Y3ZDFlOTdmMWY0ZmFmYjgxZDcwNWE4MzRhOGVmMzg3fGZpeGVkLXNsZWVwLXRocmVzaG9sZC16ZXJvLXYxg6lyb2xlX25hbWWmMzpwcm9wqHJvc19uYW1luzM6c3RhdGljLnByb3AudHJhZmZpY2NvbmUwMaRzaXplpzM6c21hbGzLP6mZmZmZmZrLP4R64UeuFHsKw84AEhBlAgECykMh7o/KQkf//8oAAAAAwpPKSIfoWspIh/r2ykhNQ1CTygAAAADKvIAAAMpCYpjBlMoAAAAAygAAAADKAAAAAMo/gAAAk8pHAw0AykbcHKrKPIRIAJTKAAAAAMqAAAAAyj81BPjKPzUE75PKP4AAAMo/gAAAyj+AAACTygAAAADKAAAAAMoAAAAAk8oAAAAAygAAAADKAAAAAJPKRwMNAMpG3ByqyjyD+ACUyjJpEuHKskJ1L8o/NQT4yj81BO+TygAAAADKAAAAAMoAAAAAk8oAAAAAygAAAADKAAAAAJPKAAAAAMoAAAAAygAAAAA=",
+      "sha256": "88eaa7b21b43a0fc9f41cff8ce82d09cc26e30d3b7ab315ebfce7a8587943695",
+      "source_actor_id": 197,
+      "spawn_attributes": {
+        "role_name": "prop",
+        "ros_name": "static.prop.trafficcone01"
+      },
+      "spawn_transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 335.489990234375,
+        "y": 281.7433166503906,
+        "yaw": 90.00004577636719,
+        "z": 0.05000000074505806
+      }
+    }
+  },
+  "fixed_props": null,
+  "identity": {
+    "scope": "Selected on-disk files only, not all loaded modules, assets or server memory.",
+    "selected_files_id": "a2447b2d161865c9929a0f9bf2a440c3f7d1e97f1f4fafb81d705a834a8ef387",
+    "sha256": {
+      "client_egg": "9f8acf8a518a1484943ed98158161757985a9f457c5fe97b2ae644ef27817d0a",
+      "editor": "dbeee684ac6d117204d3e37ad0bae8db3b1f68ec2b17ce20bc6d20947ca2d758",
+      "map": "e8410199f7dca0836b60466d96b64e91d30a17dffcdcc06bb4e4ef433f0a37fb",
+      "map_built_data": "46d5a7c3b3883b34b905417cc2eec89e41702d2f8da9378dcfeb1b31e8c9f4e3",
+      "nav": "32d1773726151a670e7ef3b6d134ce883e28fbd85dbbf0c89f21ab9ca278b9fc",
+      "opendrive": "97a7f6ac67812567e5c8ee0599cd823b23f80f30f3f97c502212e38b72e2b709",
+      "server_plugin": "537a82076a3f9f0c4d7bf129b0f705d45faef95bf583da986f043de9a130a34b",
+      "traffic_map": "310de44ae411b0c957a7b6dec0bf34210ce633726c1b36e2425e8d78dad9bea1"
+    }
+  },
+  "limitations": [
+    "single tick owner required; sequential capture is not atomic",
+    "manual controls assumed; Traffic Manager and external controllers not captured",
+    "sensors, walkers, uncaptured props and physics scene caches not captured",
+    "traffic-light controller state saved only if selected; overlap and actor control state omitted",
+    "source origin assumed zero; selected artifact hashes do not identify all runtime content"
+  ],
+  "map": "Town01",
+  "schema": "carla-live-manual-vehicles-v1",
+  "settings": {
+    "deterministic_ragdolls": true,
+    "fixed_delta_seconds": 0.05,
+    "max_substep_delta_time": 0.01,
+    "max_substeps": 10,
+    "substepping": true,
+    "synchronous_mode": true
+  },
+  "source_frame": 54247,
+  "spawn_specs": [
+    {
+      "attributes": {
+        "color": "0,0,0",
+        "driver_id": "0",
+        "role_name": "autopilot",
+        "ros_name": "vehicle.lincoln.mkz_2020",
+        "sticky_control": "false",
+        "terramechanics": "false"
+      },
+      "blueprint": "vehicle.lincoln.mkz_2020",
+      "id": "ego",
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 335.489990234375,
+        "y": 273.7433166503906,
+        "yaw": 90.00004577636719,
+        "z": 0.29999998211860657
+      }
+    }
+  ],
+  "traffic_lights": {
+    "data_base64": "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",
+    "sha256": "db7f51cb239720f09446729b01d58e85c31ba749b75350a48428d8f169e49d56"
+  },
+  "uncaptured_prop_count": 115
+}

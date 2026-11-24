@@ -1,0 +1,11 @@
+{
+  "actors": [
+    "ego",
+    "other"
+  ],
+  "checkpoint_mode": "fixed_sleep_threshold_zero",
+  "fixed_prop_count": 115,
+  "saved": "/tmp/checkpoint-live-fixed-props-v2/checkpoint.json",
+  "source_frame": 243514,
+  "uncaptured_prop_count": 0
+}

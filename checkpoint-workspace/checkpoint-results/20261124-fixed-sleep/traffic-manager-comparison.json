@@ -1,0 +1,86 @@
+{
+  "actors": {
+    "first": {
+      "acceleration": {
+        "first_difference_frame": 28,
+        "max_absolute_component_difference": 0.6471645832061768
+      },
+      "angular_velocity": {
+        "first_difference_frame": 28,
+        "max_absolute_component_difference": 0.6493784189224243
+      },
+      "location": {
+        "first_difference_frame": 28,
+        "max_absolute_component_difference": 0.00994873046875
+      },
+      "rotation": {
+        "first_difference_frame": 47,
+        "max_absolute_component_difference": 0.0161590576171875
+      },
+      "velocity": {
+        "first_difference_frame": 28,
+        "max_absolute_component_difference": 0.021089911460876465
+      }
+    },
+    "second": {
+      "acceleration": {
+        "first_difference_frame": 91,
+        "max_absolute_component_difference": 0.004978982964530587
+      },
+      "angular_velocity": {
+        "first_difference_frame": 91,
+        "max_absolute_component_difference": 0.07651708088815212
+      },
+      "location": {
+        "first_difference_frame": 91,
+        "max_absolute_component_difference": 6.103515625e-05
+      },
+      "rotation": {
+        "first_difference_frame": 91,
+        "max_absolute_component_difference": 0.0045489054173231125
+      },
+      "velocity": {
+        "first_difference_frame": 91,
+        "max_absolute_component_difference": 0.00024894917441997677
+      }
+    }
+  },
+  "components": {
+    "light_traces": {
+      "exact": true,
+      "first_difference_frame": null,
+      "frames": 100
+    },
+    "tm_control_traces": {
+      "exact": false,
+      "first_difference_frame": 93,
+      "frames": 100
+    },
+    "vehicle_light_traces": {
+      "exact": true,
+      "first_difference_frame": null,
+      "frames": 100
+    },
+    "weather_traces": {
+      "exact": true,
+      "first_difference_frame": null,
+      "frames": 100
+    }
+  },
+  "inputs": [
+    {
+      "path": "checkpoint-results/20261124-fixed-sleep/checkpoint-quality-default-tm.json",
+      "sha256": "3b4b8c807b2beea5d792fdbb8fdc9c40c8706e6543a331dfb726bb3cac0cb2bc"
+    },
+    {
+      "path": "checkpoint-results/20261124-fixed-sleep/checkpoint-quality-fixed-tm.json",
+      "sha256": "15a52607d61c2f004df52761b334ea70596226bc389b47ae8985597dd4b3ba52"
+    }
+  ],
+  "scope": "sampled uninterrupted traces; not a complete simulator or quality evaluation",
+  "trajectory": {
+    "exact": false,
+    "first_difference_frame": 28,
+    "frames": 100
+  }
+}

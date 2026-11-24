@@ -1,0 +1,26 @@
+{
+  "checkpoint_sha256": "49bec4a08fcafac77a59edd8517e1e4d5b414123b4a79619814d04c44759be4d",
+  "frames": 120,
+  "last_frame": 1163244,
+  "limitations": [
+    "only commands passed to this recorder are recorded",
+    "sole tick owner and no external mutations required",
+    "samples are not full simulator state"
+  ],
+  "schema": "carla-live-action-recording-v1",
+  "source_frame": 1163124,
+  "traffic_ids": [
+    "456",
+    "459",
+    "462",
+    "465",
+    "468",
+    "471",
+    "474",
+    "477"
+  ],
+  "vehicle_light_policy": {
+    "fixed_mask": 3,
+    "mode": "fixed-plus-control-v1"
+  }
+}

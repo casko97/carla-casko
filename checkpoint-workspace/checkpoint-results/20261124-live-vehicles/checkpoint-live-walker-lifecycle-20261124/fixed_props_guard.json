@@ -1,0 +1,1698 @@
+{
+  "limitation": "physics-disable commands acknowledged; no public readback of simulate-physics flag",
+  "map": "Town02",
+  "mode": "fixed_map_props_v1",
+  "prepared_frame": 40963,
+  "records": [
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "2.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticTable.SM_PlasticTable"
+      },
+      "id": 372,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 5.900000095367432,
+        "y": 293.29998779296875,
+        "yaw": 0.0,
+        "z": 0.2853033244609833
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "2.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticTable.SM_PlasticTable"
+      },
+      "id": 371,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 23.94561004638672,
+        "y": 280.5008544921875,
+        "yaw": -40.00001907348633,
+        "z": 0.625303328037262
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "2.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticTable.SM_PlasticTable"
+      },
+      "id": 370,
+      "transform": {
+        "pitch": -0.032313622534275055,
+        "roll": -0.01730346493422985,
+        "x": 26.5656681060791,
+        "y": 276.0509338378906,
+        "yaw": -39.99855041503906,
+        "z": 0.2869506776332855
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "2.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticTable.SM_PlasticTable"
+      },
+      "id": 369,
+      "transform": {
+        "pitch": -0.24835249781608582,
+        "roll": -0.3226013481616974,
+        "x": 31.88539695739746,
+        "y": 278.7890930175781,
+        "yaw": -40.061302185058594,
+        "z": 0.30512693524360657
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "2.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticTable.SM_PlasticTable"
+      },
+      "id": 368,
+      "transform": {
+        "pitch": -0.675908625125885,
+        "roll": 0.6798079013824463,
+        "x": 27.170454025268555,
+        "y": 284.2719421386719,
+        "yaw": -40.306854248046875,
+        "z": 0.335030198097229
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "2.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticTable.SM_PlasticTable"
+      },
+      "id": 367,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 31.175609588623047,
+        "y": 287.2308654785156,
+        "yaw": -40.00001907348633,
+        "z": 0.2853033244609833
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "2.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticTable.SM_PlasticTable"
+      },
+      "id": 366,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 27.685609817504883,
+        "y": 292.9008483886719,
+        "yaw": -40.00001907348633,
+        "z": 0.2853033244609833
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "2.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticTable.SM_PlasticTable"
+      },
+      "id": 365,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 32.17560958862305,
+        "y": 292.4608459472656,
+        "yaw": -40.00001907348633,
+        "z": 0.2853033244609833
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "2.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticTable.SM_PlasticTable"
+      },
+      "id": 364,
+      "transform": {
+        "pitch": 1.0421092510223389,
+        "roll": 1.3890957832336426,
+        "x": 13.58017635345459,
+        "y": 292.47088623046875,
+        "yaw": -39.6554069519043,
+        "z": 0.3744027614593506
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "2.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticTable.SM_PlasticTable"
+      },
+      "id": 363,
+      "transform": {
+        "pitch": 1.1068867444992065,
+        "roll": 0.8117446899414062,
+        "x": 13.117798805236816,
+        "y": 286.3808288574219,
+        "yaw": -40.2625617980957,
+        "z": 0.36287954449653625
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "2.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticTable.SM_PlasticTable"
+      },
+      "id": 362,
+      "transform": {
+        "pitch": 0.0835263803601265,
+        "roll": -0.1251220852136612,
+        "x": 9.54567813873291,
+        "y": 290.89129638671875,
+        "yaw": -40.01769256591797,
+        "z": 0.2912598252296448
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "2.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticTable.SM_PlasticTable"
+      },
+      "id": 361,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 8.315610885620117,
+        "y": 285.120849609375,
+        "yaw": -40.00001907348633,
+        "z": 0.2853033244609833
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "2.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticTable.SM_PlasticTable"
+      },
+      "id": 360,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 5.6756110191345215,
+        "y": 288.95086669921875,
+        "yaw": -40.00001907348633,
+        "z": 0.2853033244609833
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 359,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 24.689960479736328,
+        "y": 281.5316467285156,
+        "yaw": 49.999603271484375,
+        "z": 0.606688380241394
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 358,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 22.92536735534668,
+        "y": 281.2380676269531,
+        "yaw": 139.999755859375,
+        "z": 0.606688380241394
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 357,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 23.2127628326416,
+        "y": 279.50250244140625,
+        "yaw": -130.00013732910156,
+        "z": 0.6253035068511963
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 356,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 24.91897201538086,
+        "y": 279.59912109375,
+        "yaw": -35.000038146972656,
+        "z": 0.6253035068511963
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 355,
+      "transform": {
+        "pitch": 0.4418995678424835,
+        "roll": 0.002605607733130455,
+        "x": 27.30991554260254,
+        "y": 277.0815734863281,
+        "yaw": 49.99458312988281,
+        "z": 0.2869458794593811
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 354,
+      "transform": {
+        "pitch": 0.00010928302071988583,
+        "roll": -3.051758176297881e-05,
+        "x": 25.545368194580078,
+        "y": 276.7880859375,
+        "yaw": 139.99974060058594,
+        "z": 0.286873459815979
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 353,
+      "transform": {
+        "pitch": 0.05900600180029869,
+        "roll": -0.0609130859375,
+        "x": 25.832775115966797,
+        "y": 275.0524597167969,
+        "yaw": -130.00119018554688,
+        "z": 0.2868815064430237
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 352,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 27.538970947265625,
+        "y": 275.14910888671875,
+        "yaw": -35.000038146972656,
+        "z": 0.2853035032749176
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 351,
+      "transform": {
+        "pitch": -1.22396981716156,
+        "roll": -0.666748046875,
+        "x": 32.63655471801758,
+        "y": 279.81719970703125,
+        "yaw": 50.62589645385742,
+        "z": 0.3024093210697174
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 350,
+      "transform": {
+        "pitch": 0.4126731753349304,
+        "roll": 0.4939350187778473,
+        "x": 30.8654727935791,
+        "y": 279.5273742675781,
+        "yaw": 140.00140380859375,
+        "z": 0.3097223937511444
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 349,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 31.15276336669922,
+        "y": 277.79248046875,
+        "yaw": -130.00013732910156,
+        "z": 0.28530353307724
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 348,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 32.858970642089844,
+        "y": 277.8891296386719,
+        "yaw": -35.000038146972656,
+        "z": 0.2853035032749176
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 347,
+      "transform": {
+        "pitch": -0.17550170421600342,
+        "roll": -0.8955381512641907,
+        "x": 27.916568756103516,
+        "y": 285.3078918457031,
+        "yaw": 50.03752136230469,
+        "z": 0.30521446466445923
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 346,
+      "transform": {
+        "pitch": 3.4555087089538574,
+        "roll": -2.011017084121704,
+        "x": 26.16994857788086,
+        "y": 285.0036315917969,
+        "yaw": 139.6844024658203,
+        "z": 0.41595131158828735
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 345,
+      "transform": {
+        "pitch": -0.011993811465799809,
+        "roll": 0.6185352206230164,
+        "x": 26.43315887451172,
+        "y": 283.2821960449219,
+        "yaw": -129.9962615966797,
+        "z": 0.30291345715522766
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 344,
+      "transform": {
+        "pitch": 0.21888023614883423,
+        "roll": -0.19873046875,
+        "x": 28.139301300048828,
+        "y": 283.37890625,
+        "yaw": -34.97650909423828,
+        "z": 0.290688693523407
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 343,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 31.919960021972656,
+        "y": 288.26165771484375,
+        "yaw": 49.999603271484375,
+        "z": 0.26668840646743774
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 342,
+      "transform": {
+        "pitch": 0.19042566418647766,
+        "roll": -0.192169189453125,
+        "x": 30.155235290527344,
+        "y": 287.9681091308594,
+        "yaw": 140.00291442871094,
+        "z": 0.2717718780040741
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 341,
+      "transform": {
+        "pitch": 0.14870686829090118,
+        "roll": -0.1639098972082138,
+        "x": 30.44290542602539,
+        "y": 286.2323913574219,
+        "yaw": -130.0226287841797,
+        "z": 0.2894565761089325
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 340,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 32.14897155761719,
+        "y": 286.3291015625,
+        "yaw": -35.000038146972656,
+        "z": 0.2853035032749176
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 339,
+      "transform": {
+        "pitch": 0.6467574238777161,
+        "roll": -0.055450454354286194,
+        "x": 28.429943084716797,
+        "y": 293.9315490722656,
+        "yaw": 49.98794174194336,
+        "z": 0.2846801280975342
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 338,
+      "transform": {
+        "pitch": 1.3417632579803467,
+        "roll": -1.4260860681533813,
+        "x": 26.67207145690918,
+        "y": 293.6382141113281,
+        "yaw": 140.09584045410156,
+        "z": 0.3125803768634796
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 337,
+      "transform": {
+        "pitch": 0.9355924129486084,
+        "roll": -0.5385743379592896,
+        "x": 26.952653884887695,
+        "y": 291.9047546386719,
+        "yaw": -129.88633728027344,
+        "z": 0.3139154613018036
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 336,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 28.658971786499023,
+        "y": 291.9991149902344,
+        "yaw": -35.000038146972656,
+        "z": 0.2853035032749176
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 335,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 32.919960021972656,
+        "y": 293.4916687011719,
+        "yaw": 49.999603271484375,
+        "z": 0.26668840646743774
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 334,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 31.15536880493164,
+        "y": 293.1980895996094,
+        "yaw": 139.999755859375,
+        "z": 0.26668837666511536
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 333,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 31.44276237487793,
+        "y": 291.4624938964844,
+        "yaw": -130.00013732910156,
+        "z": 0.28530353307724
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 332,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 33.14897155761719,
+        "y": 291.5591125488281,
+        "yaw": -35.000038146972656,
+        "z": 0.2853035032749176
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 331,
+      "transform": {
+        "pitch": -1.245239019393921,
+        "roll": -0.8326719403266907,
+        "x": 14.320697784423828,
+        "y": 293.4908447265625,
+        "yaw": 50.00736618041992,
+        "z": 0.3130320608615875
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 330,
+      "transform": {
+        "pitch": 0.5083436369895935,
+        "roll": -1.610503911972046,
+        "x": 12.55830192565918,
+        "y": 293.2019958496094,
+        "yaw": 140.17343139648438,
+        "z": 0.34070470929145813
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 329,
+      "transform": {
+        "pitch": -0.3543911874294281,
+        "roll": 0.9702146649360657,
+        "x": 12.843229293823242,
+        "y": 291.46002197265625,
+        "yaw": -129.9853973388672,
+        "z": 0.37248221039772034
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 328,
+      "transform": {
+        "pitch": -1.9577916860580444,
+        "roll": 1.7604280710220337,
+        "x": 14.564815521240234,
+        "y": 291.5588684082031,
+        "yaw": -34.312721252441406,
+        "z": 0.3598839342594147
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 327,
+      "transform": {
+        "pitch": 0.33903008699417114,
+        "roll": -0.3440856635570526,
+        "x": 13.85899829864502,
+        "y": 287.3860778808594,
+        "yaw": 49.906829833984375,
+        "z": 0.2769755423069
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 326,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 12.095141410827637,
+        "y": 287.0924987792969,
+        "yaw": 139.999755859375,
+        "z": 0.26668837666511536
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 325,
+      "transform": {
+        "pitch": 3.42366623878479,
+        "roll": -3.4307258129119873,
+        "x": 12.378524780273438,
+        "y": 285.4117431640625,
+        "yaw": -128.54302978515625,
+        "z": 0.43113285303115845
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 324,
+      "transform": {
+        "pitch": 3.1954970359802246,
+        "roll": 3.2623636722564697,
+        "x": 14.078818321228027,
+        "y": 285.5179138183594,
+        "yaw": -34.38688278198242,
+        "z": 0.4412490129470825
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 323,
+      "transform": {
+        "pitch": 1.2558326721191406,
+        "roll": 1.4576390981674194,
+        "x": 10.278848648071289,
+        "y": 291.9182434082031,
+        "yaw": 50.416709899902344,
+        "z": 0.3185487389564514
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 322,
+      "transform": {
+        "pitch": -0.23644746840000153,
+        "roll": 0.3905673921108246,
+        "x": 8.525259017944336,
+        "y": 291.6289367675781,
+        "yaw": 139.88693237304688,
+        "z": 0.2763722836971283
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 321,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 8.812763214111328,
+        "y": 289.8924865722656,
+        "yaw": -130.00013732910156,
+        "z": 0.28530353307724
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 320,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 10.518972396850586,
+        "y": 289.9891052246094,
+        "yaw": -35.000038146972656,
+        "z": 0.2853035032749176
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 319,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 9.05996036529541,
+        "y": 286.1516418457031,
+        "yaw": 49.999603271484375,
+        "z": 0.26668840646743774
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 318,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 7.29536771774292,
+        "y": 285.85809326171875,
+        "yaw": 139.999755859375,
+        "z": 0.26668837666511536
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 317,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 7.582763671875,
+        "y": 284.12249755859375,
+        "yaw": -130.00013732910156,
+        "z": 0.28530353307724
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 316,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 9.288970947265625,
+        "y": 284.2191162109375,
+        "yaw": -35.000038146972656,
+        "z": 0.2853035032749176
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 315,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 6.419960975646973,
+        "y": 289.9816589355469,
+        "yaw": 49.999603271484375,
+        "z": 0.26668840646743774
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 314,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 4.655367851257324,
+        "y": 289.6880798339844,
+        "yaw": 139.999755859375,
+        "z": 0.26668837666511536
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 313,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 4.942763328552246,
+        "y": 287.9524841308594,
+        "yaw": -130.00013732910156,
+        "z": 0.28530353307724
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 312,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 6.6489715576171875,
+        "y": 288.0491027832031,
+        "yaw": -35.000038146972656,
+        "z": 0.2853035032749176
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 311,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 5.809960842132568,
+        "y": 294.5616455078125,
+        "yaw": 89.9996109008789,
+        "z": 0.24000144004821777
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 310,
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 4.64691162109375,
+        "y": 293.2024841308594,
+        "yaw": 179.99978637695312,
+        "z": 0.24000141024589539
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 309,
+      "transform": {
+        "pitch": 0.00011611320951487869,
+        "roll": 4.901173088001087e-05,
+        "x": 5.982677936553955,
+        "y": 292.0577087402344,
+        "yaw": -90.00009155273438,
+        "z": 0.24000099301338196
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "angular_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "attributes": {
+        "mass": "1.0",
+        "mesh_path": "/Game/Carla/Static/Dynamic/Garden/SM_PlasticChair.SM_PlasticChair"
+      },
+      "id": 308,
+      "transform": {
+        "pitch": 0.10685830563306808,
+        "roll": 0.1128997802734375,
+        "x": 7.2275919914245605,
+        "y": 293.2284240722656,
+        "yaw": 4.9991374015808105,
+        "z": 0.24126464128494263
+      },
+      "type": "static.prop.mesh",
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

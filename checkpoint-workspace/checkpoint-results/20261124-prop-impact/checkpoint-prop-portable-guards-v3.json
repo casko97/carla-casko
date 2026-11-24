@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "changed_settings_rejected": true,
+    "destroyed_actor_rejected": true,
+    "export_after_rejection_accepted": true,
+    "failed_save_invalidated_slot": true,
+    "fresh_actor_import_accepted": true,
+    "fresh_actor_restore_accepted": true,
+    "incompatible_mass_rejected": true,
+    "matching_restore_accepted": true,
+    "portable_export_accepted": true,
+    "previous_episode_rejected": true,
+    "prop_save_accepted": true,
+    "rejected_import_preserves_slot": true,
+    "resave_accepted": true,
+    "restore_without_save_rejected": true,
+    "save_without_physics_rejected": true,
+    "second_prop_save_accepted": true,
+    "vehicle_rejected": true,
+    "wrong_build_rejected": true
+  },
+  "failure": null
+}

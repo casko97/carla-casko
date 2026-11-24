@@ -1,0 +1,4002 @@
+[
+  {
+    "vehicle0": {
+      "brake": 0.699999988079071,
+      "gear": 2,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.006278101820498705,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 0.0,
+      "gear": 2,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.001237924094311893,
+      "throttle": 0.27956146001815796
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.699999988079071,
+      "gear": 2,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.004012440796941519,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 0.0,
+      "gear": 2,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.007685409393161535,
+      "throttle": 0.2845522165298462
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.699999988079071,
+      "gear": 2,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.004482881631702185,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 0.0,
+      "gear": 2,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.005294336471706629,
+      "throttle": 0.38265031576156616
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.699999988079071,
+      "gear": 0,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.002534872619435191,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 0.0,
+      "gear": 2,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.004562338814139366,
+      "throttle": 0.3789628744125366
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.699999988079071,
+      "gear": 0,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.003280807053670287,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 0.0,
+      "gear": 2,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.003947014920413494,
+      "throttle": 0.4540971517562866
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.699999988079071,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0021359266247600317,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 0.0,
+      "gear": 2,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0034368433989584446,
+      "throttle": 0.41662490367889404
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.06518115103244781,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012409943155944347,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 0.0,
+      "gear": 2,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0028491748962551355,
+      "throttle": 0.44990119338035583
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0027379493694752455,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 2,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0025141765363514423,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0005452790064737201,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 2,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0021882974542677402,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0004304564790800214,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 2,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.001681709778495133,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 0,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0015576439909636974,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0006155604496598244,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 0,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0014748311368748546,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.00017573311924934387,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.001237924094311893,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.005574139300733805,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0014193737879395485,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0035218994598835707,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.001390856341458857,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.699999988079071,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0031053705606609583,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.00129096454475075,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.699999988079071,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.002733228961005807,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012138684978708625,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.699999988079071,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0023297767620533705,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013496332103386521,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.699999988079071,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0021446584723889828,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013194821076467633,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.001924786251038313,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013194821076467633,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0018778556259348989,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012138684978708625,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.00184559915214777,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0011315717129036784,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0016384831396862864,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013817354338243604,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.001360971829853952,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012138684978708625,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0017203756142407656,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013496332103386521,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0014748311368748546,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013194821076467633,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.001237924094311893,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0011014206102117896,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0014193737879395485,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012761218240484595,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.1340869516134262,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0010729030473157763,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0014495250070467591,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.699999988079071,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0011636738199740648,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.00129096454475075,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.699999988079071,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0009114888962358236,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0011014206102117896,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.699999988079071,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0006732309120707214,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0011636738199740648,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.2570820450782776,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.00031118179322220385,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013817354338243604,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.000890448922291398,
+      "throttle": 0.34929347038269043
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013194821076467633,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0009267422719858587,
+      "throttle": 0.7892522811889648
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013194821076467633,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0007147158030420542,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012138684978708625,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0005661552422679961,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013496332103386521,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0003670363512355834,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012138684978708625,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.00017573311924934387,
+      "throttle": 0.38398662209510803
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.2205376923084259,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.000870533986017108,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.4331921935081482,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0003670363512355834,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013496332103386521,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.17300599813461304,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.00043982735951431096,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013194821076467633,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0006948008667677641,
+      "throttle": 0.21274322271347046
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013194821076467633,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0002485241857357323,
+      "throttle": 0.5681577920913696
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013194821076467633,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0026831659488379955,
+      "throttle": 0.8474307656288147
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0013194821076467633,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0019171631429344416,
+      "throttle": 0.8500000238418579
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012138684978708625,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0016180525999516249,
+      "throttle": 0.7328502535820007
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.001622605137526989,
+      "throttle": 0.30375203490257263
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.14859889447689056,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.001289040083065629,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 0.2424790859222412,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.001390856341458857,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.001390856341458857,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0010729030473157763,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0007661748677492142,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0010249688057228923,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0009834838565438986,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0004775827983394265,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0008640846936032176,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0022865089122205973,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017593095544725657,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017593095544725657,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017593095544725657,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0016811230452731252,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017816305626183748,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0016811230452731252,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017816305626183748,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017593095544725657,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017593095544725657,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017593095544725657,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017593095544725657,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017593095544725657,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017593095544725657,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017593095544725657,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0016811230452731252,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  },
+  {
+    "vehicle0": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": 0.0017034441698342562,
+      "throttle": 0.0
+    },
+    "vehicle1": {
+      "brake": 1.0,
+      "gear": 1,
+      "hand_brake": false,
+      "manual_gear_shift": false,
+      "reverse": false,
+      "steer": -0.0012440196005627513,
+      "throttle": 0.0
+    }
+  }
+]

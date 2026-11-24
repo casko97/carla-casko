@@ -1,0 +1,13 @@
+{
+  "checks": {
+    "bad_topology_no_tick": true,
+    "bad_topology_rejected": true,
+    "bad_topology_visible_state_unchanged": true,
+    "compatible_import_accepted": true,
+    "compatible_import_no_tick": true,
+    "wrong_build_no_tick": true,
+    "wrong_build_rejected": true,
+    "wrong_build_visible_state_unchanged": true
+  },
+  "failure": null
+}

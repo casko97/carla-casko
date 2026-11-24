@@ -1,0 +1,13 @@
+{
+  "checkpoint_mode": "fixed_sleep_threshold_zero",
+  "exact": null,
+  "failure": {
+    "message": "fixed prop initial state differs from source",
+    "type": "RuntimeError"
+  },
+  "first_difference": null,
+  "schema": "carla-live-manual-vehicles-v1",
+  "scope": "sampled vehicle state and controls; not full simulator state",
+  "source_frame": 243514,
+  "suffix": []
+}

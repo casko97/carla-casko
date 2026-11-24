@@ -1,0 +1,16 @@
+{
+  "checks": {
+    "changed_settings_rejected": true,
+    "destroyed_actor_rejected": true,
+    "failed_save_invalidated_slot": true,
+    "matching_restore_accepted": true,
+    "previous_episode_rejected": true,
+    "prop_save_accepted": true,
+    "resave_accepted": true,
+    "restore_without_save_rejected": true,
+    "save_without_physics_rejected": true,
+    "second_prop_save_accepted": true,
+    "vehicle_rejected": true
+  },
+  "failure": null
+}

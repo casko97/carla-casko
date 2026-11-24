@@ -1,0 +1,16 @@
+{
+  "exact": true,
+  "first_difference": null,
+  "max_errors": {
+    "vehicle0": {
+      "location": 0.0,
+      "velocity": 0.0
+    },
+    "vehicle1": {
+      "location": 0.0,
+      "velocity": 0.0
+    }
+  },
+  "min_center_distance_m": 6.195626725689093,
+  "traffic_exact": true
+}

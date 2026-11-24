@@ -1,0 +1,126 @@
+{
+  "actors": {
+    "ego": {
+      "attributes": {
+        "base_type": "car",
+        "color": "0,0,0",
+        "driver_id": "0",
+        "generation": "2",
+        "has_dynamic_doors": "true",
+        "has_lights": "true",
+        "number_of_wheels": "4",
+        "object_type": "",
+        "role_name": "autopilot",
+        "ros_name": "vehicle.lincoln.mkz_2020",
+        "special_type": "",
+        "sticky_control": "false",
+        "terramechanics": "false"
+      },
+      "data_base64": "3AAnAgMEuHZlaGljbGUubGluY29sbi5ta3pfMjAyMKZUb3duMDHZXmJkMjBlY2I1M2M3YTFkMzYzYWI0ZjEzNjQyZDQxYjc2MDM5MGQzN2E4OTIxMzhjMDc0ZGU1YWQ1YjkwZjg4ZTN8Zml4ZWQtc2xlZXAtdGhyZXNob2xkLXplcm8tdjHOAAnhFc4AEhBlyz+pmZmZmZmayz+EeuFHrhR7CsPcABGXkspEegAAykOtgACSykS7gADKRALAAJLKRPoAAMpEF4AAkspFO4AAykQtwACSykV6AADKRClAAJLKRaWgAMpEF8AAkspFyyAAykPpAADKRcsgAMo/gAAAyj1MzM3KQAAAAMo+szMzw8o9zMzNykEgAADKQE1wpJaTykCSsCHKPmuFH8o+64Ufk8pAPbItyj5rhR/KPuuFH5PKP/S8aso+a4Ufyj7rhR+Tyj+5FofKPmuFH8o+64Ufk8o/gAAAyj5rhR/KPuuFH5PKPz7528o+a4Ufyj7rhR/KRNQAAMo+mZmak8o+mZmZygAAAADKvkzMzJSSygAAAADKP4AAAJLKQaAAAMo/ZmZmkspCcAAAyj9MzM2SykLwAADKPzMzM5SaykBgAADKPoAAAMpCi///ykIOAADKREgAAMoAAAAAykBAAADKQaAAAMpFO4AAk8oAAAAAygAAAADKAAAAAJrKQGAAAMo+gAAAykKL///KQg4AAMpESAAAygAAAADKQEAAAMpBoAAAykU7gACTygAAAADKAAAAAMoAAAAAmspAYAAAyj6AAADKAAAAAMpCDgAAykRIAADKRMgAAMpAQAAAykGgAADKRTuAAJPKAAAAAMoAAAAAygAAAACaykBgAADKPoAAAMoAAAAAykIOAADKREgAAMpEyAAAykBAAADKQaAAAMpFO4AAk8oAAAAAygAAAADKAAAAAMKTykcDDFnKRtYQHcq/AD7glMo6EJkDyrnqV7/KPzVqAso/NJ+mk8o/gAAAyj+AAADKP4AAAJPKv/jiyMpCgZYHyjvJqACTyruwcPPKulwMbsq8A9dcw8o+x64Ul8o+gAAAyj0j1wrKAAAAAMLCwgGXyj6AAADKPSPXCsoAAAAAwsLCAQAAAADCwsoAAAAAygAAAACZ3AAQyj6AAADKAAAAAMoAAAAAygAAAADKPSHzFMoAAAAAygAAAADKAAAAAMoAAAAAygAAAADKAAAAAMoAAAAAygAAAADKAAAAAMoAAAAAygAAAADDwsICAspCcgyhygAAAADKPwKPWZSWykDh8ijKQOHyKMo/72PSygAAAADKAAAAAMq+PewAlsq/igiyyr+KCLLKP+VF88oAAAAAygAAAADKvlZkAJbKQQ+nnMpBD6ecyj/fBITKAAAAAMoAAAAAyj5iIACWyr8felrKvx96Wso/1i07ygAAAADKAAAAAMo+SaYAl8o9I9cKyj6AAADKAAAAAMo9I9cKyj6AAADKAAAAAMoAAAAAxAMAAACTykcDDFnKRtYQHcq/AD7AlMo6EJfyyrnqXQfKPzVqA8o/NJ+lk8q/+OLIykKBlgfKO8moAJPKu7Bw88q6XAxuyrwD11yTyryfSXbKPyXewco4gQ9c",
+      "sha256": "ef7ceead2b409137c6dc2054be0c6a687f7d63cb18aaf0fa02ba76691c5a3c21",
+      "source_actor_id": 1241
+    }
+  },
+  "boundary_observation": {
+    "actors": {
+      "ego": {
+        "acceleration": [
+          -0.03251250833272934,
+          0.08248686790466309,
+          -0.00043621068471111357
+        ],
+        "angular_velocity": [
+          -0.30851244926452637,
+          -0.04809514060616493,
+          -0.46105632185935974
+        ],
+        "location": [
+          335.48345947265625,
+          274.00054931640625,
+          -0.005009593907743692
+        ],
+        "rotation": [
+          0.08093090355396271,
+          90.25019073486328,
+          -0.008300775662064552
+        ],
+        "velocity": [
+          -0.019444208592176437,
+          0.6479302048683167,
+          6.15406024735421e-05
+        ]
+      }
+    },
+    "weather": {
+      "cloudiness": 60.0,
+      "dust_storm": 0.0,
+      "fog_density": 5.0,
+      "fog_distance": 0.75,
+      "fog_falloff": 0.10000000149011612,
+      "mie_scattering_scale": 0.029999999329447746,
+      "precipitation": 40.0,
+      "precipitation_deposits": 40.0,
+      "rayleigh_scattering_scale": 0.03310000151395798,
+      "scattering_intensity": 1.0,
+      "sun_altitude_angle": 20.0,
+      "sun_azimuth_angle": 275.0,
+      "wetness": 80.0,
+      "wind_intensity": 30.0
+    }
+  },
+  "checkpoint_mode": "fixed_sleep_threshold_zero",
+  "identity": {
+    "scope": "Selected on-disk files only, not all loaded modules, assets or server memory.",
+    "selected_files_id": "bd20ecb53c7a1d363ab4f13642d41b760390d37a892138c074de5ad5b90f88e3",
+    "sha256": {
+      "client_egg": "9f8acf8a518a1484943ed98158161757985a9f457c5fe97b2ae644ef27817d0a",
+      "editor": "dbeee684ac6d117204d3e37ad0bae8db3b1f68ec2b17ce20bc6d20947ca2d758",
+      "map": "e8410199f7dca0836b60466d96b64e91d30a17dffcdcc06bb4e4ef433f0a37fb",
+      "map_built_data": "46d5a7c3b3883b34b905417cc2eec89e41702d2f8da9378dcfeb1b31e8c9f4e3",
+      "nav": "32d1773726151a670e7ef3b6d134ce883e28fbd85dbbf0c89f21ab9ca278b9fc",
+      "opendrive": "97a7f6ac67812567e5c8ee0599cd823b23f80f30f3f97c502212e38b72e2b709",
+      "server_plugin": "51698d1748e63124fad343ea6264490f7e52cf358b04dfaa31dacbc9edf5d15b",
+      "traffic_map": "310de44ae411b0c957a7b6dec0bf34210ce633726c1b36e2425e8d78dad9bea1"
+    }
+  },
+  "limitations": [
+    "single tick owner required; sequential capture is not atomic",
+    "manual controls assumed; Traffic Manager and external controllers not captured",
+    "traffic-light state, sensors, walkers, props and physics scene caches not captured",
+    "source origin assumed zero; selected artifact hashes do not identify all runtime content"
+  ],
+  "map": "Town01",
+  "schema": "carla-live-manual-vehicles-v1",
+  "settings": {
+    "deterministic_ragdolls": true,
+    "fixed_delta_seconds": 0.05,
+    "max_substep_delta_time": 0.01,
+    "max_substeps": 10,
+    "substepping": true,
+    "synchronous_mode": true
+  },
+  "source_frame": 647445,
+  "spawn_specs": [
+    {
+      "attributes": {
+        "color": "0,0,0",
+        "driver_id": "0",
+        "role_name": "autopilot",
+        "ros_name": "vehicle.lincoln.mkz_2020",
+        "sticky_control": "false",
+        "terramechanics": "false"
+      },
+      "blueprint": "vehicle.lincoln.mkz_2020",
+      "id": "ego",
+      "transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": 335.489990234375,
+        "y": 273.7433166503906,
+        "yaw": 90.00004577636719,
+        "z": 0.29999998211860657
+      }
+    }
+  ],
+  "uncaptured_prop_count": 115
+}

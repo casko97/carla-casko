@@ -1,0 +1,1442 @@
+{
+  "actors": {
+    "later_pedestrian": {
+      "attributes": {
+        "age": "adult",
+        "gender": "female",
+        "generation": "1",
+        "is_invincible": "true",
+        "role_name": "pedestrian",
+        "ros_name": "walker.pedestrian.0001",
+        "speed": "0.0"
+      },
+      "blueprint": "walker.pedestrian.0001",
+      "spawn_attributes": {
+        "is_invincible": "true",
+        "role_name": "pedestrian",
+        "ros_name": "walker.pedestrian.0001",
+        "speed": "0.0"
+      },
+      "spawn_transform": {
+        "pitch": 0.0,
+        "roll": 0.0,
+        "x": -12.529999732971191,
+        "y": 142.19000244140625,
+        "yaw": 89.99995422363281,
+        "z": 1.0
+      }
+    }
+  },
+  "frames": [
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": [
+        {
+          "action": "destroy",
+          "label": "pedestrian"
+        }
+      ]
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {
+        "later_pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": [
+        {
+          "action": "spawn",
+          "label": "later_pedestrian"
+        }
+      ]
+    },
+    {
+      "controls": {
+        "later_pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "later_pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "later_pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "later_pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "later_pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "later_pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "later_pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "later_pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "later_pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": [
+        {
+          "action": "destroy",
+          "label": "later_pedestrian"
+        }
+      ]
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 0.0
+        }
+      },
+      "events": [
+        {
+          "action": "spawn",
+          "label": "pedestrian"
+        }
+      ]
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 0.0
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 0.0
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 0.0
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 0.0
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 0.0
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 0.0
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 0.0
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 0.0
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 0.0
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            -0.9999999999996808,
+            7.989483271132209e-07,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": [
+        {
+          "action": "destroy",
+          "label": "pedestrian"
+        }
+      ]
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {},
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": [
+        {
+          "action": "spawn",
+          "label": "pedestrian"
+        }
+      ]
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    },
+    {
+      "controls": {
+        "pedestrian": {
+          "direction": [
+            7.989483271132209e-07,
+            0.9999999999996808,
+            0.0
+          ],
+          "jump": false,
+          "speed": 1.4
+        }
+      },
+      "events": []
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "actors": {
+    "moving": {
+      "acceleration": {
+        "first_difference_frame": 28,
+        "max_absolute_component_difference": 8.529689311981201
+      },
+      "angular_velocity": {
+        "first_difference_frame": 28,
+        "max_absolute_component_difference": 8.866583988070488
+      },
+      "location": {
+        "first_difference_frame": 28,
+        "max_absolute_component_difference": 0.011962890625
+      },
+      "rotation": {
+        "first_difference_frame": 32,
+        "max_absolute_component_difference": 0.45449066162109375
+      },
+      "velocity": {
+        "first_difference_frame": 28,
+        "max_absolute_component_difference": 0.33962874114513397
+      }
+    },
+    "parked": {
+      "acceleration": {
+        "first_difference_frame": 28,
+        "max_absolute_component_difference": 2.2283297777175903
+      },
+      "angular_velocity": {
+        "first_difference_frame": 28,
+        "max_absolute_component_difference": 7.019583761692047
+      },
+      "location": {
+        "first_difference_frame": 28,
+        "max_absolute_component_difference": 0.010718269273638725
+      },
+      "rotation": {
+        "first_difference_frame": 60,
+        "max_absolute_component_difference": 0.21487656980752945
+      },
+      "velocity": {
+        "first_difference_frame": 28,
+        "max_absolute_component_difference": 0.11141784489154816
+      }
+    }
+  },
+  "components": {
+    "collision_traces": {
+      "diagnostic_only": true,
+      "event_records": [
+        174,
+        176
+      ],
+      "exact": false,
+      "first_difference_frame": 60,
+      "frames": 150
+    }
+  },
+  "inputs": [
+    {
+      "path": "checkpoint-results/20261124-fixed-sleep/checkpoint-quality-default-collision.json",
+      "sha256": "6627ca90a4d4336cacf63bb56c53db1f9427ab9c1fc962cc2b960c440a850015"
+    },
+    {
+      "path": "checkpoint-results/20261124-fixed-sleep/checkpoint-quality-fixed-collision.json",
+      "sha256": "6d17d5598a3b164d00aa3d3e9e3857eb59bc750e120f7a3a06474ff398562dfe"
+    }
+  ],
+  "scope": "sampled uninterrupted traces; not a complete simulator or quality evaluation",
+  "trajectory": {
+    "exact": false,
+    "first_difference_frame": 28,
+    "frames": 150
+  }
+}
