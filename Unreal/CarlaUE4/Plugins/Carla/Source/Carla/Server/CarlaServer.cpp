@@ -21,6 +21,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Physics/PhysScene.h"
 #include "PhysXPublic.h"
+#include "Components/PrimitiveComponent.h"
 #include "Carla/Game/Tagger.h"
 #include "Carla/Game/CarlaStatics.h"
 #include "Carla/Vehicle/MovementComponents/CarSimManagerComponent.h"
@@ -30,6 +31,8 @@
 #include "CarlaServerResponse.h"
 #include "Carla/Util/BoundingBoxCalculator.h"
 #include "Misc/FileHelper.h"
+#include "Misc/CommandLine.h"
+#include "Misc/Parse.h"
 
 #include <compiler/disable-ue4-macros.h>
 #include <carla/Functional.h>
@@ -62,6 +65,8 @@
 #include <carla/rpc/VehicleControl.h>
 #include <carla/rpc/VehiclePhysicsControl.h>
 #include <carla/rpc/PortableVehicleCheckpoint.h>
+#include <carla/rpc/PortableRigidPropCheckpoint.h>
+#include <carla/rpc/PortableTrafficLightsCheckpoint.h>
 #include <carla/rpc/VehicleLightState.h>
 #include <carla/rpc/VehicleLightStateList.h>
 #include <carla/rpc/WalkerBoneControlIn.h>
@@ -96,6 +101,41 @@ static std::vector<T> MakeVectorFromTArray(const TArray<Other> &Array)
 // -- FCarlaServer::FPimpl -----------------------------------------------
 // =============================================================================
 
+// Same-actor experimental slot. PhysX contact/solver caches and sleep-filter
+// accumulators are not captured. It is invalid across actor or episode changes.
+struct FRigidPropCheckpoint
+{
+  TWeakObjectPtr<AActor> Actor;
+  TWeakObjectPtr<UPrimitiveComponent> Root;
+  const physx::PxRigidDynamic *BodyIdentity = nullptr;
+  const physx::PxScene *SceneIdentity = nullptr;
+  uint64 EpisodeId = 0;
+  double FixedDeltaSeconds = 0.0;
+  double MaxSubstepDeltaTime = 0.0;
+  int MaxSubsteps = 0;
+  bool bSubstepping = false;
+  FIntVector CapturedOrigin = FIntVector::ZeroValue;
+  FTransform Transform;
+  FVector LinearVelocity;
+  FVector AngularVelocity;
+  FVector ObserverVelocity;
+  physx::PxTransform BodyPose;
+  physx::PxVec3 BodyLinearVelocity;
+  physx::PxVec3 BodyAngularVelocity;
+  float WakeCounter = 0.0f;
+  float SleepThreshold = 0.0f;
+  float Mass = 0.0f;
+  physx::PxVec3 Inertia;
+  physx::PxTransform CenterOfMass;
+  std::string Blueprint;
+  std::map<std::string, std::string> Attributes;
+  uint32 ShapeCount = 0;
+  uint32 RigidBodyFlags = 0;
+  uint32 ActorFlags = 0;
+  uint32 SceneFlags = 0;
+  bool bAwake = false;
+};
+
 class FCarlaServer::FPimpl
 {
 public:
@@ -129,6 +169,9 @@ public:
   UCarlaEpisode *Episode = nullptr;
 
   std::atomic_size_t TickCuesReceived { 0u };
+  // std::map preserves normal C++ move/copy semantics for the std::map inside each slot.
+  std::map<carla::rpc::ActorId, FRigidPropCheckpoint> RigidPropCheckpoints;
+  uint64 RigidPropCheckpointEpisode = 0;
 
   bool bTrafficLightsCheckpointValid = false;
   uint64 TrafficLightsCheckpointEpisode = 0;
@@ -1018,6 +1061,42 @@ BIND_SYNC(is_sensor_enabled_for_ros) << [this](carla::streaming::detail::stream_
     return R<void>::Success();
   };
 
+  // Narrow diagnostic: character movement velocity and WorldObserver cache only.
+  // This does not capture animation, movement internals, contacts or controller state.
+  BIND_SYNC(capture_walker_velocity_probe) << [this](cr::ActorId ActorId) -> R<std::vector<float>>
+  {
+    REQUIRE_CARLA_EPISODE();
+    auto *World = Episode->GetWorld();
+    auto *Actor = Episode->FindCarlaActor(ActorId);
+    auto *Walker = Actor && Actor->IsActive() ? Cast<AWalkerBase>(Actor->GetActor()) : nullptr;
+    auto *Movement = Walker ? Walker->GetCharacterMovement() : nullptr;
+    if (!World || World->OriginLocation != FIntVector::ZeroValue || !Episode->GetSettings().bSynchronousMode ||
+        !Episode->GetSettings().FixedDeltaSeconds.IsSet() || !Walker || !Walker->bAlive ||
+        !Cast<AWalkerController>(Walker->GetController()) || !Movement || Movement->MovementMode != MOVE_Walking)
+      RESPOND_ERROR("walker velocity probe requires a live walking character in a zero-origin synchronous world");
+    const FVector V = Movement->Velocity;
+    const FVector O = Actor->GetActorInfo()->Velocity;
+    return std::vector<float>{V.X, V.Y, V.Z, O.X, O.Y, O.Z};
+  };
+
+  BIND_SYNC(restore_walker_velocity_probe) << [this](cr::ActorId ActorId, const std::vector<float> &Values) -> R<bool>
+  {
+    REQUIRE_CARLA_EPISODE();
+    auto *World = Episode->GetWorld();
+    auto *Actor = Episode->FindCarlaActor(ActorId);
+    auto *Walker = Actor && Actor->IsActive() ? Cast<AWalkerBase>(Actor->GetActor()) : nullptr;
+    auto *Movement = Walker ? Walker->GetCharacterMovement() : nullptr;
+    if (!World || World->OriginLocation != FIntVector::ZeroValue || !Episode->GetSettings().bSynchronousMode ||
+        !Episode->GetSettings().FixedDeltaSeconds.IsSet() || !Walker || !Walker->bAlive ||
+        !Cast<AWalkerController>(Walker->GetController()) || !Movement || Movement->MovementMode != MOVE_Walking ||
+        Values.size() != 6u) return false;
+    for (float Value : Values)
+      if (!FMath::IsFinite(Value) || FMath::Abs(Value) > 100000.0f) return false;
+    Movement->Velocity = FVector(Values[0], Values[1], Values[2]);
+    Actor->GetActorInfo()->Velocity = FVector(Values[3], Values[4], Values[5]);
+    return true;
+  };
+
   BIND_SYNC(set_walker_state) << [this] (
       cr::ActorId ActorId,
       cr::Transform Transform,
@@ -1335,6 +1414,16 @@ BIND_SYNC(is_sensor_enabled_for_ros) << [this](carla::streaming::detail::stream_
     return Flags;
   };
 
+  // Diagnostic only: Unreal's current world origin in centimetres.
+  BIND_SYNC(get_checkpoint_world_origin) << [this]() -> R<std::vector<int32_t>>
+  {
+    REQUIRE_CARLA_EPISODE();
+    auto *World = Episode->GetWorld();
+    if (!World) RESPOND_ERROR("world origin unavailable");
+    const FIntVector Origin = World->OriginLocation;
+    return std::vector<int32_t>{Origin.X, Origin.Y, Origin.Z};
+  };
+
   BIND_SYNC(save_vehicle_physics_checkpoint) << [this](cr::ActorId ActorId) -> R<bool>
   {
     REQUIRE_CARLA_EPISODE();
@@ -1355,6 +1444,243 @@ BIND_SYNC(is_sensor_enabled_for_ros) << [this](carla::streaming::detail::stream_
       return false;
     auto *Vehicle = Cast<ACarlaWheeledVehicle>(Actor->GetActor());
     return Vehicle && Vehicle->RestorePhysicsCheckpoint(Episode->GetSettings(), Actor->GetActorInfo()->Velocity);
+  };
+
+  BIND_SYNC(save_rigid_prop_checkpoint) << [this](cr::ActorId ActorId) -> R<bool>
+  {
+    REQUIRE_CARLA_EPISODE();
+    if (RigidPropCheckpointEpisode != Episode->GetId())
+    {
+      RigidPropCheckpoints.clear();
+      RigidPropCheckpointEpisode = Episode->GetId();
+    }
+    RigidPropCheckpoints.erase(ActorId);
+    const auto &Settings = Episode->GetSettings();
+    auto *CarlaActor = Episode->FindCarlaActor(ActorId);
+    auto *World = Episode->GetWorld();
+    if (!Settings.bSynchronousMode || !Settings.FixedDeltaSeconds.IsSet() ||
+        !World || !CarlaActor || !CarlaActor->IsActive() ||
+        Episode->SerializeActor(CarlaActor).description.id.rfind("static.prop.", 0) != 0)
+      return false;
+    auto *Actor = CarlaActor->GetActor();
+    auto *Root = Actor ? Cast<UPrimitiveComponent>(Actor->GetRootComponent()) : nullptr;
+    if (!Actor || !Root || !Root->IsSimulatingPhysics() || Actor->GetAttachParentActor() ||
+        !Root->GetBodyInstance() || !Root->GetBodyInstance()->IsValidBodyInstance()) return false;
+    TArray<AActor *> Attached;
+    Actor->GetAttachedActors(Attached);
+    if (Attached.Num() != 0) return false;
+    TArray<UPrimitiveComponent *> Primitives;
+    Actor->GetComponents(Primitives);
+    for (auto *Primitive : Primitives)
+      if (Primitive && Primitive != Root && Primitive->IsSimulatingPhysics()) return false;
+    FRigidPropCheckpoint State;
+    State.Actor = Actor;
+    State.Root = Root;
+    State.EpisodeId = Episode->GetId();
+    State.FixedDeltaSeconds = Settings.FixedDeltaSeconds.GetValue();
+    State.MaxSubstepDeltaTime = Settings.MaxSubstepDeltaTime;
+    State.MaxSubsteps = Settings.MaxSubsteps;
+    State.bSubstepping = Settings.bSubstepping;
+    State.CapturedOrigin = World->OriginLocation;
+    State.Transform = Actor->GetActorTransform();
+    State.LinearVelocity = Root->GetPhysicsLinearVelocity();
+    State.AngularVelocity = Root->GetPhysicsAngularVelocityInRadians();
+    State.ObserverVelocity = CarlaActor->GetActorInfo()->Velocity;
+    const auto Description = Episode->SerializeActor(CarlaActor).description;
+    State.Blueprint = Description.id;
+    for (const auto &Attribute : Description.attributes)
+      if (!State.Attributes.emplace(Attribute.id, std::to_string(static_cast<int>(Attribute.type)) + ":" + Attribute.value).second)
+        return false;
+    bool Captured = false;
+    FPhysicsCommand::ExecuteRead(Root->GetBodyInstance()->ActorHandle, [&](const FPhysicsActorHandle &Handle)
+    {
+      auto *Rigid = FPhysicsInterface::GetPxRigidActor_AssumesLocked(Handle);
+      auto *Body = Rigid ? Rigid->is<physx::PxRigidDynamic>() : nullptr;
+      if (!Body || !Body->getScene() || (Body->getRigidBodyFlags() & physx::PxRigidBodyFlag::eKINEMATIC)) return;
+      State.BodyIdentity = Body;
+      State.SceneIdentity = Body->getScene();
+      State.BodyPose = Body->getGlobalPose();
+      State.BodyLinearVelocity = Body->getLinearVelocity();
+      State.BodyAngularVelocity = Body->getAngularVelocity();
+      State.bAwake = !Body->isSleeping();
+      State.WakeCounter = Body->getWakeCounter();
+      State.SleepThreshold = Body->getSleepThreshold();
+      State.Mass = Body->getMass();
+      State.Inertia = Body->getMassSpaceInertiaTensor();
+      State.CenterOfMass = Body->getCMassLocalPose();
+      State.ShapeCount = Body->getNbShapes();
+      State.RigidBodyFlags = static_cast<uint32>(Body->getRigidBodyFlags());
+      State.ActorFlags = static_cast<uint32>(Body->getActorFlags());
+      State.SceneFlags = static_cast<uint32>(Body->getScene()->getFlags());
+      Captured = true;
+    });
+    if (!Captured || World->OriginLocation != State.CapturedOrigin) return false;
+    RigidPropCheckpoints.emplace(ActorId, std::move(State));
+    return true;
+  };
+
+  BIND_SYNC(restore_rigid_prop_checkpoint) << [this](cr::ActorId ActorId) -> R<bool>
+  {
+    REQUIRE_CARLA_EPISODE();
+    const auto It = RigidPropCheckpoints.find(ActorId);
+    const auto *State = It == RigidPropCheckpoints.end() ? nullptr : &It->second;
+    const auto &Settings = Episode->GetSettings();
+    auto *CarlaActor = Episode->FindCarlaActor(ActorId);
+    auto *World = Episode->GetWorld();
+    if (!State || State->EpisodeId != Episode->GetId() || !Settings.bSynchronousMode ||
+        !Settings.FixedDeltaSeconds.IsSet() || Settings.FixedDeltaSeconds.GetValue() != State->FixedDeltaSeconds ||
+        Settings.MaxSubstepDeltaTime != State->MaxSubstepDeltaTime || Settings.MaxSubsteps != State->MaxSubsteps ||
+        Settings.bSubstepping != State->bSubstepping || !World || World->OriginLocation != State->CapturedOrigin ||
+        !CarlaActor || !CarlaActor->IsActive() ||
+        !State->Actor.IsValid() || !State->Root.IsValid() || CarlaActor->GetActor() != State->Actor.Get()) return false;
+    auto *Actor = State->Actor.Get();
+    auto *Root = State->Root.Get();
+    if (Actor->GetRootComponent() != Root || !Root->IsSimulatingPhysics() || Actor->GetAttachParentActor() ||
+        !Root->GetBodyInstance() || !Root->GetBodyInstance()->IsValidBodyInstance()) return false;
+    TArray<AActor *> Attached;
+    Actor->GetAttachedActors(Attached);
+    if (Attached.Num() != 0) return false;
+    TArray<UPrimitiveComponent *> Primitives;
+    Actor->GetComponents(Primitives);
+    for (auto *Primitive : Primitives)
+      if (Primitive && Primitive != Root && Primitive->IsSimulatingPhysics()) return false;
+    bool Compatible = false;
+    FPhysicsCommand::ExecuteRead(Root->GetBodyInstance()->ActorHandle, [&](const FPhysicsActorHandle &Handle)
+    {
+      auto *Rigid = FPhysicsInterface::GetPxRigidActor_AssumesLocked(Handle);
+      auto *Body = Rigid ? Rigid->is<physx::PxRigidDynamic>() : nullptr;
+      const auto Com = Body ? Body->getCMassLocalPose() : physx::PxTransform(physx::PxIdentity);
+      Compatible = Body && Body == State->BodyIdentity && Body->getScene() == State->SceneIdentity &&
+        Body->getMass() == State->Mass && Body->getMassSpaceInertiaTensor() == State->Inertia &&
+        Com.p == State->CenterOfMass.p && Com.q.x == State->CenterOfMass.q.x &&
+        Com.q.y == State->CenterOfMass.q.y && Com.q.z == State->CenterOfMass.q.z && Com.q.w == State->CenterOfMass.q.w &&
+        Body->getSleepThreshold() == State->SleepThreshold && Body->getNbShapes() == State->ShapeCount &&
+        static_cast<uint32>(Body->getRigidBodyFlags()) == State->RigidBodyFlags &&
+        static_cast<uint32>(Body->getActorFlags()) == State->ActorFlags && Body->getScene() &&
+        static_cast<uint32>(Body->getScene()->getFlags()) == State->SceneFlags;
+    });
+    if (!Compatible || !Actor->SetActorTransform(State->Transform, false, nullptr, ETeleportType::TeleportPhysics)) return false;
+    Root->SetPhysicsLinearVelocity(State->LinearVelocity);
+    Root->SetPhysicsAngularVelocityInRadians(State->AngularVelocity);
+    bool Restored = false;
+    FPhysicsCommand::ExecuteWrite(Root->GetBodyInstance()->ActorHandle, [&](const FPhysicsActorHandle &Handle)
+    {
+      auto *Rigid = FPhysicsInterface::GetPxRigidActor_AssumesLocked(Handle);
+      auto *Body = Rigid ? Rigid->is<physx::PxRigidDynamic>() : nullptr;
+      if (!Body || Body != State->BodyIdentity || Body->getScene() != State->SceneIdentity) return;
+      Body->setGlobalPose(State->BodyPose, false);
+      Body->setLinearVelocity(State->BodyLinearVelocity, false);
+      Body->setAngularVelocity(State->BodyAngularVelocity, false);
+      if (State->bAwake) { Body->wakeUp(); Body->setWakeCounter(State->WakeCounter); }
+      else Body->putToSleep();
+      Restored = true;
+    });
+    if (Restored) CarlaActor->GetActorInfo()->Velocity = State->ObserverVelocity;
+    return Restored;
+  };
+
+  BIND_SYNC(export_rigid_prop_checkpoint) << [this](cr::ActorId ActorId, const std::string &BuildId)
+      -> R<cr::PortableRigidPropCheckpoint>
+  {
+    REQUIRE_CARLA_EPISODE();
+    const auto It = RigidPropCheckpoints.find(ActorId);
+    const auto *State = It == RigidPropCheckpoints.end() ? nullptr : &It->second;
+    auto *CarlaActor = Episode->FindCarlaActor(ActorId);
+    auto *World = Episode->GetWorld();
+    const std::string Suffix = FParse::Param(FCommandLine::Get(), TEXT("CheckpointFixedNoSleep"))
+      ? "|fixed-sleep-threshold-zero-v1" : "";
+    if (!State || State->EpisodeId != Episode->GetId() || !State->Actor.IsValid() ||
+        !CarlaActor || !CarlaActor->IsActive() || CarlaActor->GetActor() != State->Actor.Get() ||
+        !World || State->CapturedOrigin != FIntVector::ZeroValue || World->OriginLocation != State->CapturedOrigin ||
+        BuildId.empty() || BuildId.size() + Suffix.size() > 256u)
+      RESPOND_ERROR("prop export requires a compatible slot, zero origin and build identifier");
+    cr::PortableRigidPropCheckpoint Data;
+    Data.blueprint = State->Blueprint;
+    Data.map = TCHAR_TO_UTF8(*World->GetMapName());
+    Data.build_id = BuildId + Suffix;
+    Data.attributes = State->Attributes;
+    Data.fixed_delta_seconds = State->FixedDeltaSeconds;
+    Data.max_substep_delta_time = State->MaxSubstepDeltaTime;
+    Data.max_substeps = State->MaxSubsteps;
+    Data.substepping = State->bSubstepping;
+    Data.scene_flags = State->SceneFlags;
+    Data.rigid_body_flags = State->RigidBodyFlags;
+    Data.actor_flags = State->ActorFlags;
+    Data.shape_count = State->ShapeCount;
+    Data.mass = State->Mass;
+    Data.sleep_threshold = State->SleepThreshold;
+    Data.wake_counter = State->WakeCounter;
+    Data.awake = State->bAwake;
+    Data.inertia = {State->Inertia.x, State->Inertia.y, State->Inertia.z};
+    Data.com_position = {State->CenterOfMass.p.x, State->CenterOfMass.p.y, State->CenterOfMass.p.z};
+    Data.com_rotation = {State->CenterOfMass.q.x, State->CenterOfMass.q.y, State->CenterOfMass.q.z, State->CenterOfMass.q.w};
+    const auto P = State->Transform.GetLocation();
+    const auto Q = State->Transform.GetRotation();
+    const auto S = State->Transform.GetScale3D();
+    Data.position_cm = {P.X, P.Y, P.Z};
+    Data.rotation_quaternion = {Q.X, Q.Y, Q.Z, Q.W};
+    Data.scale = {S.X, S.Y, S.Z};
+    Data.linear_velocity_cm_s = {State->LinearVelocity.X, State->LinearVelocity.Y, State->LinearVelocity.Z};
+    Data.angular_velocity_rad_s = {State->AngularVelocity.X, State->AngularVelocity.Y, State->AngularVelocity.Z};
+    Data.body_position = {State->BodyPose.p.x, State->BodyPose.p.y, State->BodyPose.p.z};
+    Data.body_rotation = {State->BodyPose.q.x, State->BodyPose.q.y, State->BodyPose.q.z, State->BodyPose.q.w};
+    Data.body_linear_velocity = {State->BodyLinearVelocity.x, State->BodyLinearVelocity.y, State->BodyLinearVelocity.z};
+    Data.body_angular_velocity = {State->BodyAngularVelocity.x, State->BodyAngularVelocity.y, State->BodyAngularVelocity.z};
+    Data.observer_velocity_m_s = {State->ObserverVelocity.X, State->ObserverVelocity.Y, State->ObserverVelocity.Z};
+    if (!Data.IsValid()) RESPOND_ERROR("prop checkpoint contains unsupported or invalid values");
+    return Data;
+  };
+
+  BIND_SYNC(import_rigid_prop_checkpoint) << [this, save_rigid_prop_checkpoint](cr::ActorId ActorId,
+      const cr::PortableRigidPropCheckpoint &Data, const std::string &BuildId) -> R<bool>
+  {
+    REQUIRE_CARLA_EPISODE();
+    auto *World = Episode->GetWorld();
+    auto *CarlaActor = Episode->FindCarlaActor(ActorId);
+    const std::string Suffix = FParse::Param(FCommandLine::Get(), TEXT("CheckpointFixedNoSleep"))
+      ? "|fixed-sleep-threshold-zero-v1" : "";
+    if (!Data.IsValid() || !World || World->OriginLocation != FIntVector::ZeroValue ||
+        !CarlaActor || !CarlaActor->IsActive() || BuildId.empty() || BuildId.size() + Suffix.size() > 256u ||
+        Data.build_id != BuildId + Suffix || Data.map != TCHAR_TO_UTF8(*World->GetMapName()) ||
+        Data.blueprint != Episode->SerializeActor(CarlaActor).description.id) return false;
+    TOptional<FRigidPropCheckpoint> Previous;
+    const auto Old = RigidPropCheckpoints.find(ActorId);
+    if (Old != RigidPropCheckpoints.end() && Old->second.EpisodeId == Episode->GetId())
+      Previous.Emplace(Old->second);
+    if (!save_rigid_prop_checkpoint(ActorId).Get())
+    {
+      if (Previous.IsSet()) RigidPropCheckpoints[ActorId] = Previous.GetValue();
+      return false;
+    }
+    FRigidPropCheckpoint Candidate = RigidPropCheckpoints.at(ActorId);
+    if (Previous.IsSet()) RigidPropCheckpoints[ActorId] = Previous.GetValue();
+    else RigidPropCheckpoints.erase(ActorId);
+    const auto &C = Candidate.CenterOfMass;
+    if (Data.attributes != Candidate.Attributes || Data.fixed_delta_seconds != Candidate.FixedDeltaSeconds ||
+        Data.max_substep_delta_time != Candidate.MaxSubstepDeltaTime || Data.max_substeps != Candidate.MaxSubsteps ||
+        Data.substepping != Candidate.bSubstepping || Data.scene_flags != Candidate.SceneFlags ||
+        Data.rigid_body_flags != Candidate.RigidBodyFlags || Data.actor_flags != Candidate.ActorFlags ||
+        Data.shape_count != Candidate.ShapeCount || Data.mass != Candidate.Mass ||
+        Data.sleep_threshold != Candidate.SleepThreshold ||
+        Data.inertia != std::vector<float>{Candidate.Inertia.x, Candidate.Inertia.y, Candidate.Inertia.z} ||
+        Data.com_position != std::vector<float>{C.p.x, C.p.y, C.p.z} ||
+        Data.com_rotation != std::vector<float>{C.q.x, C.q.y, C.q.z, C.q.w} ||
+        FVector(Data.scale[0], Data.scale[1], Data.scale[2]) != Candidate.Transform.GetScale3D()) return false;
+    const physx::PxQuat BodyQ(Data.body_rotation[0], Data.body_rotation[1], Data.body_rotation[2], Data.body_rotation[3]);
+    if (!BodyQ.isSane()) return false;
+    Candidate.Transform = FTransform(FQuat(Data.rotation_quaternion[0], Data.rotation_quaternion[1],
+        Data.rotation_quaternion[2], Data.rotation_quaternion[3]),
+        FVector(Data.position_cm[0], Data.position_cm[1], Data.position_cm[2]), Candidate.Transform.GetScale3D());
+    Candidate.LinearVelocity = FVector(Data.linear_velocity_cm_s[0], Data.linear_velocity_cm_s[1], Data.linear_velocity_cm_s[2]);
+    Candidate.AngularVelocity = FVector(Data.angular_velocity_rad_s[0], Data.angular_velocity_rad_s[1], Data.angular_velocity_rad_s[2]);
+    Candidate.ObserverVelocity = FVector(Data.observer_velocity_m_s[0], Data.observer_velocity_m_s[1], Data.observer_velocity_m_s[2]);
+    Candidate.BodyPose = physx::PxTransform(physx::PxVec3(Data.body_position[0], Data.body_position[1], Data.body_position[2]), BodyQ);
+    Candidate.BodyLinearVelocity = physx::PxVec3(Data.body_linear_velocity[0], Data.body_linear_velocity[1], Data.body_linear_velocity[2]);
+    Candidate.BodyAngularVelocity = physx::PxVec3(Data.body_angular_velocity[0], Data.body_angular_velocity[1], Data.body_angular_velocity[2]);
+    Candidate.bAwake = Data.awake;
+    Candidate.WakeCounter = Data.wake_counter;
+    RigidPropCheckpoints[ActorId] = std::move(Candidate);
+    return true;
   };
 
   BIND_SYNC(begin_collision_checkpoint_log) << [this](cr::ActorId ActorId) -> R<void>
@@ -1390,15 +1716,34 @@ BIND_SYNC(is_sensor_enabled_for_ros) << [this](carla::streaming::detail::stream_
     REQUIRE_CARLA_EPISODE();
     auto *Actor = Episode->FindCarlaActor(ActorId);
     auto *Vehicle = Actor && Actor->IsActive() ? Cast<ACarlaWheeledVehicle>(Actor->GetActor()) : nullptr;
-    if (!Vehicle || BuildId.empty() || BuildId.size() > 256u)
+    const std::string ModeSuffix = FParse::Param(FCommandLine::Get(), TEXT("CheckpointFixedNoSleep"))
+      ? "|fixed-sleep-threshold-zero-v1" : "";
+    if (!Vehicle || BuildId.empty() || BuildId.size() + ModeSuffix.size() > 256u)
       RESPOND_ERROR("checkpoint export requires an active vehicle and a non-empty build identifier");
     cr::PortableVehicleCheckpoint Result;
     if (!Vehicle->ExportPhysicsCheckpoint(Result))
       RESPOND_ERROR("vehicle has no exportable physics checkpoint");
     Result.blueprint = Episode->SerializeActor(Actor).description.id;
     Result.map = TCHAR_TO_UTF8(*Episode->GetWorld()->GetMapName());
-    Result.build_id = BuildId;
+    Result.build_id = BuildId + ModeSuffix;
     return Result;
+  };
+
+  BIND_SYNC(import_vehicle_physics_checkpoint) << [this](cr::ActorId ActorId,
+      const cr::PortableVehicleCheckpoint &Data, const std::string &BuildId,
+      bool SourceOriginIsZero) -> R<bool>
+  {
+    REQUIRE_CARLA_EPISODE();
+    auto *Actor = Episode->FindCarlaActor(ActorId);
+    auto *Vehicle = Actor && Actor->IsActive() ? Cast<ACarlaWheeledVehicle>(Actor->GetActor()) : nullptr;
+    const std::string ModeSuffix = FParse::Param(FCommandLine::Get(), TEXT("CheckpointFixedNoSleep"))
+      ? "|fixed-sleep-threshold-zero-v1" : "";
+    if (!Vehicle || !SourceOriginIsZero || BuildId.empty() || BuildId.size() > 256u ||
+        BuildId.size() + ModeSuffix.size() > 256u || Data.build_id != BuildId + ModeSuffix ||
+        Data.blueprint != Episode->SerializeActor(Actor).description.id ||
+        Data.map != TCHAR_TO_UTF8(*Episode->GetWorld()->GetMapName()))
+      return false;
+    return Vehicle->ImportPhysicsCheckpointSlot(Episode->GetSettings(), Actor->GetActorInfo()->Velocity, Data);
   };
 
   BIND_SYNC(get_physics_control) << [this](
@@ -2230,6 +2575,62 @@ BIND_SYNC(is_sensor_enabled_for_ros) << [this](carla::streaming::detail::stream_
           " Actor Id: " + FString::FromInt(ActorId));
     }
     return R<void>::Success();
+  };
+
+  BIND_SYNC(export_traffic_lights_checkpoint) << [this](const std::string &BuildId)
+      -> R<cr::PortableTrafficLightsCheckpoint>
+  {
+    REQUIRE_CARLA_EPISODE();
+    const auto &Settings = Episode->GetSettings();
+    auto *World = Episode->GetWorld();
+    auto *GameMode = World ? UCarlaStatics::GetGameMode(World) : nullptr;
+    auto *Manager = GameMode ? GameMode->GetTrafficLightManager() : nullptr;
+    if (!Settings.bSynchronousMode || !Settings.FixedDeltaSeconds.IsSet() || !Manager ||
+        BuildId.empty() || BuildId.size() > 256u)
+      RESPOND_ERROR("traffic light export requires synchronous fixed-step mode and build identifier");
+    cr::PortableTrafficLightsCheckpoint Data;
+    Data.map = TCHAR_TO_UTF8(*World->GetMapName());
+    Data.build_id = BuildId;
+    Data.fixed_delta_seconds = Settings.FixedDeltaSeconds.GetValue();
+    Data.manager_frozen = Manager->GetFrozen();
+    for (TActorIterator<ATrafficLightGroup> It(World); It; ++It)
+    {
+      cr::PortableLightGroup Group;
+      if (!IsValid(*It) || !It->ExportPortableCheckpoint(Group))
+        RESPOND_ERROR("unsupported traffic light group");
+      Data.groups.push_back(std::move(Group));
+    }
+    if (!Data.IsValid()) RESPOND_ERROR("unsupported traffic light topology or state");
+    return Data;
+  };
+
+  BIND_SYNC(import_traffic_lights_checkpoint) << [this](const cr::PortableTrafficLightsCheckpoint &Data,
+      const std::string &BuildId) -> R<bool>
+  {
+    REQUIRE_CARLA_EPISODE();
+    const auto &Settings = Episode->GetSettings();
+    auto *World = Episode->GetWorld();
+    auto *GameMode = World ? UCarlaStatics::GetGameMode(World) : nullptr;
+    auto *Manager = GameMode ? GameMode->GetTrafficLightManager() : nullptr;
+    if (!Data.IsValid() || !Settings.bSynchronousMode || !Settings.FixedDeltaSeconds.IsSet() || !Manager ||
+        BuildId.empty() || Data.build_id != BuildId || Data.map != TCHAR_TO_UTF8(*World->GetMapName()) ||
+        Data.fixed_delta_seconds != Settings.FixedDeltaSeconds.GetValue()) return false;
+    std::map<int32, ATrafficLightGroup *> Groups;
+    for (TActorIterator<ATrafficLightGroup> It(World); It; ++It)
+      if (!IsValid(*It) || !Groups.emplace(It->GetJunctionId(), *It).second) return false;
+    if (Groups.size() != Data.groups.size()) return false;
+    for (const auto &Group : Data.groups)
+      if (Groups.find(Group.junction_id) == Groups.end()) return false;
+    // Preparing a portable slot replaces same-episode slots, even on rejection.
+    bTrafficLightsCheckpointValid = false;
+    for (const auto &Group : Data.groups)
+      if (!Groups.at(Group.junction_id)->PreparePortableCheckpoint(Group)) return false;
+    for (const auto &Group : Data.groups)
+      if (!Groups.at(Group.junction_id)->ValidateCheckpoint()) return false;
+    Manager->SetFrozen(Data.manager_frozen);
+    for (const auto &Group : Data.groups)
+      Groups.at(Group.junction_id)->RestoreCheckpoint();
+    return true;
   };
 
   BIND_SYNC(save_traffic_lights_checkpoint) << [this]() -> R<bool>

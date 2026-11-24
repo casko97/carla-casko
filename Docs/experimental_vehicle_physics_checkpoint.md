@@ -101,9 +101,39 @@ The build identifier is supplied by the caller and is not verified by CARLA.
 The version 2 record includes the native PhysX body pose and velocities and the
 world observer's velocity cache. Version 1 records do not contain those fields
 and do not pass the version 2 structural check. The change requires matching
-client and server builds. This is export only: no import or fresh-episode
-restore is implemented yet, and the file omits scene contact and solver state, other
+client and server builds. The file omits scene contact and solver state, other
 actors and sensors.
+
+An experimental import can install the exported values into an active,
+compatible vehicle's checkpoint slot:
+
+```python
+accepted = vehicle.import_physics_checkpoint(data, build_id, source_origin_is_zero=True)
+if accepted:
+    restored = vehicle.restore_physics_checkpoint()
+```
+
+Import installs a slot but does not move the vehicle until restore. The build
+identifier is supplied by the caller and is compared with the record, not
+verified against the running binary or assets. Version 2 does not store the
+world origin. The development server records the origin in the in-memory slot
+and rejects export unless the captured and current origins are both zero. It
+also rejects same-episode restore if the current origin differs from capture.
+Import still requires the caller's source-origin assertion and a zero target
+origin; bytes produced by older builds need independent provenance. Origin
+changes away from and back to the captured value are not detected. The server
+checks the map name, blueprint,
+scene flags, timestep, scale, wheel count and exposed physics configuration;
+hidden configuration, actor attributes and world state are not fully checked.
+Failed import preserves the previous slot. Failed restore may still partially
+change the actor. Neither acceptance nor restoration guarantees that a new
+episode will reproduce the original physics or scenario.
+
+The single-vehicle harness can evaluate this path with `--test-portable-import`
+and `--build-id`: after the ordinary tests it reloads the map, creates a new
+vehicle, imports the saved bytes and compares the suffix. It assumes the source
+world origin is zero and requires a dedicated server. Shifted-origin behavior
+has not yet been validated in a live test.
 The manifest also records the active PhysX scene's raw flag bitmask and selected
 decoded PhysX 3.4 flags via a synchronous server query. In this engine's headers, enhanced
 determinism is bit 20, GPU dynamics bit 19, stabilization bit 14, disabled

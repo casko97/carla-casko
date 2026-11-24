@@ -165,6 +165,8 @@ namespace detail {
     bool SaveVehiclePhysicsCheckpoint(rpc::ActorId vehicle);
     bool RestoreVehiclePhysicsCheckpoint(rpc::ActorId vehicle);
     rpc::PortableVehicleCheckpoint ExportVehiclePhysicsCheckpoint(rpc::ActorId vehicle, const std::string &build_id);
+    bool ImportVehiclePhysicsCheckpoint(rpc::ActorId vehicle, const rpc::PortableVehicleCheckpoint &data,
+                                        const std::string &build_id, bool source_origin_is_zero);
     uint32_t GetPhysXSceneFlags() const;
     void BeginCollisionCheckpointLog(rpc::ActorId sensor);
     rpc::CollisionCheckpointLog DrainCollisionCheckpointLog(rpc::ActorId sensor);

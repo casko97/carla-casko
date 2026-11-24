@@ -99,6 +99,8 @@ namespace client {
     bool SavePhysicsCheckpoint();
     bool RestorePhysicsCheckpoint();
     rpc::PortableVehicleCheckpoint ExportPhysicsCheckpoint(const std::string &build_id) const;
+    bool ImportPhysicsCheckpoint(const rpc::PortableVehicleCheckpoint &data, const std::string &build_id,
+                                 bool source_origin_is_zero);
 
     /// Return the current open lights (LightState) of this vehicle.
     ///

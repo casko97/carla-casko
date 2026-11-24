@@ -18,6 +18,7 @@
 
 #include <ostream>
 #include <iostream>
+#include <stdexcept>
 
 namespace ctm = carla::traffic_manager;
 
@@ -55,6 +56,34 @@ static boost::python::object ExportPhysicsCheckpoint(const carla::client::Vehicl
   PyObject *bytes = PyBytes_FromStringAndSize(reinterpret_cast<const char *>(packed.data()), packed.size());
   if (!bytes) boost::python::throw_error_already_set();
   return boost::python::object(boost::python::handle<>(bytes));
+}
+
+static bool ImportPhysicsCheckpoint(carla::client::Vehicle &self, boost::python::object bytes,
+    const std::string &build_id, bool source_origin_is_zero) {
+  if (!PyBytes_Check(bytes.ptr())) {
+    PyErr_SetString(PyExc_TypeError, "checkpoint must be bytes");
+    boost::python::throw_error_already_set();
+  }
+  char *raw = nullptr;
+  Py_ssize_t length = 0;
+  if (PyBytes_AsStringAndSize(bytes.ptr(), &raw, &length) != 0) boost::python::throw_error_already_set();
+  if (length <= 0 || length > 1024 * 1024) {
+    PyErr_SetString(PyExc_ValueError, "checkpoint must contain at most 1 MiB");
+    boost::python::throw_error_already_set();
+  }
+  carla::rpc::PortableVehicleCheckpoint data;
+  try {
+    size_t offset = 0u;
+    auto object = ::clmdep_msgpack::unpack(raw, static_cast<size_t>(length), offset);
+    if (offset != static_cast<size_t>(length)) throw std::invalid_argument("trailing checkpoint data");
+    data = object.as<carla::rpc::PortableVehicleCheckpoint>();
+    if (!data.HasValidDynamicValues()) throw std::invalid_argument("invalid checkpoint state");
+  } catch (const std::exception &error) {
+    PyErr_SetString(PyExc_ValueError, error.what());
+    boost::python::throw_error_already_set();
+  }
+  carla::PythonUtil::ReleaseGIL unlock;
+  return self.ImportPhysicsCheckpoint(data, build_id, source_origin_is_zero);
 }
 
 static void AddActorImpulse(carla::client::Actor &self,
@@ -199,6 +228,8 @@ void export_actor() {
       .def("save_physics_checkpoint", CALL_WITHOUT_GIL(cc::Vehicle, SavePhysicsCheckpoint))
       .def("restore_physics_checkpoint", CALL_WITHOUT_GIL(cc::Vehicle, RestorePhysicsCheckpoint))
       .def("export_physics_checkpoint", &ExportPhysicsCheckpoint, (arg("build_id")))
+      .def("import_physics_checkpoint", &ImportPhysicsCheckpoint,
+           (arg("data"), arg("build_id"), arg("source_origin_is_zero")))
       .def("apply_ackermann_controller_settings", &cc::Vehicle::ApplyAckermannControllerSettings, (arg("settings")))
       .def("get_ackermann_controller_settings", CONST_CALL_WITHOUT_GIL(cc::Vehicle, GetAckermannControllerSettings))
       .def("set_autopilot", CALL_WITHOUT_GIL_2(cc::Vehicle, SetAutopilot, bool, uint16_t), (arg("enabled") = true, arg("tm_port") = ctm::TM_DEFAULT_PORT))

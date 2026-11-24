@@ -12,6 +12,8 @@
 #include "UObject/UObjectGlobals.h"
 #include "UObject/UnrealType.h"
 #include "TimerManager.h"
+#include "Misc/CommandLine.h"
+#include "Misc/Parse.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -66,6 +68,7 @@ struct FVehiclePhysicsCheckpoint
   physx::PxVec3 BodyAngularVelocity;
   bool bAwake;
   float WakeCounter;
+  float SleepThreshold;
   FVehicleControl InputControl;
   FVehicleControl LastControl;
   FVehicleLightState LightState;
@@ -83,6 +86,7 @@ struct FVehiclePhysicsCheckpoint
   int MaxSubsteps;
   bool bSubstepping;
   uint64 CapturedFrame;
+  FIntVector CapturedOrigin;
   uint32 PhysXSceneFlags;
   const physx::PxVehicleDrive *DriveIdentity;
   physx::PxVehicleDriveDynData Drive;
@@ -93,6 +97,29 @@ struct FVehiclePhysicsCheckpoint
 
 namespace
 {
+bool FixedCheckpointSleepMode()
+{
+  return FParse::Param(FCommandLine::Get(), TEXT("CheckpointFixedNoSleep"));
+}
+
+bool ConfigureCheckpointSleep(ACarlaWheeledVehicle &Vehicle)
+{
+  if (!FixedCheckpointSleepMode()) return true;
+  auto *Root = Cast<UPrimitiveComponent>(Vehicle.GetRootComponent());
+  auto *Body = Root ? Root->GetBodyInstance() : nullptr;
+  if (!Body || !Body->IsValidBodyInstance()) return false;
+  bool Configured = false;
+  FPhysicsCommand::ExecuteWrite(Body->ActorHandle, [&](const FPhysicsActorHandle &Actor)
+  {
+    auto *Rigid = FPhysicsInterface::GetPxRigidActor_AssumesLocked(Actor);
+    auto *Dynamic = Rigid ? Rigid->is<physx::PxRigidDynamic>() : nullptr;
+    if (!Dynamic) return;
+    Dynamic->setSleepThreshold(0.0f);
+    Configured = Dynamic->getSleepThreshold() == 0.0f;
+  });
+  return Configured;
+}
+
 carla::rpc::VehiclePhysicsControl CheckpointPhysicsConfiguration(const ACarlaWheeledVehicle &Vehicle)
 {
   carla::rpc::VehiclePhysicsControl Config(Vehicle.GetVehiclePhysicsControl());
@@ -160,6 +187,8 @@ bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Setting
     if (Door.Value && Door.Value->IsSimulatingPhysics()) return false;
 
   auto State = MakeShared<FVehiclePhysicsCheckpoint>();
+  if (!GetWorld()) return false;
+  State->CapturedOrigin = GetWorld()->OriginLocation;
   State->Transform = GetActorTransform();
   State->LinearVelocity = Root->GetPhysicsLinearVelocity();
   State->AngularVelocity = Root->GetPhysicsAngularVelocityInRadians();
@@ -204,6 +233,8 @@ bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Setting
     if (!BodyActor || Drive->getRigidDynamicActor() != BodyActor) return;
     auto *Scene = BodyActor->getScene();
     if (!Scene) return;
+    State->SleepThreshold = BodyActor->getSleepThreshold();
+    if (FixedCheckpointSleepMode() && State->SleepThreshold != 0.0f) return;
     State->BodyPose = BodyActor->getGlobalPose();
     State->BodyLinearVelocity = BodyActor->getLinearVelocity();
     State->BodyAngularVelocity = BodyActor->getAngularVelocity();
@@ -224,7 +255,7 @@ bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Setting
     }
     Captured = true;
   });
-  if (!Captured) return false;
+  if (!Captured || !GetWorld() || GetWorld()->OriginLocation != State->CapturedOrigin) return false;
   PhysicsCheckpoint = MoveTemp(State);
   return true;
 #endif
@@ -235,7 +266,9 @@ bool ACarlaWheeledVehicle::ExportPhysicsCheckpoint(carla::rpc::PortableVehicleCh
 #if !CARLA_CHECKPOINT_PHYSX_WHEEL_INTERNALS
   return false;
 #else
-  if (!PhysicsCheckpoint) return false;
+  if (!PhysicsCheckpoint || !GetWorld() ||
+      PhysicsCheckpoint->CapturedOrigin != FIntVector::ZeroValue ||
+      GetWorld()->OriginLocation != PhysicsCheckpoint->CapturedOrigin) return false;
   const auto &State = *PhysicsCheckpoint;
   carla::rpc::PortableVehicleCheckpoint Data;
   Data.capture_frame = State.CapturedFrame;
@@ -298,8 +331,8 @@ bool ACarlaWheeledVehicle::ImportPhysicsCheckpointSlot(const FEpisodeSettings &S
 #if !CARLA_CHECKPOINT_PHYSX_WHEEL_INTERNALS
   return false;
 #else
-  // Version 2 does not record the world origin at capture. The caller must
-  // ensure that the source also used origin zero; reject shifted targets.
+  // Version 2 does not encode the capture origin. Export requires a zero
+  // source origin; import likewise requires a zero target origin.
   if (!Data.HasValidDynamicValues() || !GetWorld() || GetWorld()->OriginLocation != FIntVector::ZeroValue ||
       (Data.light_state & ~0x7ffu) != 0u)
     return false;
@@ -385,6 +418,7 @@ bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Sett
       Settings.MaxSubsteps != PhysicsCheckpoint->MaxSubsteps ||
       Settings.bSubstepping != PhysicsCheckpoint->bSubstepping ||
       !Movement || !Movement->UpdatedComponent || !Root || !GetWorld() || !Root->IsSimulatingPhysics() ||
+      GetWorld()->OriginLocation != PhysicsCheckpoint->CapturedOrigin ||
       !Movement->PVehicleDrive || !Movement->PVehicle ||
       Movement->PVehicleDrive != PhysicsCheckpoint->DriveIdentity ||
       Movement->VehicleSetupTag != PhysicsCheckpoint->SetupTag ||
@@ -406,7 +440,9 @@ bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Sett
   {
     auto *RigidActor = FPhysicsInterface::GetPxRigidActor_AssumesLocked(Actor);
     auto *BodyActor = RigidActor ? RigidActor->is<physx::PxRigidDynamic>() : nullptr;
-    BodyMatchesDrive = BodyActor && Movement->PVehicleDrive->getRigidDynamicActor() == BodyActor;
+    BodyMatchesDrive = BodyActor && Movement->PVehicleDrive->getRigidDynamicActor() == BodyActor &&
+      BodyActor->getSleepThreshold() == PhysicsCheckpoint->SleepThreshold &&
+      (!FixedCheckpointSleepMode() || BodyActor->getSleepThreshold() == 0.0f);
   });
   if (!BodyMatchesDrive) return false;
   if (CheckpointPhysicsConfiguration(*this) != PhysicsCheckpoint->PhysicsConfiguration) return false;
@@ -636,6 +672,8 @@ void ACarlaWheeledVehicle::BeginPlay()
   }
 
   AddReferenceToManager();
+  if (!ConfigureCheckpointSleep(*this))
+    UE_LOG(LogCarla, Error, TEXT("Failed to configure fixed checkpoint sleep threshold at vehicle initialization"));
 }
 
 bool ACarlaWheeledVehicle::IsInVehicleRange(const FVector& Location) const
@@ -1096,6 +1134,8 @@ void ACarlaWheeledVehicle::ApplyVehiclePhysicsControl(const FVehiclePhysicsContr
     GetWorld()->GetPhysicsScene()->GetPxScene()->lockWrite();
     Vehicle4W->RecreatePhysicsState();
     GetWorld()->GetPhysicsScene()->GetPxScene()->unlockWrite();
+    if (!ConfigureCheckpointSleep(*this))
+      UE_LOG(LogCarla, Error, TEXT("Failed to configure fixed checkpoint sleep threshold after physics rebuild"));
 
     for (int32 i = 0; i < PhysicsWheelsNum; ++i)
     {
@@ -1194,6 +1234,8 @@ void ACarlaWheeledVehicle::ApplyVehiclePhysicsControl(const FVehiclePhysicsContr
     GetWorld()->GetPhysicsScene()->GetPxScene()->lockWrite();
     VehicleNW->RecreatePhysicsState();
     GetWorld()->GetPhysicsScene()->GetPxScene()->unlockWrite();
+    if (!ConfigureCheckpointSleep(*this))
+      UE_LOG(LogCarla, Error, TEXT("Failed to configure fixed checkpoint sleep threshold after physics rebuild"));
 
     for (int32 i = 0; i < PhysicsWheelsNum; ++i)
     {
@@ -1365,6 +1407,8 @@ void ACarlaWheeledVehicle::SetSimulatePhysics(bool enabled) {
     }
 
     GetWorld()->GetPhysicsScene()->GetPxScene()->unlockWrite();
+    if (enabled && !ConfigureCheckpointSleep(*this))
+      UE_LOG(LogCarla, Error, TEXT("Failed to configure fixed checkpoint sleep threshold after physics enable"));
 
     bPhysicsEnabled = enabled;
 

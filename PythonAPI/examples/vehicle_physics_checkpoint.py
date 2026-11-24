@@ -188,13 +188,15 @@ def main():
     parser.add_argument("--report", help="write the complete manifest, command journal and traces as JSON")
     parser.add_argument("--build-id", help="user-supplied server, engine and content build identifiers")
     parser.add_argument("--export-checkpoint", help="write the saved vehicle values as MessagePack bytes")
+    parser.add_argument("--test-portable-import", action="store_true",
+                        help="import into a new vehicle after reloading; assumes source world origin is zero")
     args = parser.parse_args()
     if not math.isfinite(args.timeout) or args.timeout <= 0:
         parser.error("timeout must be a positive finite number")
     if min(args.warmup, args.prefix_steps) < 0 or min(args.suffix_steps, args.repetitions) < 1:
         parser.error("warmup and prefix must be non-negative; suffix and repetitions must be positive")
-    if args.export_checkpoint and not args.build_id:
-        parser.error("--export-checkpoint requires --build-id")
+    if (args.export_checkpoint or args.test_portable_import) and not args.build_id:
+        parser.error("checkpoint export or import testing requires --build-id")
     try:
         journal = make_journal(args.warmup, args.prefix_steps, args.suffix_steps, args.profile)
     except ValueError as error:
@@ -206,7 +208,7 @@ def main():
     world = None
     vehicle = None
     traces = {"warmup": [], "prefix": [], "baseline_suffix": [], "restore_suffixes": [],
-              "replay_warmup": [], "replay_prefix": [], "replay_suffix": []}
+              "replay_warmup": [], "replay_prefix": [], "replay_suffix": [], "portable_import_suffix": []}
     report = {"summary": None, "manifest": None, "replay_manifest": None,
               "command_journal": journal, "traces": traces, "failure": None,
               "exported_checkpoint": None}
@@ -226,7 +228,15 @@ def main():
         stage = "save_checkpoint"
         if not vehicle.save_physics_checkpoint():
             raise RuntimeError("checkpoint rejected by server (unsupported vehicle or settings)")
-        if args.export_checkpoint:
+        checkpoint_bytes = None
+        if args.test_portable_import:
+            stage = "export_checkpoint"
+            checkpoint_bytes = vehicle.export_physics_checkpoint(args.build_id)
+            if args.export_checkpoint:
+                with open(args.export_checkpoint, "wb") as output:
+                    output.write(checkpoint_bytes)
+                report["exported_checkpoint"] = {"path": str(args.export_checkpoint), "bytes": len(checkpoint_bytes)}
+        elif args.export_checkpoint:
             stage = "export_checkpoint"
             report["exported_checkpoint"] = export_checkpoint(vehicle, args.build_id, args.export_checkpoint)
         stage = "baseline_suffix"
@@ -256,6 +266,32 @@ def main():
         replay_prefix = run_journal(client, world, vehicle, journal["prefix"], traces["replay_prefix"])
         stage = "replay_suffix"
         replay_suffix = run_journal(client, world, vehicle, journal["suffix"], traces["replay_suffix"])
+        portable_import = None
+        if args.test_portable_import:
+            stage = "portable_load_world"
+            world = load_world(client, args.map)
+            stage = "portable_spawn"
+            vehicle = spawn(world, args.vehicle, args.spawn_index)
+            stage = "portable_warmup"
+            run_journal(client, world, vehicle, journal["warmup"])
+            stage = "portable_import"
+            if not vehicle.import_physics_checkpoint(checkpoint_bytes, args.build_id, True):
+                raise RuntimeError("portable checkpoint import rejected by server")
+            if vehicle.import_physics_checkpoint(checkpoint_bytes, args.build_id + "-mismatch", True):
+                raise RuntimeError("portable checkpoint accepted a mismatched build identifier")
+            if vehicle.import_physics_checkpoint(checkpoint_bytes, args.build_id, False):
+                raise RuntimeError("portable checkpoint accepted an unconfirmed source origin")
+            try:
+                vehicle.import_physics_checkpoint(checkpoint_bytes + b"trailing", args.build_id, True)
+            except ValueError:
+                pass
+            else:
+                raise RuntimeError("portable checkpoint accepted trailing bytes")
+            if not vehicle.restore_physics_checkpoint():
+                raise RuntimeError("portable checkpoint restore rejected by server")
+            stage = "portable_suffix"
+            imported_suffix = run_journal(client, world, vehicle, journal["suffix"], traces["portable_import_suffix"])
+            portable_import = compare(baseline, imported_suffix)
         stage = "compare"
         result = {
             "map": args.map, "vehicle": args.vehicle, "spawn_index": args.spawn_index,
@@ -268,11 +304,14 @@ def main():
             "prefix_replay_prefix": compare(prefix_samples, replay_prefix),
             "prefix_replay_suffix": compare(baseline, replay_suffix),
         }
+        if portable_import is not None:
+            result["portable_import"] = portable_import
         report["summary"] = result
         print(json.dumps(result, indent=2, sort_keys=True))
         replay_matches = all(result[key]["exact"] for key in
                              ("prefix_replay_warmup", "prefix_replay_prefix", "prefix_replay_suffix"))
-        return 0 if all(item["exact"] for item in comparisons) and replay_matches and result["manifest_matches_replay"] else 1
+        portable_matches = portable_import is None or portable_import["exact"]
+        return 0 if all(item["exact"] for item in comparisons) and replay_matches and portable_matches and result["manifest_matches_replay"] else 1
     except Exception as error:
         report["failure"] = {"stage": stage, "type": type(error).__name__, "message": str(error)}
         raise

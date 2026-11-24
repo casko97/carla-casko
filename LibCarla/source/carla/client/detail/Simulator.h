@@ -303,6 +303,11 @@ namespace detail {
       return _client.ExportVehiclePhysicsCheckpoint(vehicle.GetId(), build_id);
     }
 
+    bool ImportVehiclePhysicsCheckpoint(const Vehicle &vehicle, const rpc::PortableVehicleCheckpoint &data,
+        const std::string &build_id, bool source_origin_is_zero) {
+      return _client.ImportVehiclePhysicsCheckpoint(vehicle.GetId(), data, build_id, source_origin_is_zero);
+    }
+
     void BeginCollisionCheckpointLog(ActorId sensor) {
       _client.BeginCollisionCheckpointLog(sensor);
     }

@@ -14,6 +14,7 @@
 #include "TrafficLightGroup.generated.h"
 
 class ATrafficLightManager; struct FTrafficLightGroupCheckpoint;
+namespace carla { namespace rpc { struct PortableLightGroup; } }
 
 /// Class which implements the state changing of traffic lights
 UCLASS()
@@ -25,6 +26,8 @@ public:
   // Sets default values for this actor's properties
   ATrafficLightGroup();
 
+  bool ExportPortableCheckpoint(carla::rpc::PortableLightGroup &Out) const;
+  bool PreparePortableCheckpoint(const carla::rpc::PortableLightGroup &In);
   bool SaveCheckpoint();
   bool ValidateCheckpoint() const;
   void RestoreCheckpoint();
