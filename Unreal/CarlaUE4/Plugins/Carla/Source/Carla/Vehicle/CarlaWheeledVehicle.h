@@ -181,6 +181,9 @@ public:
   // Experimental, same-actor in-memory checkpoint. See the checkpoint guide.
   bool SavePhysicsCheckpoint(const FEpisodeSettings &Settings, const FVector &ObserverVelocity);
   bool RestorePhysicsCheckpoint(const FEpisodeSettings &Settings, FVector &ObserverVelocity);
+  // Caller must verify map, blueprint, build and source world-origin identity.
+  bool ImportPhysicsCheckpointSlot(const FEpisodeSettings &Settings, const FVector &ObserverVelocity,
+      const carla::rpc::PortableVehicleCheckpoint &Data);
 
   void ApplyAckermannControllerSettings(const FAckermannControllerSettings &AckermannControllerSettings) {
     return AckermannController.ApplySettings(AckermannControllerSettings);

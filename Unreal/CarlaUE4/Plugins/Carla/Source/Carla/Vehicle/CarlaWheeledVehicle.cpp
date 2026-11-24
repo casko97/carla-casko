@@ -292,6 +292,86 @@ bool ACarlaWheeledVehicle::ExportPhysicsCheckpoint(carla::rpc::PortableVehicleCh
 #endif
 }
 
+bool ACarlaWheeledVehicle::ImportPhysicsCheckpointSlot(const FEpisodeSettings &Settings,
+    const FVector &ObserverVelocity, const carla::rpc::PortableVehicleCheckpoint &Data)
+{
+#if !CARLA_CHECKPOINT_PHYSX_WHEEL_INTERNALS
+  return false;
+#else
+  // Version 2 does not record the world origin at capture. The caller must
+  // ensure that the source also used origin zero; reject shifted targets.
+  if (!Data.HasValidDynamicValues() || !GetWorld() || GetWorld()->OriginLocation != FIntVector::ZeroValue ||
+      (Data.light_state & ~0x7ffu) != 0u)
+    return false;
+
+  // Capture the target's identities and configuration without leaving a new
+  // slot installed if any of the compatibility checks below fail.
+  const auto PreviousSlot = PhysicsCheckpoint;
+  if (!SavePhysicsCheckpoint(Settings, ObserverVelocity)) return false;
+  auto Candidate = PhysicsCheckpoint;
+  PhysicsCheckpoint = PreviousSlot;
+  if (Data.fixed_delta_seconds != Candidate->FixedDeltaSeconds ||
+      Data.max_substep_delta_time != Candidate->MaxSubstepDeltaTime ||
+      Data.max_substeps != Candidate->MaxSubsteps || Data.substepping != Candidate->bSubstepping ||
+      Data.physx_scene_flags != Candidate->PhysXSceneFlags ||
+      Data.physics_configuration != Candidate->PhysicsConfiguration ||
+      Data.wheels.size() != static_cast<size_t>(Candidate->Wheels.Num()) ||
+      Data.drive.current_gear >= Data.physics_configuration.forward_gears.size() + 2u ||
+      Data.drive.target_gear >= Data.physics_configuration.forward_gears.size() + 2u)
+    return false;
+
+  const FVector Scale(Data.scale[0], Data.scale[1], Data.scale[2]);
+  if (Scale != Candidate->Transform.GetScale3D()) return false;
+  const physx::PxQuat BodyRotation(Data.body_rotation_quaternion[0], Data.body_rotation_quaternion[1],
+                                  Data.body_rotation_quaternion[2], Data.body_rotation_quaternion[3]);
+  if (!BodyRotation.isSane()) return false;
+  Candidate->Transform = FTransform(FQuat(Data.rotation_quaternion[0], Data.rotation_quaternion[1],
+                                         Data.rotation_quaternion[2], Data.rotation_quaternion[3]),
+                                   FVector(Data.position_cm[0], Data.position_cm[1], Data.position_cm[2]), Scale);
+  Candidate->LinearVelocity = FVector(Data.linear_velocity_cm_s[0], Data.linear_velocity_cm_s[1], Data.linear_velocity_cm_s[2]);
+  Candidate->AngularVelocity = FVector(Data.angular_velocity_rad_s[0], Data.angular_velocity_rad_s[1], Data.angular_velocity_rad_s[2]);
+  Candidate->ObserverVelocity = FVector(Data.observer_velocity_m_s[0], Data.observer_velocity_m_s[1], Data.observer_velocity_m_s[2]);
+  Candidate->BodyPose = physx::PxTransform(physx::PxVec3(Data.body_position_physx[0], Data.body_position_physx[1], Data.body_position_physx[2]), BodyRotation);
+  Candidate->BodyLinearVelocity = physx::PxVec3(Data.body_linear_velocity_physx[0], Data.body_linear_velocity_physx[1], Data.body_linear_velocity_physx[2]);
+  Candidate->BodyAngularVelocity = physx::PxVec3(Data.body_angular_velocity_physx[0], Data.body_angular_velocity_physx[1], Data.body_angular_velocity_physx[2]);
+  Candidate->bAwake = Data.awake;
+  Candidate->WakeCounter = Data.wake_counter;
+  Candidate->InputControl = static_cast<FVehicleControl>(Data.input_control);
+  Candidate->LastControl = static_cast<FVehicleControl>(Data.last_control);
+  Candidate->InputPriority = static_cast<EVehicleInputPriority>(Data.input_priority);
+  Candidate->LightState = static_cast<FVehicleLightState>(carla::rpc::VehicleLightState(Data.light_state));
+  Candidate->RolloverTracker = Data.rollover_tracker;
+  Candidate->FailureState = static_cast<carla::rpc::VehicleFailureState>(Data.failure_state);
+  Candidate->bRolloverTimerExists = Data.rollover_timer_exists;
+  Candidate->bRolloverTimerPaused = Data.rollover_timer_paused;
+  Candidate->RolloverTimerRemaining = Data.rollover_timer_remaining;
+  Candidate->RolloverTimerRate = Data.rollover_timer_rate;
+  Candidate->CapturedFrame = Data.capture_frame;
+  auto &Drive = Candidate->Drive;
+  for (size_t I = 0; I < Data.drive.analog_inputs.size(); ++I) Drive.mControlAnalogVals[I] = Data.drive.analog_inputs[I];
+  Drive.mUseAutoGears = Data.drive.use_auto_gears;
+  Drive.mGearUpPressed = Data.drive.gear_up;
+  Drive.mGearDownPressed = Data.drive.gear_down;
+  Drive.mCurrentGear = Data.drive.current_gear;
+  Drive.mTargetGear = Data.drive.target_gear;
+  Drive.mEnginespeed = Data.drive.engine_speed;
+  Drive.mGearSwitchTime = Data.drive.gear_switch_time;
+  Drive.mAutoBoxSwitchTime = Data.drive.auto_box_switch_time;
+  for (size_t I = 0; I < Data.wheels.size(); ++I)
+  {
+    const auto &Wheel = Data.wheels[I];
+    Candidate->Wheels[static_cast<int32>(I)] = {Wheel.speed, Wheel.corrected_speed, Wheel.angle,
+        Wheel.low_forward_speed_timer, Wheel.low_side_speed_timer, Wheel.jounce};
+  }
+  for (size_t I = 0; I < Data.movement_floats.size(); ++I)
+    Candidate->MovementFloats[static_cast<int32>(I)] = Data.movement_floats[I];
+  for (size_t I = 0; I < Data.movement_bools.size(); ++I)
+    Candidate->MovementBools[static_cast<int32>(I)] = Data.movement_bools[I] != 0u;
+  PhysicsCheckpoint = MoveTemp(Candidate);
+  return true;
+#endif
+}
+
 bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Settings, FVector &ObserverVelocity)
 {
 #if !CARLA_CHECKPOINT_PHYSX_WHEEL_INTERNALS
