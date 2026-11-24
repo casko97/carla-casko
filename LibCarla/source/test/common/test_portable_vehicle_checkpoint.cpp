@@ -2,9 +2,13 @@
 
 #include "test.h"
 #include <carla/rpc/PortableVehicleCheckpoint.h>
+#include <limits>
 
 TEST(portable_vehicle_checkpoint, round_trips_values_and_rejects_bad_shape) {
   carla::rpc::PortableVehicleCheckpoint state;
+  state.fixed_delta_seconds = 0.05;
+  state.max_substep_delta_time = 0.01;
+  state.max_substeps = 10;
   state.position_cm = {1.0f, 2.0f, 3.0f};
   state.rotation_quaternion = {0.0f, 0.0f, 0.0f, 1.0f};
   state.scale = {1.0f, 1.0f, 1.0f};
@@ -17,14 +21,16 @@ TEST(portable_vehicle_checkpoint, round_trips_values_and_rejects_bad_shape) {
   state.movement_floats.resize(7u);
   state.movement_bools.resize(3u);
   state.body_position_physx = {123.5f, -456.25f, 7.0f};
-  state.body_rotation_quaternion = {0.25f, 0.5f, -0.25f, 0.75f};
+  state.body_rotation_quaternion = {0.0f, 0.0f, 0.0f, 1.0f};
   state.body_linear_velocity_physx = {11.0f, 12.0f, -13.0f};
   state.body_angular_velocity_physx = {0.5f, -0.25f, 0.125f};
   state.observer_velocity_m_s = {0.1f, -1.0f, 2.0f};
   ASSERT_TRUE(state.HasValidShape());
+  ASSERT_TRUE(state.HasValidDynamicValues());
   const auto bytes = carla::MsgPack::Pack(state);
   auto decoded = carla::MsgPack::UnPack<carla::rpc::PortableVehicleCheckpoint>(bytes);
   EXPECT_TRUE(decoded.HasValidShape());
+  EXPECT_TRUE(decoded.HasValidDynamicValues());
   EXPECT_FLOAT_EQ(decoded.drive.engine_speed, 123.0f);
   EXPECT_FLOAT_EQ(decoded.wheels[0].jounce, 2.0f);
   EXPECT_EQ(decoded.body_position_physx, state.body_position_physx);
@@ -40,4 +46,22 @@ TEST(portable_vehicle_checkpoint, round_trips_values_and_rejects_bad_shape) {
   decoded.movement_bools[1] = 0u;
   decoded.version = 1u;
   EXPECT_FALSE(decoded.HasValidShape());
+  decoded = state;
+  decoded.body_linear_velocity_physx[0] = std::numeric_limits<float>::quiet_NaN();
+  EXPECT_FALSE(decoded.HasValidDynamicValues());
+  decoded = state;
+  decoded.wheels[0].jounce = std::numeric_limits<float>::infinity();
+  EXPECT_FALSE(decoded.HasValidDynamicValues());
+  decoded = state;
+  decoded.body_rotation_quaternion = {0.0f, 0.0f, 0.0f, 0.0f};
+  EXPECT_FALSE(decoded.HasValidDynamicValues());
+  decoded = state;
+  decoded.drive.current_gear = 32u;
+  EXPECT_FALSE(decoded.HasValidDynamicValues());
+  decoded = state;
+  decoded.rollover_timer_paused = true;
+  EXPECT_FALSE(decoded.HasValidDynamicValues());
+  decoded = state;
+  decoded.fixed_delta_seconds = 0.0;
+  EXPECT_FALSE(decoded.HasValidDynamicValues());
 }

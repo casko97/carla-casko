@@ -100,6 +100,48 @@ struct PortableVehicleCheckpoint {
     return true;
   }
 
+  // Checks dynamic values that will be consumed by PhysX and Unreal. This is
+  // not sufficient to import: the caller must also check compatibility with
+  // the target actor, its physics configuration, the map, scene and build.
+  bool HasValidDynamicValues() const {
+    if (!HasValidShape() || !std::isfinite(fixed_delta_seconds) || fixed_delta_seconds <= 0.0 ||
+        !std::isfinite(max_substep_delta_time) || max_substep_delta_time <= 0.0 || max_substeps <= 0 ||
+        !std::isfinite(wake_counter) || wake_counter < 0.0f ||
+        !std::isfinite(rollover_timer_remaining) || !std::isfinite(rollover_timer_rate) ||
+        (rollover_timer_exists && (rollover_timer_remaining < 0.0f || rollover_timer_rate <= 0.0f)) ||
+        (rollover_timer_paused && !rollover_timer_exists) ||
+        input_priority > 6u || failure_state > 3u ||
+        drive.current_gear >= 32u || drive.target_gear >= 32u ||
+        !std::isfinite(drive.engine_speed) || !std::isfinite(drive.gear_switch_time) ||
+        !std::isfinite(drive.auto_box_switch_time)) return false;
+
+    const auto finite_vector = [](const std::vector<float> &values) {
+      for (const auto value : values) if (!std::isfinite(value)) return false;
+      return true;
+    };
+    const auto sane_quaternion = [](const std::vector<float> &values) {
+      double squared = 0.0;
+      for (const auto value : values) squared += static_cast<double>(value) * value;
+      return std::isfinite(squared) && std::abs(std::sqrt(squared) - 1.0) < 0.01;
+    };
+    const auto finite_control = [](const VehicleControl &control) {
+      return std::isfinite(control.throttle) && std::isfinite(control.steer) && std::isfinite(control.brake);
+    };
+    if (!finite_vector(position_cm) || !finite_vector(rotation_quaternion) || !sane_quaternion(rotation_quaternion) ||
+        !finite_vector(scale) || !finite_vector(linear_velocity_cm_s) || !finite_vector(angular_velocity_rad_s) ||
+        !finite_vector(body_position_physx) || !finite_vector(body_rotation_quaternion) ||
+        !sane_quaternion(body_rotation_quaternion) || !finite_vector(body_linear_velocity_physx) ||
+        !finite_vector(body_angular_velocity_physx) || !finite_vector(observer_velocity_m_s) ||
+        !finite_vector(drive.analog_inputs) || !finite_vector(movement_floats) ||
+        !finite_control(input_control) || !finite_control(last_control)) return false;
+    for (const auto &wheel : wheels) {
+      if (!std::isfinite(wheel.speed) || !std::isfinite(wheel.corrected_speed) || !std::isfinite(wheel.angle) ||
+          !std::isfinite(wheel.low_forward_speed_timer) || !std::isfinite(wheel.low_side_speed_timer) ||
+          !std::isfinite(wheel.jounce)) return false;
+    }
+    return true;
+  }
+
   MSGPACK_DEFINE_ARRAY(version, physx_major, physx_minor, blueprint, map, build_id, capture_frame,
       physx_scene_flags, fixed_delta_seconds, max_substep_delta_time, max_substeps, substepping,
       physics_configuration, position_cm, rotation_quaternion, scale, linear_velocity_cm_s,
