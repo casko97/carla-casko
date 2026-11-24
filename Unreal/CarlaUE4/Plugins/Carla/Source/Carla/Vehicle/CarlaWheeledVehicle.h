@@ -179,8 +179,8 @@ public:
   void ApplyVehiclePhysicsControl(const FVehiclePhysicsControl &PhysicsControl);
 
   // Experimental, same-actor in-memory checkpoint. See the checkpoint guide.
-  bool SavePhysicsCheckpoint(const FEpisodeSettings &Settings);
-  bool RestorePhysicsCheckpoint(const FEpisodeSettings &Settings);
+  bool SavePhysicsCheckpoint(const FEpisodeSettings &Settings, const FVector &ObserverVelocity);
+  bool RestorePhysicsCheckpoint(const FEpisodeSettings &Settings, FVector &ObserverVelocity);
 
   void ApplyAckermannControllerSettings(const FAckermannControllerSettings &AckermannControllerSettings) {
     return AckermannController.ApplySettings(AckermannControllerSettings);

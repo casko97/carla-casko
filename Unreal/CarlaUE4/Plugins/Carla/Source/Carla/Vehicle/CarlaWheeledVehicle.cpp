@@ -60,6 +60,7 @@ struct FVehiclePhysicsCheckpoint
   FTransform Transform;
   FVector LinearVelocity;
   FVector AngularVelocity;
+  FVector ObserverVelocity;
   bool bAwake;
   float WakeCounter;
   FVehicleControl InputControl;
@@ -138,7 +139,7 @@ ACarlaWheeledVehicle::ACarlaWheeledVehicle(const FObjectInitializer& ObjectIniti
 
 ACarlaWheeledVehicle::~ACarlaWheeledVehicle() {}
 
-bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Settings)
+bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Settings, const FVector &ObserverVelocity)
 {
 #if !CARLA_CHECKPOINT_PHYSX_WHEEL_INTERNALS
   return false;
@@ -159,6 +160,7 @@ bool ACarlaWheeledVehicle::SavePhysicsCheckpoint(const FEpisodeSettings &Setting
   State->Transform = GetActorTransform();
   State->LinearVelocity = Root->GetPhysicsLinearVelocity();
   State->AngularVelocity = Root->GetPhysicsAngularVelocityInRadians();
+  State->ObserverVelocity = ObserverVelocity;
   State->InputControl = InputControl.Control;
   State->InputPriority = InputControl.Priority;
   State->LastControl = LastAppliedControl;
@@ -279,7 +281,7 @@ bool ACarlaWheeledVehicle::ExportPhysicsCheckpoint(carla::rpc::PortableVehicleCh
 #endif
 }
 
-bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Settings)
+bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Settings, FVector &ObserverVelocity)
 {
 #if !CARLA_CHECKPOINT_PHYSX_WHEEL_INTERNALS
   return false;
@@ -368,6 +370,10 @@ bool ACarlaWheeledVehicle::RestorePhysicsCheckpoint(const FEpisodeSettings &Sett
   });
   if (Restored)
   {
+    // WorldObserver differentiates velocity against this actor-info cache.
+    // Restore it before the next tick so reported acceleration starts from
+    // the checkpoint, rather than the end of the previous rollout.
+    ObserverVelocity = PhysicsCheckpoint->ObserverVelocity;
     auto &Timers = GetWorld()->GetTimerManager();
     Timers.ClearTimer(TimerHandler);
     if (PhysicsCheckpoint->bRolloverTimerExists)

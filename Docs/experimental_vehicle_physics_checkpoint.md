@@ -45,7 +45,8 @@ CARLA input and previous control, vehicle light state, failure/rollover state an
 the rollover timer's existence, remaining time, rate and paused state, PhysX drive dynamic
 data (including analog inputs, engine, gearbox and gear-change timers), wheel
 rotation speeds and angles, corrected wheel speeds, tire low-speed timers,
-previous suspension jounce, and Unreal raw and smoothed control inputs.
+previous suspension jounce, Unreal raw and smoothed control inputs, and the
+world observer's previous-velocity cache used to calculate reported acceleration.
 Restoring light state invokes the vehicle's Blueprint refresh callback if the
 state differs; arbitrary Blueprint or rendering side effects are not saved.
 The rollover timer is rescheduled against the current Unreal timer clock; its
@@ -95,7 +96,8 @@ With `--build-id ID --export-checkpoint vehicle.msgpack`, the harness also write
 the saved vehicle slot as a versioned, pointer-free MessagePack value record.
 The build identifier is supplied by the caller and is not verified by CARLA.
 This is export only: no import or fresh-episode restore is implemented yet, and
-the file omits scene contact and solver state, other actors and sensors.
+the file omits the world observer cache, scene contact and solver state, other
+actors and sensors.
 The manifest also records the active PhysX scene's raw flag bitmask and selected
 decoded PhysX 3.4 flags via a synchronous server query. In this engine's headers, enhanced
 determinism is bit 20, GPU dynamics bit 19, stabilization bit 14, disabled

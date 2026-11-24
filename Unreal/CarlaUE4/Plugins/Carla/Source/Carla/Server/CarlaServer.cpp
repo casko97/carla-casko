@@ -1343,7 +1343,7 @@ BIND_SYNC(is_sensor_enabled_for_ros) << [this](carla::streaming::detail::stream_
         !Episode->GetSettings().FixedDeltaSeconds.IsSet() || !Actor || !Actor->IsActive())
       return false;
     auto *Vehicle = Cast<ACarlaWheeledVehicle>(Actor->GetActor());
-    return Vehicle && Vehicle->SavePhysicsCheckpoint(Episode->GetSettings());
+    return Vehicle && Vehicle->SavePhysicsCheckpoint(Episode->GetSettings(), Actor->GetActorInfo()->Velocity);
   };
 
   BIND_SYNC(restore_vehicle_physics_checkpoint) << [this](cr::ActorId ActorId) -> R<bool>
@@ -1354,7 +1354,7 @@ BIND_SYNC(is_sensor_enabled_for_ros) << [this](carla::streaming::detail::stream_
         !Episode->GetSettings().FixedDeltaSeconds.IsSet() || !Actor || !Actor->IsActive())
       return false;
     auto *Vehicle = Cast<ACarlaWheeledVehicle>(Actor->GetActor());
-    return Vehicle && Vehicle->RestorePhysicsCheckpoint(Episode->GetSettings());
+    return Vehicle && Vehicle->RestorePhysicsCheckpoint(Episode->GetSettings(), Actor->GetActorInfo()->Velocity);
   };
 
   BIND_SYNC(begin_collision_checkpoint_log) << [this](cr::ActorId ActorId) -> R<void>
