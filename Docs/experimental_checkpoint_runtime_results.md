@@ -87,6 +87,15 @@ restore. Local reports for the completed runs are
 `/tmp/carla-checkpoint-native-body-maneuver.json` and
 `/tmp/carla-checkpoint-native-body-collision.json`.
 
+After restarting the server, a retry at `f1aec4f` using
+`PythonAPI/examples/checkpoint_scenarios/town01_traffic_manager.json`, two
+restores, traffic lights, weather and vehicle lights (without collision
+sensors) completed. Both restores and full replay matched the sampled vehicle
+states, Traffic Manager controls, traffic lights, weather and vehicle lights
+exactly. The successful retry does not establish the cause of the earlier
+rendering crash. Its local report is
+`/tmp/carla-checkpoint-native-body-tm-retry.json`.
+
 The complete local reports were written to `/tmp/carla-checkpoint-straight.json`,
 `/tmp/carla-checkpoint-straight-observer.json`,
 `/tmp/carla-checkpoint-multi.json`, and `/tmp/carla-checkpoint-tm.json`.
