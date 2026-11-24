@@ -28,6 +28,14 @@ fixes a source of reported acceleration error but does not make the physics
 checkpoint exact. A likely remaining source is uncaptured PhysX scene or wheel
 history; these tests do not establish which internal value causes divergence.
 
+On 2026-11-24, the same single-vehicle setup was run at `bdbbb30` using the
+`maneuver` profile, which commands steering in both directions, braking, and
+manual gear changes. The full warmup, prefix and suffix replay matched exactly.
+All three checkpoint restores differed on the first suffix tick; their maximum
+position component errors over the 80-tick suffix were 0.007996 m, 0.003815 m
+and 0.010529 m. The local report is
+`/tmp/carla-checkpoint-maneuver-bdbbb30.json`.
+
 With two manually controlled vehicles, 40 prefix frames and 60 suffix frames,
 the prefix replay and suffix replay matched exactly. None of the three
 checkpoint restores was exact. The largest component-wise position error was
@@ -41,9 +49,24 @@ in vehicle state, and the first Traffic Manager control difference appeared at
 relative suffix frame 3. The observation does not distinguish missing manager
 state from its response to already-divergent vehicle state.
 
+On 2026-11-24, a separate Town01 run used
+`PythonAPI/examples/checkpoint_scenarios/town01_vehicle_collision.json`: one
+vehicle accelerated into a second vehicle held with the brake. The first impact
+occurred at scenario frame 60, and the checkpoint was taken immediately after
+that tick. Full replay matched the sampled actor states and collision events
+exactly. Both restored runs diverged in both vehicles' state on the first suffix
+tick; the first subsequent collision impulse differences appeared at suffix
+frame 3. Maximum position component error was 0.00785 m over 90 suffix ticks.
+This is evidence that the checkpoint is not exact in this contact scenario,
+but does not isolate which missing state caused the divergence. A first attempt
+timed out reloading the map with the default 30-second RPC timeout; the
+successful run used `--timeout 180`. Its local report is
+`/tmp/carla-checkpoint-collision-impact-bdbbb30.json`.
+
 The complete local reports were written to `/tmp/carla-checkpoint-straight.json`,
 `/tmp/carla-checkpoint-straight-observer.json`,
 `/tmp/carla-checkpoint-multi.json`, and `/tmp/carla-checkpoint-tm.json`.
 These temporary files are not part of the repository. Repeat runs should retain
-their own reports and verified build identifiers. Maneuvers, nonempty collision
-events, pedestrians, sensors and the VAD closed loop remain unverified.
+their own reports and verified build identifiers. Exact checkpoint restoration
+for maneuvers and this contact scenario failed; pedestrians, general sensor
+state and the VAD closed loop remain unverified.
