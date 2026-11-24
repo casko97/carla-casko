@@ -96,6 +96,18 @@ exactly. The successful retry does not establish the cause of the earlier
 rendering crash. Its local report is
 `/tmp/carla-checkpoint-native-body-tm-retry.json`.
 
+The subsequent version-2 value-export change was tested with matching client
+and server builds. A rendered run exported a valid record, then crashed in the
+same tagged skeletal-mesh proxy assertion; a retry lost its Vulkan device before
+exporting. A sensor-free run with Unreal's `-nullrhi` completed: its exported
+record decoded as version 2 with valid field lengths, its observer velocity
+matched the last prefix snapshot to the decoder's printed precision, and all
+three checkpoint restores and full replay matched the sampled vehicle values.
+This run used a null renderer even though CARLA's `no_rendering_mode` setting
+was false. It is not a camera or rendered-scene validation. The local report
+and export are `/tmp/carla-checkpoint-v2-nullrhi.json` and
+`/tmp/carla-checkpoint-v2-nullrhi.msgpack`.
+
 The complete local reports were written to `/tmp/carla-checkpoint-straight.json`,
 `/tmp/carla-checkpoint-straight-observer.json`,
 `/tmp/carla-checkpoint-multi.json`, and `/tmp/carla-checkpoint-tm.json`.

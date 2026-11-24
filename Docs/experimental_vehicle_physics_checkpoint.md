@@ -98,9 +98,11 @@ computed build and asset identifier using `--build-id`.
 With `--build-id ID --export-checkpoint vehicle.msgpack`, the harness also writes
 the saved vehicle slot as a versioned, pointer-free MessagePack value record.
 The build identifier is supplied by the caller and is not verified by CARLA.
-This is export only: no import or fresh-episode restore is implemented yet, and
-the file omits the raw PhysX body pose and velocities, the world observer cache,
-scene contact and solver state, other
+The version 2 record includes the native PhysX body pose and velocities and the
+world observer's velocity cache. Version 1 records do not contain those fields
+and do not pass the version 2 structural check. The change requires matching
+client and server builds. This is export only: no import or fresh-episode
+restore is implemented yet, and the file omits scene contact and solver state, other
 actors and sensors.
 The manifest also records the active PhysX scene's raw flag bitmask and selected
 decoded PhysX 3.4 flags via a synchronous server query. In this engine's headers, enhanced

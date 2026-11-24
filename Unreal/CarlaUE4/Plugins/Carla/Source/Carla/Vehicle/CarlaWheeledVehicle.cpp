@@ -281,6 +281,11 @@ bool ACarlaWheeledVehicle::ExportPhysicsCheckpoint(carla::rpc::PortableVehicleCh
         Wheel.LowForwardSpeedTimer, Wheel.LowSideSpeedTimer, Wheel.Jounce});
   for (float Value : State.MovementFloats) Data.movement_floats.push_back(Value);
   for (bool Value : State.MovementBools) Data.movement_bools.push_back(Value ? 1u : 0u);
+  Data.body_position_physx = {State.BodyPose.p.x, State.BodyPose.p.y, State.BodyPose.p.z};
+  Data.body_rotation_quaternion = {State.BodyPose.q.x, State.BodyPose.q.y, State.BodyPose.q.z, State.BodyPose.q.w};
+  Data.body_linear_velocity_physx = {State.BodyLinearVelocity.x, State.BodyLinearVelocity.y, State.BodyLinearVelocity.z};
+  Data.body_angular_velocity_physx = {State.BodyAngularVelocity.x, State.BodyAngularVelocity.y, State.BodyAngularVelocity.z};
+  Data.observer_velocity_m_s = {State.ObserverVelocity.X, State.ObserverVelocity.Y, State.ObserverVelocity.Z};
   if (!Data.HasValidShape()) return false;
   Out = std::move(Data);
   return true;

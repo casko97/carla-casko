@@ -14,10 +14,12 @@
 namespace carla {
 namespace rpc {
 
-// Version 1 is an experimental value representation of the existing vehicle
+// Version 2 is an experimental value representation of the existing vehicle
 // slot. It is not a world checkpoint or proof of cross-build compatibility.
 // Position, scale, rotation quaternion (x,y,z,w), linear velocity and angular
 // velocity use native Unreal units: cm, dimensionless, quaternion, cm/s, rad/s.
+// The native PhysX body values use the engine's native PhysX coordinate system
+// and units, and observer_velocity_m_s is CARLA's cached world velocity in m/s.
 struct PortableVehicleWheelState {
   float speed = 0.0f;
   float corrected_speed = 0.0f;
@@ -43,7 +45,7 @@ struct PortableVehicleDriveState {
 };
 
 struct PortableVehicleCheckpoint {
-  uint32_t version = 1u;
+  uint32_t version = 2u;
   uint32_t physx_major = 3u;
   uint32_t physx_minor = 4u;
   std::string blueprint;
@@ -77,15 +79,23 @@ struct PortableVehicleCheckpoint {
   std::vector<PortableVehicleWheelState> wheels;
   std::vector<float> movement_floats;
   std::vector<uint8_t> movement_bools;
+  std::vector<float> body_position_physx;
+  std::vector<float> body_rotation_quaternion;
+  std::vector<float> body_linear_velocity_physx;
+  std::vector<float> body_angular_velocity_physx;
+  std::vector<float> observer_velocity_m_s;
 
   // This is a structural check only. An importer must additionally validate
   // numerical ranges, component versions, build/map/blueprint and actor setup.
   bool HasValidShape() const {
-    if (version != 1u || physx_major != 3u || physx_minor != 4u ||
+    if (version != 2u || physx_major != 3u || physx_minor != 4u ||
         position_cm.size() != 3u || rotation_quaternion.size() != 4u || scale.size() != 3u ||
         linear_velocity_cm_s.size() != 3u || angular_velocity_rad_s.size() != 3u ||
         drive.analog_inputs.size() != 16u || wheels.empty() || wheels.size() > 32u ||
-        movement_floats.size() != 7u || movement_bools.size() != 3u) return false;
+        movement_floats.size() != 7u || movement_bools.size() != 3u ||
+        body_position_physx.size() != 3u || body_rotation_quaternion.size() != 4u ||
+        body_linear_velocity_physx.size() != 3u || body_angular_velocity_physx.size() != 3u ||
+        observer_velocity_m_s.size() != 3u) return false;
     for (auto value : movement_bools) if (value > 1u) return false;
     return true;
   }
@@ -95,7 +105,9 @@ struct PortableVehicleCheckpoint {
       physics_configuration, position_cm, rotation_quaternion, scale, linear_velocity_cm_s,
       angular_velocity_rad_s, awake, wake_counter, input_control, last_control, input_priority,
       light_state, rollover_tracker, failure_state, rollover_timer_exists, rollover_timer_paused,
-      rollover_timer_remaining, rollover_timer_rate, drive, wheels, movement_floats, movement_bools);
+      rollover_timer_remaining, rollover_timer_rate, drive, wheels, movement_floats, movement_bools,
+      body_position_physx, body_rotation_quaternion, body_linear_velocity_physx,
+      body_angular_velocity_physx, observer_velocity_m_s);
 };
 
 } // namespace rpc
