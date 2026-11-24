@@ -86,6 +86,8 @@ manual shifts between gears one and two. `--report` saves a manifest, the
 explicit commands for every frame, the comparison summary, and all recorded
 traces as JSON. The harness compares the initial and replayed manifests as
 well as the traces. Those commands are replayed identically for each continuation.
+For slow map loads, set `--timeout` to a larger RPC timeout in seconds; the
+default is 30 seconds.
 If a run fails after report initialization, the report includes the failing
 stage and any traces completed before the error. Non-finite values are emitted
 using Python's JSON extensions so they remain visible for diagnosis.

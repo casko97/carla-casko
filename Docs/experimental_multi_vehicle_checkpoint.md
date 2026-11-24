@@ -1,5 +1,8 @@
 # Multi-vehicle checkpoint harness
 
+Use `--timeout` to increase the client RPC timeout (30 seconds by default) if
+map loading on the test server is slow.
+
 `PythonAPI/examples/multi_vehicle_physics_checkpoint.py` extends the first
 vehicle-only harness to a fixed set of independently controlled vehicles. The
 caller supplies each manual vehicle's control at every simulation frame; those

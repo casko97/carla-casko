@@ -363,6 +363,7 @@ def main():
     parser.add_argument("--repetitions", type=int, default=3)
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=2000)
+    parser.add_argument("--timeout", type=float, default=30.0, help="client RPC timeout in seconds")
     parser.add_argument("--build-id", help="user-supplied server, engine and content build identifiers")
     parser.add_argument("--traffic-lights", action="store_true", help="save and compare traffic-light group state")
     parser.add_argument("--vehicle-lights", action="store_true", help="compare saved vehicle light states")
@@ -373,6 +374,8 @@ def main():
     parser.add_argument("--tm-seed", type=int, default=0)
     parser.add_argument("--report", required=True, help="write the journal, traces and results as JSON")
     args = parser.parse_args()
+    if not math.isfinite(args.timeout) or args.timeout <= 0:
+        parser.error("timeout must be a positive finite number")
     if args.repetitions < 1:
         parser.error("repetitions must be positive")
     if not 1 <= args.tm_port <= 65535 or not 0 <= args.tm_seed < 2**64:
@@ -411,7 +414,7 @@ def main():
               "vehicle_lights_after_restores": [], "collision_events_enabled": args.collision_events,
               "collision_traces": collision_traces, "summary": None, "failure": None}
     client = carla.Client(args.host, args.port)
-    client.set_timeout(30.0)
+    client.set_timeout(args.timeout)
     original_settings = client.get_world().get_settings()
     world = None
     actors = {}

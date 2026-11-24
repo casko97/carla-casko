@@ -176,6 +176,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=2000)
+    parser.add_argument("--timeout", type=float, default=30.0, help="client RPC timeout in seconds")
     parser.add_argument("--map", default="Town03")
     parser.add_argument("--vehicle", default="vehicle.lincoln.mkz_2020")
     parser.add_argument("--spawn-index", type=int, default=0)
@@ -188,6 +189,8 @@ def main():
     parser.add_argument("--build-id", help="user-supplied server, engine and content build identifiers")
     parser.add_argument("--export-checkpoint", help="write the saved vehicle values as MessagePack bytes")
     args = parser.parse_args()
+    if not math.isfinite(args.timeout) or args.timeout <= 0:
+        parser.error("timeout must be a positive finite number")
     if min(args.warmup, args.prefix_steps) < 0 or min(args.suffix_steps, args.repetitions) < 1:
         parser.error("warmup and prefix must be non-negative; suffix and repetitions must be positive")
     if args.export_checkpoint and not args.build_id:
@@ -198,7 +201,7 @@ def main():
         parser.error(str(error))
 
     client = carla.Client(args.host, args.port)
-    client.set_timeout(30.0)
+    client.set_timeout(args.timeout)
     original_settings = client.get_world().get_settings()
     world = None
     vehicle = None
