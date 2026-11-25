@@ -1,0 +1,13 @@
+{
+  "capture_did_not_tick": true,
+  "operation": "capture",
+  "summary": {
+    "min_center_distance_m": 8.774348073137004,
+    "same_action_exact": {
+      "hold": true,
+      "move": true
+    },
+    "traffic_max_control_difference": 1.0,
+    "traffic_max_position_difference_m": 5.483271844017339
+  }
+}

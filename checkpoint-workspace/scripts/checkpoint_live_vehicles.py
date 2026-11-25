@@ -371,6 +371,20 @@ def replay(client, checkpoint_path, actions, report_path, reference=None, prop_r
             common.atomic_create(report_path, result)
 
 
+def capture_reactive_traffic(client, world, traffic_manager, actors, fixed_props_guard, specs,
+                             seed, prefix, initial_weather, path, tm_config=None):
+    """Capture a running scenario initialized with the reactive prefix workflow."""
+    import checkpoint_tm_prefix_reconstruction as reactive
+    return reactive.capture_running(client, world, traffic_manager, actors, fixed_props_guard,
+                                    specs, seed, prefix, initial_weather, path, tm_config)
+
+
+def restore_reactive_traffic(client, checkpoint_path, tm_port):
+    """Rebuild a reactive scenario; caller owns the returned actors and TM session."""
+    import checkpoint_tm_prefix_reconstruction as reactive
+    return reactive.reconstruct(client, checkpoint_path, tm_port)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('operation', choices=('prepare-fixed-props', 'capture', 'replay'))

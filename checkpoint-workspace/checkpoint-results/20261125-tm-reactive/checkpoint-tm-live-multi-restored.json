@@ -1,0 +1,29 @@
+{
+  "boundary_exact": true,
+  "operation": "reconstruct",
+  "summary": {
+    "min_center_distance_m": 8.774348073137004,
+    "same_action_exact": {
+      "hold": true,
+      "move": true
+    },
+    "source_action_exact": {
+      "hold": true,
+      "move": true
+    },
+    "source_max_position_error_m": {
+      "hold": {
+        "expert": 0.0,
+        "traffic": 0.0,
+        "traffic2": 0.0
+      },
+      "move": {
+        "expert": 0.0,
+        "traffic": 0.0,
+        "traffic2": 0.0
+      }
+    },
+    "traffic_max_control_difference": 1.0,
+    "traffic_max_position_difference_m": 5.483271844017339
+  }
+}
